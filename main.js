@@ -30,7 +30,10 @@ function createWindow () {
     win = new BrowserWindow({
 	width: 600,
 	height: 400,
-	frame: false
+	frame: false,
+	webPreferences: { // Electron5.0で必要? https://stackoverflow.com/questions/56091343/typeerror-window-require-is-not-a-function
+	    nodeIntegration: true
+	}
     });
     win.loadURL(`file://${__dirname}/index.html`);
 
