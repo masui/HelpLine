@@ -1,0 +1,42 @@
+{
+    "name": "CLH",
+    "version": "0.0.1",
+    "description": "Command Line Help のElectronアプリ",
+    "main": "main.js",
+    "repository": {
+	"type": "git",
+	"url": "git@github.com:masui/CommandLineHelp.git"
+    },
+    "scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1",
+	"start": "electron .",
+	"build": "electron-builder"
+    },
+    "keywords": [],
+    "author": "Toshiyuki Masui",
+    "license": "MIT",
+    "dependencies": {
+	"browserify": "^16.1.1",
+	"dotenv": "^4.0.0",
+	"electron-referer": "^0.3.0",
+	"re_expand": "^0.2.0"
+    },
+    "devDependencies": {
+	"app": "^0.1.0",
+	"electron": "^8.3.2",
+	"electron-app": "^1.0.0",
+	"electron-builder": "^22.6.0",
+	"electron-packager": "^14.2.1",
+	"electron-prebuilt": "^1.4.13",
+	"require": "^2.4.20"
+    },
+    "build": {
+	"appId": "com.pitecan.clh",
+	"mac": {
+	    "target": "dmg"
+	},
+	"directories": {
+	    "output": "build"
+	}
+    }
+}
