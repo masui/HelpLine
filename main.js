@@ -12,13 +12,13 @@ var execSync = child_process.execSync;
 // window objectがGCされないようにするために、globalに定義する
 var win;
 
-console.log(process.argv)
-
 // レンダリングプロセスから呼べるようにする
 //app.files = files;
 //app.branches = branches;
 //app.pwd = pwd;
 //app.prompt = prompt;
+
+app.allowRendererProcessReuse = true;
 
 function createWindow () {
     win = new BrowserWindow({
@@ -54,4 +54,5 @@ app.on('activate', () => {
     }
 });
 
-// app.quit()
+console.log("aaaaa")
+app.quit()

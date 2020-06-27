@@ -4,8 +4,9 @@ run:
 browserify:
 	browserify clh.js -o clh_browser.js
 
-build: install
+build: browserify install
 	npm run build
+	cp -r build/mac/CLH.app /Applications
 
 #browserify:
 #	browserify githelp.js -o githelp_browser.js
