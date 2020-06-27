@@ -19,6 +19,7 @@
 						"browserify": "^16.1.1",
 						"dotenv": "^4.0.0",
 						"electron-referer": "^0.3.0",
+						"fs": "0.0.1-security",
 						"re_expand": "^0.2.0"
 			},
 			"devDependencies": {

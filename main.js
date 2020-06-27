@@ -18,6 +18,12 @@ var win;
 //app.pwd = pwd;
 //app.prompt = prompt;
 
+function finish(){
+    console.log("finish")
+    app.quit()
+}
+app.finish = finish;
+
 app.allowRendererProcessReuse = true; // こうしないとwarningが出る
 
 function createWindow () {
@@ -35,7 +41,7 @@ function createWindow () {
     });
     win.setPosition(100,100)
 
-    // win.webContents.openDevTools(); // デバッグコンソール表示
+    win.webContents.openDevTools(); // デバッグコンソール表示
 }
 
 app.on('ready', () => {
@@ -53,6 +59,3 @@ app.on('activate', () => {
 	createWindow();
     }
 });
-
-console.log("aaaaa")
-app.quit()
