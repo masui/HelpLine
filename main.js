@@ -18,7 +18,7 @@ var win;
 //app.pwd = pwd;
 //app.prompt = prompt;
 
-app.allowRendererProcessReuse = true;
+app.allowRendererProcessReuse = true; // こうしないとwarningが出る
 
 function createWindow () {
     win = new BrowserWindow({
