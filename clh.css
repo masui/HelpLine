@@ -1,0 +1,54 @@
+/*
+  GitHelp候補表示ウィンドウ
+*/
+body {
+    margin:0;
+    padding:2px;
+    background-color: #eee;
+}
+.icon {
+    width:16pt;
+    vertical-align:bottom;
+}
+code {
+    display:inline-block;
+    font-size:10pt;
+    color: #fff;
+    background-color: #444;
+    margin:2px 2px 2px 0px;
+    padding: 4px;
+    border-radius:4px;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.4);
+}
+code:hover {
+    background-color: #777;
+}
+span.title {
+    font-family:'Lucida Grande', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #000;
+    background-color: #fff;
+    margin: 5px 0px 5px 0px;
+    padding: 4px;
+}
+span.title:hover {
+    background-color: #ccc;
+}
+#query {
+    font-size: 12pt;
+    margin: 3pt;
+}
+#candidates {
+    padding: 1px;
+}
+.entry {
+    background-color: #fff;
+    margin: 2pt;
+    padding: 2pt;
+}
+.entry:hover {
+    background-color: #008;
+}
+
+
