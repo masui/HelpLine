@@ -6,15 +6,12 @@ run: browserify
 browserify:
 	browserify clh.js -o clh_browserify.js
 
-build-mac: browserify install
+build-mac: install browserify
 	npm run build
 	cp -r build/mac/CLH.app /Applications
 
 build-chromebook: browserify install
 	npm run build
-
-#browserify:
-#	browserify githelp.js -o githelp_browser.js
 
 #install: npm browserify cursorpos electron
 install:
@@ -23,14 +20,12 @@ install:
 electron:
 	npm install electron
 
-cursorpos: cursorpos.c
-	cc cursorpos.c -o cursorpos
-
-mac:
-	electron-packager . githelp --overwrite --platform=darwin --arch=x64 --electronVersion=0.36.1
-
 data.js:
 	ruby getdata.rb > data.js
 glossary.js:
 	ruby getglossary.rb > glossary.js
 
+
+clean:
+	-/bin/rm -r -f node_modules
+	-/bin/rm -r -f build
