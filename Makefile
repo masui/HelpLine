@@ -20,6 +20,7 @@ install:
 electron:
 	npm install electron
 
+update: data.js glossary.js
 data.js:
 	ruby getdata.rb > data.js
 glossary.js:
