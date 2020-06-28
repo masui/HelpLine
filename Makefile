@@ -20,12 +20,14 @@ install:
 electron:
 	npm install electron
 
+#
+# Scrapboxからデータ更新
+#
 update: data.js glossary.js
 data.js:
 	ruby getdata.rb > data.js
 glossary.js:
 	ruby getglossary.rb > glossary.js
-
 
 clean:
 	-/bin/rm -r -f node_modules
