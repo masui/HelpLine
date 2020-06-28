@@ -33,6 +33,8 @@ app.finish = function(cmd){
 }
 
 app.pwd = function(){
+    return process.env.PWD
+    
     var pwd = process.env['HOME'];
     var pwdfile = "/tmp/githelp.pwd";
 
