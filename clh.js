@@ -33,6 +33,8 @@ function generator(patterns){
     g = new Generator();
 
     files = remote.app.files(patterns); // レンダラプロセスではコマンド起動できないようなのでメインプロセスを利用してファイルリストを取得
+    //alert(files.length)
+    files = files.join('|')
     params = get_params(patterns);
     numbers = get_numbers(patterns);
     
@@ -164,13 +166,15 @@ function show_selected(){
 
 function init(){
     // keypressだと日本語入力時のEnterキーが入らない
-    $('#query').on('keypress', function(e){
-	if(e.keyCode == 13){
+    //$('#query').on('keypress', function(e){
+    $('body').on('keypress', function(e){
+	if(e.keyCode == 13){ // Enter
 	    remote.app.finish(commands[selected]);
 	}
     });
 		   
-    $('#query').on('keydown', function(e){
+    //$('#query').on('keydown', function(e){
+    $('body').on('keydown', function(e){
 	if(e.keyCode == 17){ // Control Key
 	    control = true;
 	}
@@ -193,7 +197,8 @@ function init(){
 	}
     });
 		   
-    $('#query').on('keyup', function(e){
+    //$('#query').on('keyup', function(e){
+    $('body').on('keyup', function(e){
 	if(e.keyCode == 17){
 	    control = false;
 	}

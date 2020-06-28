@@ -48,7 +48,7 @@ app.pwd = function(){
 
 // パタンにマッチするファイルのリストを計算 (レンダラプロセスから呼ばれる)
 app.files = function(patterns){
-    patterns = ['r']; // 動いているように見せる
+    // patterns = ['r']; // 動いているように見せる
     const command = `cd ${app.pwd()}; git ls-files`;
     var list = execSync(command).toString().split(/\n/);
     var files = new Set;
@@ -65,7 +65,8 @@ app.files = function(patterns){
     }
     var a = Array.from(files);
     if(a.length == 0) a = ["xxxxx"];
-    return a.join("|");
+    return a
+    //return a.join("|");
 }
 
 // ブランチリスト (レンダラプロセスから呼ばれる)
