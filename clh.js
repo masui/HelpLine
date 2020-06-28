@@ -13,15 +13,15 @@ const Generator = require('re_expand');
 var g; // ExpandHelp generator
 
 // 実行時に取得する各種環境値
-var files = '___';
-var branches = remote.app.branches();
-var params = 'param1|param2';
-var numbers = '1|2|3';
+var param_files = '___';
+var param_branches = remote.app.branches();
+var param_params = 'param1|param2';
+var param_numbers = '1|2|3';
 
 const glossary = require("./glossary"); // 各種定義をいれておく
 for(var e in glossary){
-    s = `${e} = '${glossary[e]}'`;
-    eval(s);
+    s = `param_${e} = '${glossary[e]}'`;
+    eval(s); // これが良くない! glossaryに「delete」なんてのが定義されてると "delete = 'abc'" みたいなのをevalしてしまう!
 }
 
 var commands = [];
@@ -32,11 +32,9 @@ var g;
 function generator(patterns){
     g = new Generator();
 
-    files = remote.app.files(patterns); // レンダラプロセスではコマンド起動できないようなのでメインプロセスを利用してファイルリストを取得
-    //alert(files.length)
-    files = files.join('|')
-    params = get_params(patterns);
-    numbers = get_numbers(patterns);
+    param_files = remote.app.files(patterns).join('|'); // レンダラプロセスではコマンド起動できないようなのでメインプロセスを利用してファイルリストを取得
+    param_params = get_params(patterns);
+    param_numbers = get_numbers(patterns);
     
     var lines = [];
     for(var def of data.defs){
@@ -49,7 +47,7 @@ function generator(patterns){
 	    var cmd = m[1];
 	    for(var line of lines){
 		var desc = line.replace(/\s*{(\d+)}\s*$/,'');
-		desc = ("\`"+desc+"\`").replace(/#{/g,'${');
+		desc = ("\`"+desc+"\`").replace(/#{/g,'${param_');
 		cmd = cmd.replace(/#{\$(\d+)}/g,"DOLLAR$1").replace(/DOLLAR/g,'$');
 		g.add(`${eval(desc)}`,cmd);
 	    }

@@ -87,7 +87,7 @@ app.allowRendererProcessReuse = true; // こうしないとwarningが出る
 
 function createWindow () {
     win = new BrowserWindow({
-	width: 800,
+	width: 600,
 	height: 400,
 	//frame: false,
 	webPreferences: { // Electron5.0で必要? https://stackoverflow.com/questions/56091343/typeerror-window-require-is-not-a-function
@@ -103,7 +103,7 @@ function createWindow () {
     });
     win.setPosition(100,300)
 
-    // win.webContents.openDevTools(); // デバッグコンソール表示
+    //win.webContents.openDevTools(); // デバッグコンソール表示
 }
 
 app.on('ready', () => {

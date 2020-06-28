@@ -1,3 +1,5 @@
+.PHONY: data.js glossary.js
+
 run: browserify
 	npm start .
 
@@ -27,4 +29,8 @@ cursorpos: cursorpos.c
 mac:
 	electron-packager . githelp --overwrite --platform=darwin --arch=x64 --electronVersion=0.36.1
 
+data.js:
+	ruby getdata.rb > data.js
+glossary.js:
+	ruby getglossary.rb > glossary.js
 
