@@ -32,3 +32,6 @@ glossary.js:
 clean:
 	-/bin/rm -r -f node_modules
 	-/bin/rm -r -f build
+
+all: update build-mac
+
