@@ -5,7 +5,7 @@ const electron = window.require('electron');
 //const electron = require('electron');
 const remote = electron.remote;
 const shell = electron.shell;
-const clipboard = electron.clipboard; // clipboard.writeText() でクリップボードに文字列が入る
+//const clipboard = electron.clipboard; // clipboard.writeText() でクリップボードに文字列が入る
 
 const data = require("./data");
 const Generator = require('re_expand');
@@ -166,8 +166,7 @@ function init(){
     // keypressだと日本語入力時のEnterキーが入らない
     $('#query').on('keypress', function(e){
 	if(e.keyCode == 13){
-	    clipboard.writeText(commands[selected]);
-	    finish();
+	    remote.app.finish(commands[selected]);
 	}
     });
 		   
@@ -176,8 +175,7 @@ function init(){
 	    control = true;
 	}
 	else if(control && (e.keyCode == 67 || e.keyCode == 71)){ // Ctrl-C, Ctrl-G
-	    clipboard.writeText('');
-	    finish();
+	    remote.app.finish(remote.app.argv()[1]); // 引数をもとに戻す
 	}
 	else if((e.keyCode == 78 && control) || e.keyCode == 40){ // Ctrl-N or ↓
 	    if(selected < commands.length-1){
@@ -235,11 +233,6 @@ function init(){
 
     $('#query').focus();
     
-}
-
-function finish(){
-    //remote.getCurrentWindow().close();
-    remote.app.finish(commands[selected])
 }
 
 $(function() {

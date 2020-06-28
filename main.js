@@ -88,7 +88,7 @@ function createWindow () {
     win = new BrowserWindow({
 	width: 800,
 	height: 400,
-	frame: false,
+	//frame: false,
 	webPreferences: { // Electron5.0で必要? https://stackoverflow.com/questions/56091343/typeerror-window-require-is-not-a-function
 	    nodeIntegration: true
 	}
@@ -100,7 +100,7 @@ function createWindow () {
     win.on('blur', () => {
 	win.focus();
     });
-    win.setPosition(100,100)
+    win.setPosition(100,300)
 
     // win.webContents.openDevTools(); // デバッグコンソール表示
 }
