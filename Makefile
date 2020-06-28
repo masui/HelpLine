@@ -2,7 +2,7 @@ run: browserify
 	npm start .
 
 browserify:
-	browserify clh.js -o clh_browser.js
+	browserify clh.js -o clh_browserify.js
 
 build-mac: browserify install
 	npm run build
