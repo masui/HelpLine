@@ -48,6 +48,7 @@ function generator(patterns){
 	    for(var line of lines){
 		var desc = line.replace(/\s*{(\d+)}\s*$/,'');
 		desc = ("\`"+desc+"\`").replace(/#{/g,'${param_');
+		console.log(desc)
 		cmd = cmd.replace(/#{\$(\d+)}/g,"DOLLAR$1").replace(/DOLLAR/g,'$');
 		g.add(`${eval(desc)}`,cmd);
 	    }
@@ -223,6 +224,7 @@ function init(){
     var arg = remote.app.argv()[1]
     if(arg.match(/^git/)){
 	var qstr = arg.replace(/^git\s*/,'');
+	qstr = qstr.replace(/(\d)([^\d])/g,"$1 $2") // 10分 => 10 分
 	$('#query').val(qstr);
 	g = generator(qstr.split(/\s+/));
 	var pstr = qstr.replace(/'/g,'').replace(/"/g,'');
