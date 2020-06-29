@@ -13,6 +13,9 @@ build-mac: install browserify
 build-chromebook: browserify install
 	npm run build
 
+dmg: build-mac
+	hdiutil create -srcfolder build/mac/CLH.app -volname CLH CLH.dmg
+
 #install: npm browserify cursorpos electron
 install:
 	npm install
@@ -32,6 +35,7 @@ glossary.js:
 clean:
 	-/bin/rm -r -f node_modules
 	-/bin/rm -r -f build
+	-/bin/rm -f CLH.dmg
 
 all: update build-mac
 
