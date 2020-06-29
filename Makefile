@@ -14,7 +14,9 @@ build-chromebook: browserify install
 	npm run build
 
 dmg: build-mac
+	-/bin/rm -f CLH.dmg
 	hdiutil create -srcfolder build/mac/CLH.app -volname CLH CLH.dmg
+	scp CLH.dmg pitecan.com:/www/www.pitecan.com/tmp
 
 #install: npm browserify cursorpos electron
 install:
