@@ -1,7 +1,7 @@
 {
-			"name": "CLH",
+			"name": "HelpLine",
 			"version": "0.0.1",
-			"description": "Command Line Help のElectronアプリ",
+			"description": "HelpLine のElectronアプリ",
 			"main": "main.js",
 			"repository": {
 						"type": "git",
@@ -32,7 +32,7 @@
 						"require": "^2.4.20"
 			},
 			"build": {
-						"appId": "com.pitecan.clh",
+						"appId": "com.pitecan.helpline",
 						"mac": {
 									"target": "dmg"
 						},

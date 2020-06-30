@@ -1,8 +1,8 @@
 #
-# Ctrl-Hでclhを呼ぶようにする
+# Ctrl-Hでhelplineを呼ぶようにする
 #
 function run-help() {
-    BUFFER=$(/Applications/CLH.app/Contents/MacOS/clh "${BUFFER}")
+    BUFFER=$(/Applications/HelpLine.app/Contents/MacOS/helpline "${BUFFER}")
     CURSOR=${#BUFFER}
     zle redisplay
 }

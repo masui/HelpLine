@@ -4,19 +4,20 @@ run: browserify
 	npm start .
 
 browserify:
-	browserify clh.js -o clh_browserify.js
+	browserify helpline.js -o helpline_browserify.js
 
 build-mac: install browserify
 	npm run build
-	cp -r build/mac/CLH.app /Applications
+	cp -r build/mac/HelpLine.app /Applications
+upload:
+	scp build/HelpLine-0.0.1.dmg pitecan.com:/www/www.pitecan.com/tmp/HelpLine.dmg
 
 build-chromebook: browserify install
 	npm run build
 
-dmg: build-mac
-	-/bin/rm -f CLH.dmg
-	hdiutil create -srcfolder build/mac/CLH.app -volname CLH CLH.dmg
-	scp CLH.dmg pitecan.com:/www/www.pitecan.com/tmp
+#dmg: build-mac
+#	-/bin/rm -f HelpLine.dmg
+#	hdiutil create -srcfolder build/mac/HelpLine.app -volname HelpLine HelpLine.dmg
 
 #install: npm browserify cursorpos electron
 install:
@@ -37,7 +38,7 @@ glossary.js:
 clean:
 	-/bin/rm -r -f node_modules
 	-/bin/rm -r -f build
-	-/bin/rm -f CLH.dmg
+	-/bin/rm -f HelpLine.dmg
 
 all: update build-mac
 

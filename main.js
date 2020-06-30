@@ -1,5 +1,5 @@
 //
-// Command Line Help (CLH) メインプロセス
+// HelpLine メインプロセス
 //
 var electron = require('electron');
 var BrowserWindow = electron.BrowserWindow;
