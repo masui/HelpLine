@@ -94,7 +94,7 @@ function createWindow () {
 	    nodeIntegration: true
 	}
     });
-    win.loadURL(`file://${__dirname}/index.html`);
+    win.loadURL(`file://${__dirname}/helpline.html`);
 
     // 常に最前面でフォーカスされるようにする
     win.setAlwaysOnTop(true);

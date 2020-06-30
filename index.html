@@ -1,18 +1,296 @@
-<!DOCTYPE html>
-<!--
-    Node版GitHelp
-  -->
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>HelpLine</title>
-    <link rel="stylesheet" href="helpline.css" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="helpline_browserify.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>GitHelp</title>
+    <link rel="icon" href="favicon.ico" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css">
   </head>
   <body>
-    <input id='query' type="text" style="width:60%;">
-    <div id="candidates" height='100%'>
-    </div>
+    <section class="page-header">
+      <h1 class="project-name">GitHelp</h1>
+      <h2 class="project-tagline">Gitコマンドの使いこなしを支援</h2>
+      <a href="https://github.com/masui/GitHelp" class="btn">ソース @ GitHub</a>
+      <a href="https://Scrapbox.io/GitHelp" class="btn">データ @ Scrapbox</a>
+      <a href="#install" class="btn">インストール</a>
+    </section>
+
+    <section class="main-content">
+
+      <div style="text-align:center;">
+	<img src="https://gyazo.com/21cefb381780f69e6c565103a4cb6908.gif" style="text-align:center;">
+      </div>
+
+      <p>
+      　Gitのような複雑なシステムは使い方が難しい。
+      ある程度使い方を知っている場合でも、あまり一般的でない機能を使うのは難しい。
+      たとえば以下のような場合はどういうコマンドを使えばいいだろうか?
+      </p>
+      
+      <ul>
+	<li><i>ひとつ前のバージョンの<code>README.md</code>からの変更を見たい</i></li>
+	<li><i><code>README.md</code>は3日前からどう変わった?</i></li>
+	<li><i><code>package.json</code>に<code>coffee</code>という名前が入ったのはいつ?</i></li>
+	<li><i>ここ1週間ぐらい変更されてないファイルは?</i></li>
+	<li><i>最近大量に修正したファイルはどれだっけ?</i></li>
+      </ul>
+
+      <hr>
+      
+      <p>
+	　最初の例について考えてみる。
+
+	Gitでは「<code>HEAD^</code>」「<code>HEAD^^</code>」のような表現で昔のコミットを参照できるので
+	
+	<blockquote>
+	  <code>$ git diff HEAD^ README.md</code>
+	</blockquote>
+	
+	のようにすればひとつ前のコミットの<code>README.md</code>との比較ができるが、
+	最近のコミットで<code>README.md</code>を編集していなかった場合は
+	このコマンドを起動しても何も出力されない。
+	
+	<blockquote>
+	  <code>$ git log README.md</code>
+	</blockquote>
+	
+	とすれば<code>REDME.md</code>の編集履歴を調べられるので、
+	ひとつ前のバージョンのコミットIDを使えば
+	
+	<blockquote>
+	  <code>$ git diff (ひとつ前のバージョンのコミットID) README.md</code>
+	</blockquote>
+	
+	のようにして
+	ひとつ前のバージョンの<code>README.md</code>からの変更を見ることができる。
+      </p>
+
+      <hr>
+
+      <p>
+	　しかしこれはなかなか面倒な話である。
+
+	<i>手動でコミットIDを手打ちかコピペしなければならない</i>
+
+	し、当然ながら
+
+	<i><code>git log</code>や<code>git diff</code>といったコマンドの存在と動作を知っていなければならない</i>。
+
+	<code>git log</code>や<code>git diff</code>はよく使うコマンドなので
+	Gitユーザなら誰でも知っているだろうが、
+	このような簡単な仕事でもコピペのような面倒な操作が必要なのは嫌である。
+
+	<br>
+	　実はGitには<code>rev-list</code>というコマンドがあり、
+	編集があったコミットのIDをリストすることができる。
+	これを利用すると、ひとつ前の編集のコミットIDは
+
+	<blockquote>
+	  <code>$ git rev-list HEAD -- README.md | head -2 | tail -1</code>
+	</blockquote>
+
+	で取得できる。
+	この結果を利用すると、
+	「ひとつ前のバージョンの<code>README.md</code>からの変更を見たい」
+	という要求は
+
+	<blockquote>
+	  <code>git diff $(git rev-list HEAD -- README.md | head -2 | tail -1) -- README.md</code>
+	</blockquote>
+
+	のようなコマンドで実行できることになる。
+	(<code>$(...)</code>というのは<code>bash</code>の記法で、コマンド実行結果を文字列として扱うものである。
+	<code>--</code>というのは、その後に続く文字列がオプションではなくてファイル名等だということを示すもの。)
+      </p>
+      <p>
+	　<code>rev-list</code>の<code>-n</code>オプションを利用すると
+	
+	<blockquote>
+	  <code>git diff $(git rev-list -n 1 HEAD -- README.md)^ -- README.md</code>
+	</blockquote>
+	
+	のように書くこともできる。
+      </p>
+
+      <hr>
+
+      <p>
+	　それにしても、このように
+	<b>無駄知識が大量に必要</b>
+	だったり
+	<b>単純な要求の実行が大変</b>
+	だったりするのは嫌すぎる。
+
+	上のような工夫によって、
+	ひとつ前のバージョンの<code>README.md</code>からの変更は調べられるようになったわけだが、
+	こういった要求は無限にあるわけで、
+	そのたびにいろんなGit機能を調べたり思い出したりしなければならないのだろうか。
+
+	「<i><code>README.md</code>は最後にどこ変えたっけ?</i>」
+	のような自然な質問を簡単に
+	Gitコマンドに翻訳する方法が欲しい。
+
+	<br>
+	　こういった要望に対して最近は<b>人工知能</b>的に解決しようとするアプローチが人気かもしれない。
+	しかしそのためには高度な自然言語処理が必要で、
+	ちょっと違った表現を許したり内容を変えたりすることは簡単ではない。
+	大阪弁で質問できる日が来るとは思えない。
+
+	また、「<code>longfilename</code>」のようなものを指定しようとして
+	「<code>logfile</code>」のように間違って入力しても動くようにするには
+	単純な予測/補完/誤り修正機能などを使った方が良いだろう。
+
+	<br>
+	　逆引き辞典などでは
+	「ひとつ前のバージョンのファイルとの違いを知る」
+	のようなエントリはあるかもしれないが、
+	それを調べた後で「<code>README.md</code>」のような名前を指定してコマンドを起動する必要がある。
+	こういった二度手間も減らしたいものである。
+      </p>
+      <p>
+	　Macのヘルプで「時間 セット」と入力しても時間をセットする方法は出てこないし、ヘルプを自分で追加することはできない。
+	<br>
+	<img src="https://gyazo.com/9af1335835f8ded134203f55cbc3bc96.png" width=400>
+	<br>
+	時間をセットする方法がヘルプに書いてあったとしても、
+	時間を4時にセットするためには自分で「4時」という値を指定してから「時間のセット」機能を実行しなければならない。
+      </p>
+
+      <p>
+	　マニュアルやヘルプを書くのは面倒なものである。
+	システムのドキュメントやマニュアルやヘルプシステムを独立に開発するのは
+	面倒すぎるし齟齬も起きやすいだろう。
+	ユーザをサポートするシステムがひとつにまとまっていて、
+	誰でも情報を足したり修正したりできたら嬉しいだろう。
+      </p>
+
+      <h3>GitHelpのアプローチ</h3>
+
+      <p>
+	　GitHelpは、以下のような方針で上のような課題をすべて解決しようというものである。
+
+	<ul>
+	  <li>ユーザのあらゆる曖昧な表現にマッチするようにヘルプ文字列を正規表現で表現し、
+	    Gitコマンドに変換する</li>
+	  - ExpandHelp(<a href="https://github.com/masui/expand-ruby">ソース</a> /
+	  <a href="http://www.interaction-ipsj.org/archives/paper2012/data/Interaction2012/oral/data/pdf/12INT012.pdf">論文</a>)を利用
+	  <li>データをすべてクラウド上に置いて編集可能にすることにより、
+	    誰でもデータを追加/修正できるようにする</li>
+	  - <a href="https://Scrapbox.io/GitHelp">Scrapbox</a>を利用
+	  <li>ユーザが指定したパラメタはそのまま利用して実行に使う</li>
+	  -  ユーザが「4」「時間」などと指定すると「時刻を4時にセットする」のようなものを提案して実行可能にする
+	  <li>多少の誤入力を許す</li>
+	</ul>
+
+	この結果、<b>やりたいことの一部を漠然と言えばすぐ実行できる</b>ようになるのが理想である。
+      </p>
+      
+      <h3>利用例</h3>
+      
+      Gitに関連するタスクのキーワードやパラメタを指定して
+      <code>githelp</code>を起動すると
+      候補のリストが表示され、
+      カーソルで選択すると実行される。
+      
+      <ul>
+	<li><code>$ githelp 2 README</code>のように引数を指定して起動すると以下のような候補リストが提示される</li>
+
+	<img src="https://gyazo.com/6cc87cef5f28185199074b61716454de.png" width=500>
+
+	<p></p>
+	<li>カーソルで選択してリターンを押すと実行される</li>
+
+	<img src="https://gyazo.com/75c14885944c33f2671474b008120262.png" width=500>
+      </ul>
+      
+      <a name="install"><h3>インストール</h3></a>
+      
+      <pre>
+	% gem install githelp   </pre>
+      
+      <ul>
+	<li>対話的処理のために<a href="https://github.com/peco/peco">peco</a>が必要</li>
+	<ul>
+	  <li>Macだと<code>% brew install peco</code>でインストール可能</li>
+	  <li>Linuxなどの場合<a href="https://github.com/peco/peco/releases">こちら</a>のファイルからインストール (yumなどでは入らない)</li>
+	</ul>
+      </ul>
+
+      <h3>実装</h3>
+      
+      <ul>
+	<li><a href="https://github.com/masui/expand_ruby">re_expand</a>
+	  という正規表現展開ライブラリを利用</li>
+	<li><a href="https://Scrapbox.io/GitHelp">Scrapbox</a>にあらゆる情報を書いておく</li>
+	<br>
+	<img src="https://gyazo.com/b4ba42a96617c65db32020eb1ea19bf3.png" width=450>
+	<li>
+	  様々なタスクの説明と実際の操作を組にして記述しておき、
+	  ユーザが与えたキーワードやパラメタにマッチするものを
+	  リストして実行可能にする</li>
+	<li>行頭に<code>$</code>がある行でタスクの説明を記述し、行頭に<code>%</code>がある行で実行コマンドを示す</li>
+	
+	<li>ファイル名にマッチする引数(e.g. <code>READM</code>)や
+	  数字にマッチする引数(e.g. <code>2</code>)が指定されると
+	  <code>$</code>の行に記述された<code>#{filename}</code>や<code>#{number}</code>に
+	  マッチする</li>
+	<li>マッチしたときは、マッチした文字列が<code>$1</code>などで参照/展開されてGitコマンド文字列になる
+	<li>ワンライナーでは難しい場合は <a href="https://github.com/masui/GitHelp/tree/master/exe"><code>exe</code></a>
+	  の下にヘルパーコマンドを用意して利用する (e.g. <a href="https://github.com/masui/GitHelp/tree/master/exe/githelp-changed"><code>githelp-changed</code></a>) )</li>
+      </ul>
+      
+      
+      <h3>考察</h3>
+
+      <ul>
+	<li>生活の中ではこういった言い換えをいつも行なっているかもしれない。
+	  たとえば「部屋暗くして」と頼まれたら
+	  部屋の入口にある電灯スイッチを操作するかもしれないが、
+	  この場合は頭の中で
+	  「部屋を暗くする」⇒「電灯を消す」⇒「電灯のスイッチを切る」
+	  という翻訳が行なわれていることになる。
+	  こういうことは生活で非常に多いので
+	  翻訳作業があまり気にならないものなのかもしれないが、
+	  そういう「翻訳」は少ない方が良いのは確かだろう。
+	</li>
+	<li>そういえば先日「らくらくホン」画面に出てくる鬱陶しい「羊」を消す方法が全くわからなかったのだが、
+	  あれは「マチキャラ」と呼ばれるものなので
+	  「マチキャラ」を消すという操作が必要だった。
+	  お前はMSのイルカか。
+	  「羊 消す」とか「消す」とかで消せるべきだろう。
+	  githelpでは <code>$ githelp 削除</code> と入力すれば削除関連で何ができるのかわかるだろうし、
+	  <code>(鬱陶しい|不快な)羊を(消す|殺す)</code>
+	  のようなエントリをユーザが足すこともできるだろう。
+	</li>
+	<img src="http://service.smt.docomo.ne.jp/site/iconcier/img/iconcier_ptl_cha_img01.png" width=300>
+	<li>というわけで<b>Gitは単なる適用例であり、広い範囲で使いたいと思っている。</b></li>
+      </ul>
+      
+      <h3> 注意</h3>
+      
+      <ul>
+	<li><code>githelp</code>コマンドはGitリポジトリのディレクトリで実行する必要がある</li>
+	<li><a href="https://github.com/masui/expand_ruby">re_expand</a>の実装が富豪的なので
+	  大きなリポジトリだと不具合があるかも</li>
+	<li>データが全然足りない... 特にリモートリポジトリ関連のデータは皆無だが、
+	  ローカルだけでも充分複雑なのでとりあえずローカル処理の情報を充実させたい</li>
+	<li>旧版は<a href="https://github.com/masui/GitHelp_old">こちら</a>
+      </ul>
+      
+      <h3>関連システム</h3>
+
+      <ul>
+	<li><a href="http://dl.acm.org/citation.cfm?id=2814295">AnyCode</a></li>
+	<ul>
+	  <li>自然言語キーワードからJavaスニペットを検索する</li>
+	  <li><code>copy fileA fileB</code> みたいなキーワードから <code>FileUtil.copyFile(new File(fileA), new File(fileB))</code> みたいなコード候補を生成する</li>
+	</ul>
+
+	<li>文芸的プログラミング</li>
+      </ul>
+
+    </section>
   </body>
 </html>
