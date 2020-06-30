@@ -3,7 +3,7 @@
 
 require 'scrapbox'
 
-PROJECT = "GitHelp"
+PROJECT = "HelpLine"
 
 project = Scrapbox::Project.new(PROJECT)
 page = Scrapbox::Page.new(project,'Glossary')

@@ -1,21 +1,12 @@
 #!/usr/bin/env ruby
 # -*- ruby -*-
 
-# require 'net/https'
 require 'json'
-# require 'uri'
-# require 'cgi'
-# require 'optparse'
 
 require 'scrapbox'
-# require 're_expand'
 
 class GetData
-  PROJECT = "GitHelp"
-
-  # def datafile
-  #   File.expand_path("~/.githelp")
-  # end
+  PROJECT = "HelpLine"
 
   def initialize
     @pagedata = {}
