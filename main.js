@@ -103,7 +103,7 @@ function createWindow () {
     });
     win.setPosition(100,300)
 
-    //win.webContents.openDevTools(); // デバッグコンソール表示
+    // win.webContents.openDevTools(); // デバッグコンソール表示
 }
 
 app.on('ready', () => {

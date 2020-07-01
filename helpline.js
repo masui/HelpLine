@@ -223,7 +223,7 @@ function init(){
     
     var arg = remote.app.argv()[1]
     if(arg.match(/^git/)){
-	var qstr = arg.replace(/^git\s*/,'');
+	// var qstr = arg.replace(/^git\s*/,'');
 	qstr = qstr.replace(/(\d)([^\d])/g,"$1 $2") // 10分 => 10 分
 	$('#query').val(qstr);
 	g = generator(qstr.split(/\s+/));
@@ -232,8 +232,14 @@ function init(){
 	g.filter(` ${pstr} `, addentry, 0);
     }
     else {
-	g = generator([]);
-	g.filter(' ', addentry, 0);
+	var qstr = arg
+	$('#query').val(qstr);
+	g = generator(qstr.split(/\s+/));
+	var pstr = qstr.replace(/'/g,'').replace(/"/g,'');
+	g.filter(` ${pstr} `, addentry, 0);
+
+	// g = generator([]);
+	// g.filter(' ', addentry, 0);
     }
 
     $('#query').focus();
