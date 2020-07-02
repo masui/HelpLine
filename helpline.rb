@@ -13,6 +13,8 @@ require './curses'
 puts
 
 class HelpLine
+  LINES = 12
+    
   def datafile
     File.expand_path("~/.helpline")
   end
@@ -93,7 +95,9 @@ class HelpLine
 
   def disp(list,sel)
     Curses.move(0,0)
-    (0..10).each { |i|
+    lines = list.length
+    lines = LINES if lines > LINES
+    (0...lines).each { |i|
       Curses.move(i,0)
       s = "[#{i}] #{list[i][0]}"
       if i == sel
@@ -140,8 +144,17 @@ class HelpLine
     }
 
     # puts "GENERATE #{params.split('|').join(' ')} "
+
     res = g.generate " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
-    
+
+    if res[0].length == 0
+      puts "ヘルプがみつかりません"
+      File.open("/tmp/helpline","w"){ |f|
+        f.puts ARGV.join(' ')
+      }
+      exit
+    end
+
     listed = {}
     list = res[0].find_all { |a| # 0 ambig
       # a = ["現在の状況を表示する {56}", "git status {56}"], etc.
@@ -152,12 +165,15 @@ class HelpLine
       end
     }
 
-    # リスト表示
-    no = {}
+    #
+    # HelpLineメニュー表示し、カーソル移動で選択
+    #
+    
+    help_number = {}
     list.each_with_index { |entry,ind|
       entry[0].sub!(/\s*{(\d*)}$/,'')
       entry[1].sub!(/\s*{(\d*)}$/,'')
-      no[entry[0]] = $1.to_i
+      help_number[entry[0]] = $1.to_i
     }
 
     sel = 0
@@ -173,14 +189,14 @@ class HelpLine
       elsif inputchars[0] == "\e" && inputchars.length == 2
       # 何もしない
       elsif inputchars == "\x06" || inputchars == "\e[C"
-      #  Curses.right
+        #  Curses.right
         inputchars = ''
       elsif inputchars == "\x02" || inputchars == "\e[D"
-      #  Curses.left
+        #  Curses.left
         inputchars = ''
       elsif inputchars == "\x0e" || inputchars == "\e[B"
         Curses.down
-        sel = (sel + 1) if sel < 10
+        sel = (sel + 1) if sel < LINES-1
         inputchars = ''
       elsif inputchars == "\x10" || inputchars == "\e[A"
         Curses.up
@@ -199,38 +215,24 @@ class HelpLine
       end
     end
 
-    # puts list[sel]
-      
     desc = list[sel.to_i][0]
     cmd = list[sel][1]
 
-    # puts "データ: http://scrapbox.io/HelpLine/#{data['pages'][no[desc]]}"
-    # puts
-    # puts "#{desc} ために"
-    # print "コマンド「#{cmd.chomp}」 を実行しますか? (Y) "
-    # ans = STDIN.gets
-    # if ans =~ /^y/i || ans == "\n"
-    #   system cmd
-    # end
-    # \e[40m 黒
-    #puts "\e[1m\e[40m\e[37m「#{desc}」を実行\e[0m"
-    puts
     Curses.print_inverse("「#{desc}」を実行")
-    puts
+    puts " (ソース: http://scrapbox.io/HelpLine/#{data['pages'][help_number[desc]]})"
     File.open("/tmp/helpline","w"){ |f|
       f.puts cmd
     }
   end
-
 end
 
-is_repository = system 'git rev-parse --git-dir > /dev/null >& /dev/null'
-unless is_repository
-  STDERR.puts "Gitレポジトリで実行して下さい"
-  exit
-end
+# is_repository = system 'git rev-parse --git-dir > /dev/null >& /dev/null'
+# unless is_repository
+#   STDERR.puts "Gitレポジトリで実行して下さい"
+#   exit
+# end
 
-options = ARGV.getopts('ut')
+options = ARGV.getopts('u')
 
 helpline = HelpLine.new
 
