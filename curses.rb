@@ -94,7 +94,7 @@ class Curses
   # \e[8m	表示を隠す（コピペ可能）
   # \e[9m	取り消し
   
-  def Curses.print_hanten(s)
+  def Curses.print_inverse(s)
     print "\e[0m"
     print "\e[7m"
     print s

@@ -7,6 +7,11 @@ require 'optparse'
 require 'scrapbox'
 require 're_expand'
 
+require 'io/console'
+require './curses'
+
+puts
+
 class HelpLine
   def datafile
     File.expand_path("~/.helpline")
@@ -86,7 +91,22 @@ class HelpLine
     }
   end
 
-  def helpline(pager)
+  def disp(list,sel)
+    Curses.move(0,0)
+    (0..10).each { |i|
+      Curses.move(i,0)
+      s = "[#{i}] #{list[i][0]}"
+      if i == sel
+        Curses.print_inverse s
+      else
+        Curses.print s
+      end
+    }
+    Curses.down
+    Curses.tol
+  end
+  
+  def helpline
     data = JSON.parse(File.read(datafile))
     unless data['pages'] # データ型式変換があったので
       getdata
@@ -124,6 +144,7 @@ class HelpLine
     
     listed = {}
     list = res[0].find_all { |a| # 0 ambig
+      # a = ["現在の状況を表示する {56}", "git status {56}"], etc.
       if listed[a[1]]
         false
       else
@@ -131,48 +152,74 @@ class HelpLine
       end
     }
 
-    if pager == 'peco' then
-      no = {}
-      res = IO.popen(pager, "r+") {|io|
-        list.each_with_index { |entry,ind|
-          entry[0].sub!(/\s*{(\d*)}$/,'')
-          entry[1].sub!(/\s*{(\d*)}$/,'')
-          no[entry[0]] = $1.to_i
-          io.puts "[#{ind}] #{entry[0]}"
-          io.puts "   #{entry[1]}"
-        }
-        io.close_write
-        io.gets
-      }
-      if res
-        if res =~ /^\[(\d+)\]/
-          desc = list[$1.to_i][0]
-          cmd = list[$1.to_i][1]
-        else
-          desc = ''
-          list.each { |entry|
-            desc = entry[0] if entry[1].sub(/^\s*/,'') == res.chomp.sub(/^\s*/,'')
-          }
-          cmd = res.sub(/^\s*/,'')
-        end
+    # リスト表示
+    no = {}
+    list.each_with_index { |entry,ind|
+      entry[0].sub!(/\s*{(\d*)}$/,'')
+      entry[1].sub!(/\s*{(\d*)}$/,'')
+      no[entry[0]] = $1.to_i
+    }
 
-        puts "データ: http://scrapbox.io/HelpLine/#{data['pages'][no[desc]]}"
-        puts
-        puts "#{desc} ために"
-        print "コマンド「#{cmd.chomp}」 を実行しますか? (Y) "
-        ans = STDIN.gets
-        if ans =~ /^y/i || ans == "\n"
-          system cmd
-        end
+    sel = 0
+    disp(list,sel)
+    
+    inputchars = ''
+    while true
+      c = STDIN.getch
+      inputchars += c
+      
+      if inputchars == "\e"
+      # process ESC
+      elsif inputchars[0] == "\e" && inputchars.length == 2
+      # 何もしない
+      elsif inputchars == "\x06" || inputchars == "\e[C"
+      #  Curses.right
+        inputchars = ''
+      elsif inputchars == "\x02" || inputchars == "\e[D"
+      #  Curses.left
+        inputchars = ''
+      elsif inputchars == "\x0e" || inputchars == "\e[B"
+        Curses.down
+        sel = (sel + 1) if sel < 10
+        inputchars = ''
+      elsif inputchars == "\x10" || inputchars == "\e[A"
+        Curses.up
+        sel = sel - 1 if sel > 0
+        inputchars = ''
+      else
+        inputchars = ''
       end
-    else
-      res = IO.popen(pager, "w") {|io|
-        list.each_with_index { |entry,ind|
-          io.puts "[#{ind}] #{entry[0].sub!(/\s*{(\d*)}$/,'')}"
-          io.puts "   #{entry[1].sub!(/\s*{(\d*)}$/,'')}"
-        }
-      }
+      STDIN.flush
+      disp(list,sel)
+      
+      exit if c== 'q' || c == "\x03"
+
+      if c == "\r" || c == "\n"
+        break
+      end
     end
+
+    # puts list[sel]
+      
+    desc = list[sel.to_i][0]
+    cmd = list[sel][1]
+
+    # puts "データ: http://scrapbox.io/HelpLine/#{data['pages'][no[desc]]}"
+    # puts
+    # puts "#{desc} ために"
+    # print "コマンド「#{cmd.chomp}」 を実行しますか? (Y) "
+    # ans = STDIN.gets
+    # if ans =~ /^y/i || ans == "\n"
+    #   system cmd
+    # end
+    # \e[40m 黒
+    #puts "\e[1m\e[40m\e[37m「#{desc}」を実行\e[0m"
+    puts
+    Curses.print_inverse("「#{desc}」を実行")
+    puts
+    File.open("/tmp/helpline","w"){ |f|
+      f.puts cmd
+    }
   end
 
 end
@@ -195,10 +242,5 @@ end
 if options['u'] then
   helpline.getdata
 else  
-  pager = 'peco'
-  peco_installed = system "command -v peco > /dev/null"
-  if options['t'] || !peco_installed
-    pager = 'more'
-  end
-  helpline.helpline pager
+  helpline.helpline
 end
