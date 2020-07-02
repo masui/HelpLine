@@ -1,10 +1,7 @@
 #!/usr/bin/env ruby
 # -*- ruby -*-
 
-require 'net/https'
 require 'json'
-require 'uri'
-require 'cgi'
 require 'optparse'
 
 require 'scrapbox'
