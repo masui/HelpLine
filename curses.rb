@@ -41,7 +41,7 @@ class Curses
     @x -= n
   end
   
-  def Curses.tol(n) # 行頭からn文字目に移動
+  def Curses.tol(n = 0) # 行頭からn文字目に移動
     STDOUT.print "\e[#{n+1}G"
     @x = n
   end
