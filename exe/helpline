@@ -99,7 +99,7 @@ class HelpLine
     lines = LINES if lines > LINES
     (0...lines).each { |i|
       Curses.move(i,0)
-      s = "[#{i}] #{list[i][0]}"
+      s = "* #{list[i][0]}"
       if i == sel
         Curses.print_inverse s
       else
