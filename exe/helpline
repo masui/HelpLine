@@ -222,7 +222,7 @@ class HelpLine
     desc = list[sel.to_i][0]
     cmd = list[sel][1]
 
-    Curses.move(lines,0)
+    #Curses.move(lines,0)
     #Curses.move(0,0)
     ##Curses.down
     ##Curses.tol
