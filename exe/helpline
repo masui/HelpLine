@@ -149,7 +149,7 @@ class HelpLine
 
     if res[0].length == 0
       puts "ヘルプがみつかりません"
-      File.open("/tmp/helpline","w"){ |f|
+      File.open("/tmp/helpline.cmd","w"){ |f|
         f.puts ARGV.join(' ')
       }
       exit

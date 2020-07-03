@@ -1,8 +1,9 @@
 #
-# Ctrl-Hでhelplineを呼ぶようにする
+# Ctrl-Jでhelplineを呼ぶようにする
 #
 function run-help() {
-    BUFFER=$(/Applications/HelpLine.app/Contents/MacOS/helpline "${BUFFER}")
+    /usr/local/bin/helpline "${BUFFER}" < $TTY
+    BUFFER=$(cat /tmp/helpline.cmd)
     CURSOR=${#BUFFER}
     zle redisplay
 }
