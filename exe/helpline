@@ -130,17 +130,17 @@ class HelpLine
     #
     # HelpLineエントリ
     #
-    lines = []
+    entries = []
     data['defs'].each { |line|
       if line =~ /^\s*\$\s*(.*)$/ # $....
-        lines << $1
+        entries << $1
       elsif line =~ /^\s*\%\s*(.*)$/ # %....
         cmd = $1
-        lines.each { |l|
+        entries.each { |l|
           desc = eval('"' + l + '"')
           g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
         }
-        lines = []
+        entries = []
       end
     }
 
@@ -180,6 +180,9 @@ class HelpLine
     sel = 0
     disp(list,sel)
     
+    lines = list.length
+    lines = LINES if lines > LINES
+
     inputchars = ''
     while true
       c = STDIN.getch
@@ -197,7 +200,7 @@ class HelpLine
         inputchars = ''
       elsif inputchars == "\x0e" || inputchars == "\e[B" || inputchars == "\eOB"
         Curses.down
-        sel = (sel + 1) if sel < LINES-1
+        sel = (sel + 1) if sel < lines-1
         inputchars = ''
       elsif inputchars == "\x10" || inputchars == "\e[A" || inputchars == "\eOA"
         Curses.up
@@ -219,7 +222,7 @@ class HelpLine
     desc = list[sel.to_i][0]
     cmd = list[sel][1]
 
-    Curses.move(lines.length,0)
+    Curses.move(lines,0)
     #Curses.move(0,0)
     ##Curses.down
     ##Curses.tol
