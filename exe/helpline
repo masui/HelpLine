@@ -188,17 +188,17 @@ class HelpLine
       # process ESC
       elsif inputchars[0] == "\e" && inputchars.length == 2
       # 何もしない
-      elsif inputchars == "\x06" || inputchars == "\e[C"
+      elsif inputchars == "\x06" || inputchars == "\e[C" || inputchars == "\eOC"
         #  Curses.right
         inputchars = ''
-      elsif inputchars == "\x02" || inputchars == "\e[D"
+      elsif inputchars == "\x02" || inputchars == "\e[D" || inputchars == "\eOD"
         #  Curses.left
         inputchars = ''
-      elsif inputchars == "\x0e" || inputchars == "\e[B"
+      elsif inputchars == "\x0e" || inputchars == "\e[B" || inputchars == "\eOB"
         Curses.down
         sel = (sel + 1) if sel < LINES-1
         inputchars = ''
-      elsif inputchars == "\x10" || inputchars == "\e[A"
+      elsif inputchars == "\x10" || inputchars == "\e[A" || inputchars == "\eOA"
         Curses.up
         sel = sel - 1 if sel > 0
         inputchars = ''
