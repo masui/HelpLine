@@ -16,7 +16,7 @@ class HelpLine
   LINES = 12
     
   def datafile
-    File.expand_path("~/.helpline")
+    File.expand_path("~/.helpline.json")
   end
   
   def initialize
