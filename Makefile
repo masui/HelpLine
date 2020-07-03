@@ -42,3 +42,12 @@ clean:
 
 all: update build-mac
 
+
+#
+# gem
+#
+release:
+	rake release
+
+
+
