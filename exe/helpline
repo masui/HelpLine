@@ -106,8 +106,9 @@ class HelpLine
         Curses.print s
       end
     }
-    Curses.down
-    Curses.tol
+    Curses.move(sel,0)
+    # Curses.down
+    # Curses.tol
   end
   
   def helpline
