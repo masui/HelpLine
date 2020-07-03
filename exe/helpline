@@ -220,7 +220,7 @@ class HelpLine
 
     Curses.print_inverse("「#{desc}」を実行")
     puts " (ソース: http://scrapbox.io/HelpLine/#{data['pages'][help_number[desc]]})"
-    File.open("/tmp/helpline","w"){ |f|
+    File.open("/tmp/helpline.cmd","w"){ |f|
       f.puts cmd
     }
   end
