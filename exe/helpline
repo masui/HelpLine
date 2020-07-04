@@ -146,11 +146,11 @@ class HelpLine
 
     res = g.generate " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
 
+    File.open("/tmp/helpline.cmd","w"){ |f|
+      f.puts ARGV.join(' ')
+    }
     if res[0].length == 0
       puts "ヘルプがみつかりません"
-      File.open("/tmp/helpline.cmd","w"){ |f|
-        f.puts ARGV.join(' ')
-      }
       exit
     end
 
@@ -172,7 +172,6 @@ class HelpLine
     #
     # HelpLineメニュー表示し、カーソル移動で選択
     #
-    
     help_number = {}
     list.each_with_index { |entry,ind|
       entry[0].sub!(/\s*{(\d*)}$/,'')
