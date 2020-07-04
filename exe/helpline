@@ -144,8 +144,6 @@ class HelpLine
       end
     }
 
-    # puts "GENERATE #{params.split('|').join(' ')} "
-
     res = g.generate " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
 
     if res[0].length == 0
@@ -156,13 +154,18 @@ class HelpLine
       exit
     end
 
+    git_repository = File.exist?(".git")
     listed = {}
     list = res[0].find_all { |a| # 0 ambig
       # a = ["現在の状況を表示する {56}", "git status {56}"], etc.
-      if listed[a[1]]
+      if a[0] =~ /^git:/ && !git_repository
         false
       else
-        listed[a[1]] = true
+        if listed[a[1]]
+          false
+        else
+          listed[a[1]] = true
+        end
       end
     }
 
