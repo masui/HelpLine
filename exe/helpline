@@ -158,7 +158,9 @@ class HelpLine
     listed = {}
     list = res[0].find_all { |a| # 0 ambig
       # a = ["現在の状況を表示する {56}", "git status {56}"], etc.
-      if a[0] =~ /^git:/ && !git_repository
+      if a[0] =~ /voidvoidvoid/
+        false
+      elsif a[0] =~ /^git:/ && !git_repository
         false
       else
         if listed[a[1]]
