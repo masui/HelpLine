@@ -23,9 +23,10 @@
 	<video src="https://s3-ap-northeast-1.amazonaws.com/masui.org/b/9/b9b2ae65a3a977857b5487f280785b47.mp4" width=600 controls></video>
       </center>
 
+      <p></p>
+      
       　コマンドラインのオプションは難しいものが多い。
       Gitのような複雑なシステムの場合、概念もオプションも難しい。
-      ある程度使い方を知っている場合でも、あまり一般的でない機能を使うのは難しい。
       たとえば以下のような場合はどういうコマンドを使えばいいだろうか?
       </p>
       
@@ -189,16 +190,15 @@
       
       <h3>利用例</h3>
       
-      タスクのキーワードやパラメタを指定して
-      <code>helpline</code>を起動すると
-      候補のリストが表示され、
+      タスクのキーワードやパラメタを指定してCtrl-Jを押すと
+      <code>helpline</code>が起動して候補のリストが表示され、
       カーソルで選択すると実行される。
       
       <ul>
-	<li><code>$ githelp 2 README</code>のように引数を指定して起動すると以下のような候補リストが提示される</li>
+	<li><code>$ 2 README</code>と入力してからCtrl-Jを押すと
+	  以下のような候補リストが提示される</li>
 
-	<img src="https://gyazo.com/6cc87cef5f28185199074b61716454de.png" width=500>
-
+	<img src="https://gyazo.com/806cb4c2c14781465949ec3aa85d563b.png" width=500>
 	<p></p>
 	<li>カーソルで選択してリターンを押すと実行される</li>
 
@@ -206,13 +206,24 @@
       </ul>
       
       <a name="install"><h3>インストール</h3></a>
-      
-      <pre>
-	% gem install helpline
-      </pre>
 
-      .zshrc
-      
+      <ul>
+	<li> <code>gem</code>でHelpLineをインストール
+	  <pre>
+% gem install helpline
+	  </pre>
+	</li>
+	<li> <code>~/.zshrc</code>に以下の記述を追加
+	  <pre>
+function run-help() {
+   /usr/local/bin/helpline "${BUFFER}" < $TTY
+   BUFFER=$(cat /tmp/helpline.cmd)
+   CURSOR=${#BUFFER}
+   zle redisplay
+}
+zle -N run-help
+bindkey "^j" run-help
+	  </pre>
 
       <h3>実装</h3>
       
@@ -267,7 +278,6 @@
       <h3> 注意</h3>
       
       <ul>
-	<li><code>githelp</code>コマンドはGitリポジトリのディレクトリで実行する必要がある</li>
 	<li><a href="https://github.com/masui/expand_ruby">re_expand</a>の実装が富豪的なので
 	  大きなリポジトリだと不具合があるかも</li>
 	<li>データが全然足りない... 特にリモートリポジトリ関連のデータは皆無だが、
