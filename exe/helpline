@@ -130,19 +130,25 @@ class HelpLine
     #
     # HelpLineエントリ
     #
+
+    # File.open("/tmp/defs","w"){ |f|
+    
     entries = []
     data['defs'].each { |line|
       if line =~ /^\s*\$\s*(.*)$/ # $....
         entries << $1
       elsif line =~ /^\s*\%\s*(.*)$/ # %....
         cmd = $1
+        # f.puts "cmd #{cmd}"
         entries.each { |l|
           desc = eval('"' + l + '"')
+          # f.puts "desc #{desc}"
           g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
         }
         entries = []
       end
     }
+    # }
 
     res = g.generate " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
 

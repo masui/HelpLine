@@ -20,15 +20,11 @@
     <section class="main-content">
 
       <center>
-	<video src="https://s3-ap-northeast-1.amazonaws.com/masui.org/d/b/db555e8535ff111e794b95e6d3d7a8f5.mp4" width=600 controls></video>
+	<video src="https://s3-ap-northeast-1.amazonaws.com/masui.org/b/9/b9b2ae65a3a977857b5487f280785b47.mp4" width=600 controls></video>
       </center>
 
-      <p>
-	以下、GitHelpのテキストをコピペしただけなのでHelpLineの説明になってません。すみません
-      </p>
-
-      <p>
-      　Gitのような複雑なシステムは使い方が難しい。
+      　コマンドラインのオプションは難しいものが多い。
+      Gitのような複雑なシステムの場合、概念もオプションも難しい。
       ある程度使い方を知っている場合でも、あまり一般的でない機能を使うのは難しい。
       たとえば以下のような場合はどういうコマンドを使えばいいだろうか?
       </p>
@@ -170,19 +166,19 @@
 	誰でも情報を足したり修正したりできたら嬉しいだろう。
       </p>
 
-      <h3>GitHelpのアプローチ</h3>
+      <h3>HelpLineのアプローチ</h3>
 
       <p>
-	　GitHelpは、以下のような方針で上のような課題をすべて解決しようというものである。
+	　HelpLineは、以下のような方針で上のような課題をすべて解決しようというものである。
 
 	<ul>
 	  <li>ユーザのあらゆる曖昧な表現にマッチするようにヘルプ文字列を正規表現で表現し、
-	    Gitコマンドに変換する</li>
+	    コマンドに変換する</li>
 	  - ExpandHelp(<a href="https://github.com/masui/expand-ruby">ソース</a> /
 	  <a href="http://www.interaction-ipsj.org/archives/paper2012/data/Interaction2012/oral/data/pdf/12INT012.pdf">論文</a>)を利用
 	  <li>データをすべてクラウド上に置いて編集可能にすることにより、
 	    誰でもデータを追加/修正できるようにする</li>
-	  - <a href="https://Scrapbox.io/GitHelp">Scrapbox</a>を利用
+	  - <a href="https://Scrapbox.io/HelpLine">Scrapbox</a>を利用
 	  <li>ユーザが指定したパラメタはそのまま利用して実行に使う</li>
 	  -  ユーザが「4」「時間」などと指定すると「時刻を4時にセットする」のようなものを提案して実行可能にする
 	  <li>多少の誤入力を許す</li>
@@ -193,8 +189,8 @@
       
       <h3>利用例</h3>
       
-      Gitに関連するタスクのキーワードやパラメタを指定して
-      <code>githelp</code>を起動すると
+      タスクのキーワードやパラメタを指定して
+      <code>helpline</code>を起動すると
       候補のリストが表示され、
       カーソルで選択すると実行される。
       
@@ -212,15 +208,11 @@
       <a name="install"><h3>インストール</h3></a>
       
       <pre>
-	% gem install githelp   </pre>
+	% gem install helpline
+      </pre>
+
+      .zshrc
       
-      <ul>
-	<li>対話的処理のために<a href="https://github.com/peco/peco">peco</a>が必要</li>
-	<ul>
-	  <li>Macだと<code>% brew install peco</code>でインストール可能</li>
-	  <li>Linuxなどの場合<a href="https://github.com/peco/peco/releases">こちら</a>のファイルからインストール (yumなどでは入らない)</li>
-	</ul>
-      </ul>
 
       <h3>実装</h3>
       
