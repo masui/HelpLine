@@ -10,12 +10,14 @@ MiniTest::autorun
 class TestFoo < MiniTest::Unit::TestCase
   def setup
     @cwd = Dir.getwd
-    #puts File.expand_path("rubytips86", "/home")
-    
+
+    #
+    # Gitレポジトリを作成
+    #
     system "/bin/rm -r -f __testdir"
     system "mkdir __testdir"
     system "cd __testdir; git init"
-    system "cd __testdir; touch abc"
+    system "cd __testdir; date > abc"
     system "cd __testdir; git add abc"
     system "cd __testdir; git commit -a -m 'message'"
   end
@@ -26,13 +28,14 @@ class TestFoo < MiniTest::Unit::TestCase
 
   def check(q,pat,dir=".")
     res = false
-    #puts "pat = <<#{pat}>>"
-    #puts "dir = (((#{dir})))"
-    #puts "@cwd = (((#{@cwd})))"
-    #puts "cmd = #{@cwd}/exe/helpline}"
     `cd #{dir}; ruby #{@cwd}/exe/helpline -t '#{q}'`.split(/\n/).each { |line|
-      #puts "line = [[[#{line}]]]"
-      res = true if pat.match(line)
+      #puts "pat = #{pat}"
+      #puts "line = #{line}"
+      #puts pat.match(line)
+      if line.match(pat)
+        #puts "====================="
+        res = true
+      end
     }
     assert res
   end
@@ -47,10 +50,14 @@ class TestFoo < MiniTest::Unit::TestCase
     check "天気", "天気"
   end
 
-  def test_git
+  def test_git_削除
     #
     # gitリポジトリでは削除メニューが出ることを確認
     #
     check "abc 削除", /abc.*ファイル.*削除/, "__testdir"
+  end
+
+  def test_git_ブランチ
+    check "ブランチ", /branch/, "__testdir"
   end
 end
