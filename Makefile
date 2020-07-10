@@ -1,4 +1,4 @@
-.PHONY: data.js glossary.js
+.PHONY: data.js glossary.js test
 
 run: browserify
 	npm start .
@@ -49,5 +49,8 @@ all: update build-mac
 release:
 	rake release
 
-
-
+#
+# テスト
+#
+test:
+	ruby test/test.rb

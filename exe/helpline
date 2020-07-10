@@ -111,7 +111,7 @@ class HelpLine
     # Curses.tol
   end
   
-  def helpline
+  def helpline(options)
     data = JSON.parse(File.read(datafile))
     unless data['pages'] # データ型式変換があったので
       getdata
@@ -155,6 +155,7 @@ class HelpLine
     File.open("/tmp/helpline.cmd","w"){ |f|
       f.puts ARGV.join(' ')
     }
+    
     if res[0].length == 0
       puts "ヘルプがみつかりません"
       exit
@@ -176,6 +177,11 @@ class HelpLine
         end
       end
     }
+
+    if options['t'] then
+      puts list
+      exit
+    end
 
     #
     # HelpLineメニュー表示し、カーソル移動で選択
@@ -251,7 +257,7 @@ end
 #   exit
 # end
 
-options = ARGV.getopts('u')
+options = ARGV.getopts('ut')
 
 helpline = HelpLine.new
 
@@ -259,9 +265,9 @@ if !File.exist?(helpline.datafile) && !options['u']
   puts "#{helpline.datafile}を作成します..."
   helpline.getdata
 end
-  
+
 if options['u'] then
   helpline.getdata
-else  
-  helpline.helpline
+else
+  helpline.helpline(options)
 end
