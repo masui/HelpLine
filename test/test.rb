@@ -16,10 +16,10 @@ class TestFoo < MiniTest::Unit::TestCase
     #
     system "/bin/rm -r -f __testdir"
     system "mkdir __testdir"
-    system "cd __testdir; git init"
+    system "cd __testdir; git init --quiet"
     system "cd __testdir; date > abc"
     system "cd __testdir; git add abc"
-    system "cd __testdir; git commit -a -m 'message'"
+    system "cd __testdir; git commit -a -m 'message' --quiet"
   end
 
   def teardown
