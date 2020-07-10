@@ -8,27 +8,31 @@ require 'minitest/unit'
 MiniTest::autorun
 
 class TestFoo < MiniTest::Unit::TestCase
-  def setup
-    @cwd = Dir.getwd
+  @@cwd = Dir.getwd
+  @@testdir = "__testdir"
 
+  # def setup
+  def git_start
     #
     # Gitレポジトリを作成
     #
-    system "/bin/rm -r -f __testdir"
-    system "mkdir __testdir"
-    system "cd __testdir; git init --quiet"
-    system "cd __testdir; date > abc"
-    system "cd __testdir; git add abc"
-    system "cd __testdir; git commit -a -m 'message' --quiet"
+    system "/bin/rm -r -f #{@@testdir}"
+    system "mkdir #{@@testdir}"
+    system "cd #{@@testdir}; git init --quiet"
+    system "cd #{@@testdir}; date > abc"
+    system "cd #{@@testdir}; git add abc"
+    system "cd #{@@testdir}; git commit -a -m 'message' --quiet"
   end
 
-  def teardown
-    system "/bin/rm -r -f __testdir"
+  # def teardown
+  def git_end
+    # Gitレポジトリを削除
+    system "/bin/rm -r -f #{@@testdir}"
   end
 
   def check(q,pat,dir=".")
     res = false
-    `cd #{dir}; ruby #{@cwd}/exe/helpline -t '#{q}'`.split(/\n/).each { |line|
+    `cd #{dir}; ruby #{@@cwd}/exe/helpline -t '#{q}'`.split(/\n/).each { |line|
       #puts "pat = #{pat}"
       #puts "line = #{line}"
       #puts pat.match(line)
@@ -54,10 +58,14 @@ class TestFoo < MiniTest::Unit::TestCase
     #
     # gitリポジトリでは削除メニューが出ることを確認
     #
-    check "abc 削除", /abc.*ファイル.*削除/, "__testdir"
+    git_start
+    check "abc 削除", /abc.*ファイル.*削除/, "#{@@testdir}"
+    git_end
   end
 
   def test_git_ブランチ
-    check "ブランチ", /branch/, "__testdir"
+    git_start
+    check "ブランチ", /branch/, "#{@@testdir}"
+    git_end
   end
 end
