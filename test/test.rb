@@ -47,7 +47,10 @@ class TestFoo < MiniTest::Unit::TestCase
     check "天気", "天気"
   end
 
-  def test_log
-    check "abc 削除", /abc.*削除/, "__testdir"
+  def test_git
+    #
+    # gitリポジトリでは削除メニューが出ることを確認
+    #
+    check "abc 削除", /abc.*ファイル.*削除/, "__testdir"
   end
 end
