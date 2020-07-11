@@ -2,7 +2,7 @@
 # Ctrl-Jでhelplineを呼ぶようにする
 #
 function run-help() {
-    /usr/local/bin/helpline "${BUFFER}" < $TTY
+    helpline "${BUFFER}" < $TTY
     BUFFER=$(cat /tmp/helpline.cmd)
     CURSOR=${#BUFFER}
     zle redisplay
