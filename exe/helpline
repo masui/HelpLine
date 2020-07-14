@@ -98,15 +98,17 @@ class HelpLine
     lines = list.length
     lines = LINES if lines > LINES
     (0...lines).each { |i|
-      Curses.move(i,0)
-      s = "* #{list[i][0]}"
+      Curses.move(i*2,0)
+      s = "#{list[i][0]}"
       if i == sel
         Curses.print_inverse s
       else
-        Curses.print s
+        Curses.print_bold s
       end
+      Curses.move(i*2+1,0)
+      Curses.print "  % " + list[i][1]
     }
-    Curses.move(sel,0)
+    Curses.move(sel*2,0)
     # Curses.down
     # Curses.tol
   end
@@ -131,7 +133,7 @@ class HelpLine
     # HelpLineエントリ
     #
 
-    # File.open("/tmp/defs","w"){ |f|
+    # File.open("/tmp/defs","w"){ |f|  # ログを残す場合
     
     entries = []
     data['defs'].each { |line|
@@ -139,7 +141,6 @@ class HelpLine
         entries << $1
       elsif line =~ /^\s*\%\s*(.*)$/ # %....
         cmd = $1
-        # f.puts "cmd #{cmd}"
         entries.each { |l|
           desc = eval('"' + l + '"')
           # f.puts "desc #{desc}"
@@ -238,13 +239,14 @@ class HelpLine
     desc = list[sel.to_i][0]
     cmd = list[sel][1]
 
-    Curses.move(lines,0)
+    Curses.move(lines*2,0)
     Curses.tol
 
     #Curses.move(0,0)
     ##Curses.down
-    Curses.print_inverse("「#{desc}」を実行")
-    puts " (ソース: http://scrapbox.io/HelpLine/#{data['pages'][help_number[desc]]})"
+    
+    # Curses.print_inverse("「#{desc}」を実行")
+    # puts " (ソース: http://scrapbox.io/HelpLine/#{data['pages'][help_number[desc]]})"
     File.open("/tmp/helpline.cmd","w"){ |f|
       f.puts cmd
     }

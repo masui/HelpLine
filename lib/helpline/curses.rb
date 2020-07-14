@@ -105,5 +105,12 @@ class Curses
     @x += s.length
   end
 
+  def Curses.print_bold(s)
+    print "\e[0m"
+    print "\e[1m"
+    print s
+    print "\e[0m"
+    @x += s.length
+  end
 end
   
