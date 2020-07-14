@@ -67,6 +67,10 @@ class TestFoo < MiniTest::Unit::TestCase
     check "摂氏 30", "華氏"
   end
 
+  def test_lorem
+    check "lorem", /ipsum/
+  end
+  
   def test_git_削除
     #
     # gitリポジトリでは削除メニューが出ることを確認
@@ -77,4 +81,5 @@ class TestFoo < MiniTest::Unit::TestCase
   def test_git_ブランチ
     check_git "ブランチ", /branch/, "#{testdir}"
   end
+  
 end
