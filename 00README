@@ -1,1 +1,8 @@
 Electron版(JS)とRuby版(gem版)が一緒になっているので良くない...
+
+
+* gemリリース方法
+ - lib/helpline/version.rb の番号をふやす
+ - git でコミット
+ - make release
+ 

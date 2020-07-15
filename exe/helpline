@@ -74,7 +74,7 @@ class HelpLine
             next
           end
         end
-        if line =~ /^\s*[\$\%]/
+        if line =~ /^\s*[\$\%\?]/
           puts line
           if line =~ /^\%/ && !processing_defs
             puts "'$'で始まる用例定義なしでコマンドを定義しようとしています"
@@ -137,7 +137,7 @@ class HelpLine
     
     entries = []
     data['defs'].each { |line|
-      if line =~ /^\s*\$\s*(.*)$/ # $....
+      if line =~ /^\s*[\$\?]\s*(.*)$/ # $....
         entries << $1
       elsif line =~ /^\s*\%\s*(.*)$/ # %....
         cmd = $1
