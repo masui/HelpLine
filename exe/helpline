@@ -57,21 +57,21 @@ class HelpLine
       #
       puts "-----------------関数/定数を取得"
       src = nil
-      indent = ''
       code = []
       pagedata.each { |title,lines|
         puts "...#{title}"
         lines.each { |line|
-          if src && line =~ /^#{indent}\s+/ then
+          if src && line =~ /^\s+/ then
             code << line
           elsif line =~ /^code:(.*\.rb)$/ then
-            src = $2
-            indent = $1
+            if code.length > 0
+              dumpdata['codes'] << code.join("\n")
+            end
+            src = $1
             code = []
           elsif src then
             dumpdata['codes'] << code.join("\n")
             src = nil
-            indent = ''
             code = []
           else
           end
@@ -89,18 +89,18 @@ class HelpLine
         pagedata.each { |line|
           if !codeindent
             if line =~ /^code:/
-              codeindent = $1.length
+              codeindent = 0
               next
             end
           else
             line =~ /^(\s*)/
-            if line.length < codeindent
+            if $1.length < codeindent + 1
               codeindent = nil
             else
               next
             end
           end
-          if line =~ /^\s*[\$\%\?]/
+          if line =~ /^[\$\%\?]/
             if line =~ /^\%/ && !processing_defs
               puts "'$'で始まる用例定義なしでコマンドを定義しようとしています"
               exit
@@ -161,9 +161,9 @@ class HelpLine
     File.open(logfile,"w"){ |f|  # ログを残す場合
       entries = []
       data['defs'].each { |line|
-        if line =~ /^\s*[\$\?]\s*(.*)$/ # $....
+        if line =~ /^[\$\?]\s*(.*)$/ # $....
           entries << $1
-        elsif line =~ /^\s*\%\s*(.*)$/ # %....
+        elsif line =~ /^\%\s*(.*)$/ # %....
           cmd = $1
           entries.each { |l|
             desc = eval('"' + l + '"')
