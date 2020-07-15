@@ -20,74 +20,100 @@ class HelpLine
   end
   
   def initialize
-    @pagedata = {}
-    @project = Scrapbox::Project.new("HelpLine")
+    # @pagedata = {}
+    # @project = Scrapbox::Project.new("HelpLine")
   end
 
-  def update
-    #
-    # ページデータ取得
-    #
-    puts "-----------------ページデータを取得"
-    @project.pages.each { |title,page|
-      puts "...#{title}"
-      @pagedata[title] = page.text.split(/\n/)
-    }
-
+  def update(sources) # sources = ['HelpLine', '~/ScrapboxData/masui.json', ...]
     dumpdata = {}
     dumpdata['codes'] = []
     dumpdata['defs'] = []
     dumpdata['pages'] = []
     
-    #
-    # 関数/定数を評価"
-    #
-    puts "-----------------関数/定数を取得"
-    @pagedata.each { |title,pagedata|
-      puts "...#{title}"
-      pagedata.each { |line|
-        if line =~ /code:(.*\.rb)$/ then
-          src = $1
-          puts "=========== #{src}"
-          page = Scrapbox::Page.new(@project,title)
-          dumpdata['codes'] << page.code(src)
-        end
-      }
-    }
-    puts "-----------------HelpLineデータを検出"
-    @pagedata.each { |title,pagedata|
-      puts "...#{title}"
-      dumpdata['pages'] << title
-      processing_defs = false
-      codeindent = nil
-      pagedata.each { |line|
-        if !codeindent
-          if line =~ /^(\s*)code:/
-            codeindent = $1.length
-            next
-          end
-        else
-          line =~ /^(\s*)/
-          if line.length < codeindent
-            codeindent = nil
+    sources.each { |source|
+      pagedata = {}
+      source = File.expand_path(source)
+      if File.exist?(source)
+        puts "-----------------ページデータをJSONデータ(#{source})から取得"
+        data = JSON.parse(File.read(source))
+        data['pages'].each { |page|
+          title = page['title']
+          puts "...#{title}"
+          pagedata[title] = page['lines']
+        }
+      elsif source =~ /^[a-zA-Z\-]+$/ # たぶんHelpLineプロジェクト
+        puts "-----------------ページデータをScrapbox(#{source})から取得"
+        project = Scrapbox::Project.new(source)
+        project.pages.each { |title,page|
+          puts "...#{title}"
+          pagedata[title] = page.text.split(/\n/)
+        }
+      else
+        next
+      end
+      
+      #
+      # 関数/定数を評価"
+      #
+      puts "-----------------関数/定数を取得"
+      src = nil
+      indent = ''
+      code = []
+      pagedata.each { |title,lines|
+        puts "...#{title}"
+        lines.each { |line|
+          if src && line =~ /^#{indent}\s+/ then
+            code << line
+          elsif line =~ /^code:(.*\.rb)$/ then
+            src = $2
+            indent = $1
+            code = []
+          elsif src then
+            dumpdata['codes'] << code.join("\n")
+            src = nil
+            indent = ''
+            code = []
           else
-            next
           end
-        end
-        if line =~ /^\s*[\$\%\?]/
-          puts line
-          if line =~ /^\%/ && !processing_defs
-            puts "'$'で始まる用例定義なしでコマンドを定義しようとしています"
-            exit
-          end
-          dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"
-          processing_defs = true
-        else
-          processing_defs = false
+        }
+        if code.length > 0
+          dumpdata['codes'] << code.join("\n")
         end
       }
+      puts "-----------------HelpLineデータを検出"
+      pagedata.each { |title,pagedata|
+        puts "...#{title}"
+        dumpdata['pages'] << title
+        processing_defs = false
+        codeindent = nil
+        pagedata.each { |line|
+          if !codeindent
+            if line =~ /^code:/
+              codeindent = $1.length
+              next
+            end
+          else
+            line =~ /^(\s*)/
+            if line.length < codeindent
+              codeindent = nil
+            else
+              next
+            end
+          end
+          if line =~ /^\s*[\$\%\?]/
+            if line =~ /^\%/ && !processing_defs
+              puts "'$'で始まる用例定義なしでコマンドを定義しようとしています"
+              exit
+            end
+            dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"
+            processing_defs = true
+          else
+            processing_defs = false
+          end
+        }
+      }
     }
-    
+      
     File.open(datafile,"w"){ |f|
       f.puts dumpdata.to_json
     }
@@ -109,14 +135,12 @@ class HelpLine
       Curses.print "  % " + list[i][1]
     }
     Curses.move(sel*2,0)
-    # Curses.down
-    # Curses.tol
   end
   
-  def helpline(options)
+  def helpline(sources,test=nil,debug=nil)
     data = JSON.parse(File.read(datafile))
     unless data['pages'] # データ型式変換があったので
-      update
+      update sources
       data = JSON.parse(File.read(datafile))
     end
 
@@ -133,23 +157,24 @@ class HelpLine
     # HelpLineエントリ
     #
 
-    # File.open("/tmp/defs","w"){ |f|  # ログを残す場合
-    
-    entries = []
-    data['defs'].each { |line|
-      if line =~ /^\s*[\$\?]\s*(.*)$/ # $....
-        entries << $1
-      elsif line =~ /^\s*\%\s*(.*)$/ # %....
-        cmd = $1
-        entries.each { |l|
-          desc = eval('"' + l + '"')
-          # f.puts "desc #{desc}"
-          g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
-        }
-        entries = []
-      end
+    logfile = (debug ? "/tmp/helpline-defs" : "/dev/null")
+    File.open(logfile,"w"){ |f|  # ログを残す場合
+      entries = []
+      data['defs'].each { |line|
+        if line =~ /^\s*[\$\?]\s*(.*)$/ # $....
+          entries << $1
+        elsif line =~ /^\s*\%\s*(.*)$/ # %....
+          cmd = $1
+          entries.each { |l|
+            desc = eval('"' + l + '"')
+            f.puts "desc: #{desc}"
+            g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
+          }
+          f.puts "cmd:  #{cmd}"
+          entries = []
+        end
+      }
     }
-    # }
 
     res = g.generate " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
 
@@ -179,7 +204,8 @@ class HelpLine
       end
     }
 
-    if options['t'] then
+    # if options['t'] || options['test'] then
+    if test
       puts list
       exit
     end
@@ -253,23 +279,32 @@ class HelpLine
   end
 end
 
-# is_repository = system 'git rev-parse --git-dir > /dev/null >& /dev/null'
-# unless is_repository
-#   STDERR.puts "Gitレポジトリで実行して下さい"
-#   exit
-# end
-
-options = ARGV.getopts('ut','update')
+# アップデート
+#   % helpline -u
+# データを指定してアップデート
+#   % helpline -u -s HelpLine,/Users/masui/ScrapboxData/masui-HelpLine.json
+# テスト
+#   % helpline -t
+#
 
 helpline = HelpLine.new
 
-if !File.exist?(helpline.datafile) && !options['u'] && !options['update']
-  puts "#{helpline.datafile}を作成します..."
-  helpline.update
+options = ARGV.getopts('utds:','update','test','source:','debug')
+update = options['u'] || options['update']
+test = options['t'] || options['test']
+debug = options['d'] || options['debug']
+sources = ['HelpLine']
+if options['s'] || options['source']
+  sources = (options['s'] || options['source']).split(/,/)
 end
 
-if options['u'] || options['update'] then
-  helpline.update
+if !File.exist?(helpline.datafile) && !update
+  puts "#{helpline.datafile}を作成します..."
+  helpline.update sources
+end
+
+if update then
+  helpline.update sources
 else
-  helpline.helpline(options)
+  helpline.helpline sources, test, debug
 end
