@@ -1,320 +1,40 @@
 #!/usr/bin/env ruby
 # -*- ruby -*-
 
-require 'json'
 require 'optparse'
 
-require 'scrapbox'
-require 're_expand'
-
-require 'io/console'
-require 'helpline/curses'
-
-puts
-
-class HelpLine
-  LINES = 12
-    
-  def datafile
-    File.expand_path("~/.helpline.json")
-  end
-  
-  def initialize
-    # @pagedata = {}
-    # @project = Scrapbox::Project.new("HelpLine")
-  end
-
-  def update(sources) # sources = ['HelpLine', '~/ScrapboxData/masui.json', ...]
-    dumpdata = {}
-    dumpdata['codes'] = []
-    dumpdata['defs'] = []
-    dumpdata['pages'] = []
-
-    sources.each { |source|
-      pagedata = {}
-      #expanded_source = File.expand_path(source)
-      if File.exist?(source)
-        puts "-----------------ページデータをJSONデータ(#{source})から取得"
-        data = JSON.parse(File.read(source))
-        data['pages'].each { |page|
-          title = page['title']
-          puts "...#{title}"
-          pagedata[title] = page['lines']
-        }
-      elsif source =~ /^[a-zA-Z\-]+$/ # たぶんHelpLineプロジェクト
-        puts "-----------------ページデータをScrapbox(#{source})から取得"
-        project = Scrapbox::Project.new(source)
-        project.pages.each { |title,page|
-          puts "...#{title}"
-          pagedata[title] = page.text.split(/\n/)
-        }
-      else
-        next
-      end
-      
-      #
-      # 関数/定数を評価"
-      #
-      puts "-----------------関数/定数を取得"
-      src = nil
-      code = []
-      pagedata.each { |title,lines|
-        # puts "...#{title}"
-        lines.each { |line|
-          if src && line =~ /^\s+/ then
-            code << line
-          elsif line =~ /^code:(.*\.rb)$/ then
-            if code.length > 0
-              puts "...#{title}"
-              puts code[0]
-              dumpdata['codes'] << code.join("\n")
-            end
-            src = $1
-            code = []
-          elsif src then
-            puts "...#{title}"
-            puts code[0]
-            dumpdata['codes'] << code.join("\n")
-            src = nil
-            code = []
-          else
-          end
-        }
-        if code.length > 0
-          puts "...#{title}"
-          puts code[0]
-          dumpdata['codes'] << code.join("\n")
-          src = nil
-          code = []
-        end
-      }
-      puts "-----------------HelpLineデータを検出"
-      pagedata.each { |title,pagedata|
-        # puts "...#{title}"
-        dumpdata['pages'] << title
-        processing_defs = false
-        codeindent = nil
-        pagedata.each { |line|
-          if !codeindent
-            if line =~ /^code:/
-              codeindent = 0
-              next
-            end
-          else
-            line =~ /^(\s*)/
-            if $1.length < codeindent + 1
-              codeindent = nil
-            else
-              next
-            end
-          end
-          if line =~ /^[\$\%\?]/
-            if line =~ /^\%/ && !processing_defs
-              puts "'$'で始まる用例定義なしでコマンドを定義しようとしています"
-              exit
-            end
-            dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"
-            processing_defs = true
-          else
-            processing_defs = false
-          end
-        }
-      }
-    }
-      
-    File.open(datafile,"w"){ |f|
-      f.puts dumpdata.to_json
-    }
-  end
-
-  def disp(list,sel)
-    Curses.move(0,0)
-    lines = list.length
-    lines = LINES if lines > LINES
-    (0...lines).each { |i|
-      Curses.move(i*2,0)
-      s = "#{list[i][0]}"
-      if i == sel
-        Curses.print_inverse s
-      else
-        Curses.print_bold s
-      end
-      Curses.move(i*2+1,0)
-      Curses.print "  % " + list[i][1]
-    }
-    Curses.move(sel*2,0)
-  end
-  
-  def helpline(sources,test=nil,debug=nil)
-    data = JSON.parse(File.read(datafile))
-    unless data['pages'] # データ型式変換があったので
-      update sources
-      data = JSON.parse(File.read(datafile))
-    end
-
-    #
-    # 関数定義などをeval
-    #
-    data['codes'].each { |code|
-      eval code
-    }
-
-    g = ExpandRuby::Generator.new # re_expandのジェネレータ
-
-    #
-    # HelpLineエントリ
-    #
-
-    logfile = (debug ? "/tmp/helpline-defs" : "/dev/null")
-    File.open(logfile,"w"){ |f|  # ログを残す場合
-      entries = []
-      data['defs'].each { |line|
-        if line =~ /^[\$\?]\s*(.*)$/ # $....
-          entries << $1
-        elsif line =~ /^\%\s*(.*)$/ # %....
-          cmd = $1
-          entries.each { |l|
-            desc = eval('"' + l + '"')
-            f.puts "desc: #{desc}"
-            g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
-          }
-          f.puts "cmd:  #{cmd}"
-          entries = []
-        end
-      }
-    }
-
-    res = g.generate " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
-
-    File.open("/tmp/helpline.cmd","w"){ |f|
-      f.puts ARGV.join(' ')
-    }
-    
-    if res[0].length == 0
-      puts "ヘルプがみつかりません"
-      exit
-    end
-
-    git_repository = File.exist?(".git")
-    listed = {}
-    list = res[0].find_all { |a| # 0 ambig
-      # a = ["現在の状況を表示する {56}", "git status {56}"], etc.
-      if a[0] =~ /voidvoidvoid/
-        false
-      elsif a[0] =~ /^git:/ && !git_repository
-        false
-      else
-        if listed[a[1]]
-          false
-        else
-          listed[a[1]] = true
-        end
-      end
-    }
-
-    # if options['t'] || options['test'] then
-    if test
-      puts list
-      exit
-    end
-
-    #
-    # HelpLineメニュー表示し、カーソル移動で選択
-    #
-    help_number = {}
-    list.each_with_index { |entry,ind|
-      entry[0].sub!(/\s*{(\d*)}$/,'')
-      entry[1].sub!(/\s*{(\d*)}$/,'')
-      help_number[entry[0]] = $1.to_i
-    }
-
-    sel = 0
-    disp(list,sel)
-    
-    lines = list.length
-    lines = LINES if lines > LINES
-
-    inputchars = ''
-    while true
-      c = STDIN.getch
-      inputchars += c
-      
-      if inputchars == "\e"
-      # process ESC
-      elsif inputchars[0] == "\e" && inputchars.length == 2
-      # 何もしない
-      elsif inputchars == "\x06" || inputchars == "\e[C" || inputchars == "\eOC"
-        #  Curses.right
-        inputchars = ''
-      elsif inputchars == "\x02" || inputchars == "\e[D" || inputchars == "\eOD"
-        #  Curses.left
-        inputchars = ''
-      elsif inputchars == "\x0e" || inputchars == "\e[B" || inputchars == "\eOB"
-        Curses.down
-        sel = (sel + 1) if sel < lines-1
-        inputchars = ''
-      elsif inputchars == "\x10" || inputchars == "\e[A" || inputchars == "\eOA"
-        Curses.up
-        sel = sel - 1 if sel > 0
-        inputchars = ''
-      else
-        inputchars = ''
-      end
-      STDIN.flush
-      disp(list,sel)
-      
-      exit if c== 'q' || c == "\x03"
-
-      if c == "\r" || c == "\n"
-        break
-      end
-    end
-
-    desc = list[sel.to_i][0]
-    cmd = list[sel][1]
-
-    Curses.move(lines*2,0)
-    Curses.tol
-
-    #Curses.move(0,0)
-    ##Curses.down
-    
-    # Curses.print_inverse("「#{desc}」を実行")
-    # puts " (ソース: http://scrapbox.io/HelpLine/#{data['pages'][help_number[desc]]})"
-    File.open("/tmp/helpline.cmd","w"){ |f|
-      f.puts cmd
-    }
-  end
-end
+$:.unshift "lib"
+require 'helpline/helpline'
+require 'helpline/update'
+require 'helpline/generate'
+require 'helpline/run'
 
 # アップデート
 #   % helpline -u
 # データを指定してアップデート
 #   % helpline -u HelpLine /Users/masui/ScrapboxData/masui-HelpLine.json
 # テスト
-#   % helpline -t
+#   % helpline -t args
 #
 
 helpline = HelpLine.new
 
 options = ARGV.getopts('utds:','update','test','source:','debug')
 
+#
+# update
+#
+if options['u'] || options['update'] # ~/.helpline.json更新
+  sources = (ARGV.length > 0 ? ARGV : ['HelpLine'])
+  helpline.update sources
+  exit
+end
+
+if options['t'] || options['test'] # テスト
+  puts helpline.generate " #{ARGV.join(' ')} "
+  exit
+end
+
 debug = options['d'] || options['debug']
-test = options['t'] || options['test']
-sources = ['HelpLine']
-update = false
-if options['u'] || options['update']
-  update = true
-  sources = ARGV if ARGV.length > 0
-end
-
-if !File.exist?(helpline.datafile) && !update
-  puts "#{helpline.datafile}を作成します..."
-  helpline.update sources
-end
-
-if update then
-  helpline.update sources
-else
-  helpline.helpline sources, test, debug
-end
+query = " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
+helpline.run query, debug
