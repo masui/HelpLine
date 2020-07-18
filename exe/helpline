@@ -29,10 +29,10 @@ class HelpLine
     dumpdata['codes'] = []
     dumpdata['defs'] = []
     dumpdata['pages'] = []
-    
+
     sources.each { |source|
       pagedata = {}
-      source = File.expand_path(source)
+      #expanded_source = File.expand_path(source)
       if File.exist?(source)
         puts "-----------------ページデータをJSONデータ(#{source})から取得"
         data = JSON.parse(File.read(source))
@@ -59,17 +59,21 @@ class HelpLine
       src = nil
       code = []
       pagedata.each { |title,lines|
-        puts "...#{title}"
+        # puts "...#{title}"
         lines.each { |line|
           if src && line =~ /^\s+/ then
             code << line
           elsif line =~ /^code:(.*\.rb)$/ then
             if code.length > 0
+              puts "...#{title}"
+              puts code[0]
               dumpdata['codes'] << code.join("\n")
             end
             src = $1
             code = []
           elsif src then
+            puts "...#{title}"
+            puts code[0]
             dumpdata['codes'] << code.join("\n")
             src = nil
             code = []
@@ -77,12 +81,16 @@ class HelpLine
           end
         }
         if code.length > 0
+          puts "...#{title}"
+          puts code[0]
           dumpdata['codes'] << code.join("\n")
+          src = nil
+          code = []
         end
       }
       puts "-----------------HelpLineデータを検出"
       pagedata.each { |title,pagedata|
-        puts "...#{title}"
+        # puts "...#{title}"
         dumpdata['pages'] << title
         processing_defs = false
         codeindent = nil
@@ -282,7 +290,7 @@ end
 # アップデート
 #   % helpline -u
 # データを指定してアップデート
-#   % helpline -u -s HelpLine,/Users/masui/ScrapboxData/masui-HelpLine.json
+#   % helpline -u HelpLine /Users/masui/ScrapboxData/masui-HelpLine.json
 # テスト
 #   % helpline -t
 #
@@ -290,12 +298,14 @@ end
 helpline = HelpLine.new
 
 options = ARGV.getopts('utds:','update','test','source:','debug')
-update = options['u'] || options['update']
-test = options['t'] || options['test']
+
 debug = options['d'] || options['debug']
+test = options['t'] || options['test']
 sources = ['HelpLine']
-if options['s'] || options['source']
-  sources = (options['s'] || options['source']).split(/,/)
+update = false
+if options['u'] || options['update']
+  update = true
+  sources = ARGV if ARGV.length > 0
 end
 
 if !File.exist?(helpline.datafile) && !update
