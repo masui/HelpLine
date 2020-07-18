@@ -36,6 +36,7 @@ class HelpLine
             desc = eval('"' + l + '"')
             f.puts "desc: #{desc}"
             g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
+            # puts "g.add(\"#{desc.force_encoding('utf-8')}\",\"#{cmd.force_encoding('utf-8')}\")"
           }
           f.puts "cmd:  #{cmd}"
           entries = []

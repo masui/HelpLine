@@ -15,9 +15,11 @@ class HelpLine
 
     sources.each { |source|
       pagedata = {}
+      projectname = ''
       if File.exist?(source)
         puts "-----------------ページデータをJSONデータ(#{source})から取得"
         data = JSON.parse(File.read(source))
+        projectname = data['name']
         data['pages'].each { |page|
           title = page['title']
           puts "...#{title}"
@@ -25,6 +27,7 @@ class HelpLine
         }
       elsif source =~ /^[a-zA-Z\-]+$/ # たぶんHelpLineプロジェクト
         puts "-----------------ページデータをScrapbox(#{source})から取得"
+        projectname = source
         project = Scrapbox::Project.new(source)
         project.pages.each { |title,page|
           puts "...#{title}"
@@ -71,36 +74,36 @@ class HelpLine
         end
       }
       puts "-----------------HelpLineデータを検出"
-      pagedata.each { |title,pagedata|
+      pagedata.each { |title,data|
         # puts "...#{title}"
         dumpdata['pages'] << title
         processing_defs = false
-        codeindent = nil
-        pagedata.each { |line|
-          if !codeindent
-            if line =~ /^code:/
-              codeindent = 0
-              next
-            end
-          else
-            line =~ /^(\s*)/
-            if $1.length < codeindent + 1
-              codeindent = nil
-            else
-              next
-            end
-          end
-          if line =~ /^[\$\%\?]/
-            if line =~ /^\%/ && !processing_defs
-              puts "'$'で始まる用例定義なしでコマンドを定義しようとしています"
+        cmd_defined = false
+        data.each { |line|
+          if line =~ /^[\$\?]/
+            dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"
+            cmd_defined = false
+            processing_defs = true
+          elsif line =~ /^\%/
+            if !processing_defs
+              puts "'$'で始まる用例定義なしでコマンドを定義しようとしています (#{title})"
               exit
             end
             dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"
-            processing_defs = true
+            cmd_defined = true
+            processing_defs = false
+          elsif processing_defs && !cmd_defined
+            dumpdata['defs'] << "% open 'https://Scrapbox.io/#{projectname}/#{title}' {#{dumpdata['pages'].length-1}}"
+            cmd_defined = false
+            processing_defs = false
           else
+            cmd_defined = false
             processing_defs = false
           end
         }
+        if processing_defs && !cmd_defined
+          dumpdata['defs'] << "% open 'https://Scrapbox.io/#{projectname}/#{title}' {#{dumpdata['pages'].length-1}}"
+        end
       }
     }
       

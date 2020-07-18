@@ -1,3 +1,4 @@
+.PHONY: test
 #
 # Gem版
 #
@@ -8,7 +9,7 @@ update:
 	helpline --update
 
 update-local:
-	helpline --update --debug --source ~/ScrapboxData/HelpLine.json,~/ScrapboxData/masui-helpline.json
+	helpline --update ~/ScrapboxData/HelpLine.json ~/ScrapboxData/masui-helpline.json
 
 #
 # テスト

@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 # -*- ruby -*-
+#
+# HelpLineのメインプログラム
+#
 
 require 'optparse'
 
@@ -21,20 +24,20 @@ helpline = HelpLine.new
 
 options = ARGV.getopts('utds:','update','test','source:','debug')
 
-#
-# update
-#
+debug = options['d'] || options['debug']
+
+# データ更新
 if options['u'] || options['update'] # ~/.helpline.json更新
   sources = (ARGV.length > 0 ? ARGV : ['HelpLine'])
   helpline.update sources
   exit
 end
 
+# テスト
 if options['t'] || options['test'] # テスト
-  puts helpline.generate " #{ARGV.join(' ')} "
+  puts helpline.generate " #{ARGV.join(' ')} ", debug
   exit
 end
 
-debug = options['d'] || options['debug']
 query = " #{ARGV.join(' ').sub(/\[/,'').sub(/\]/,'')} "
 helpline.run query, debug
