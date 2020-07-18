@@ -5,6 +5,10 @@
 require 'minitest'
 require 'minitest/unit'
 
+$:.unshift "lib"
+require 'helpline/helpline'
+require 'helpline/generate'
+
 MiniTest::autorun
 
 class TestFoo < MiniTest::Unit::TestCase
@@ -16,7 +20,10 @@ class TestFoo < MiniTest::Unit::TestCase
     "__testdir"
   end
 
-  # def setup
+  def setup
+    @helpline = HelpLine.new
+  end
+
   def git_start
     #
     # Gitレポジトリを作成
@@ -49,6 +56,10 @@ class TestFoo < MiniTest::Unit::TestCase
     git_start
     check(q,pat,dir)
     git_end
+  end
+
+  def test_notfound
+    assert @helpline.generate("foo bar hoge").length == 0
   end
 
   def test_自転車

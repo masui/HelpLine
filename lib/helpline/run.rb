@@ -1,20 +1,18 @@
 # -*- ruby -*-
 #
-# * HelpLineのメインルーチン
-# * datafileを読み、引数とマッチするものをリストする
-#   引数はARGVに入っている
+# * HelpLineのメイン対話ルーチン
 #
 
 require 'io/console'
 require 'helpline/curses'
 
 class HelpLine
-  LINES = 12
+  MAXLINES = 12
   
   def disp(list,sel)
     Curses.move(0,0)
     lines = list.length
-    lines = LINES if lines > LINES
+    lines = MAXLINES if lines > MAXLINES
     (0...lines).each { |i|
       Curses.move(i*2,0)
       s = "#{list[i][0]}"
@@ -33,6 +31,11 @@ class HelpLine
     puts
     
     list = generate(query,debug)
+    if list.length == 0
+      puts "ヘルプがみつかりません"
+      exit
+    end
+    
     #
     # HelpLineメニュー表示し、カーソル移動で選択
     #
@@ -47,7 +50,7 @@ class HelpLine
     disp(list,sel)
     
     lines = list.length
-    lines = LINES if lines > LINES
+    lines = MAXLINES if lines > MAXLINES
 
     inputchars = ''
     while true

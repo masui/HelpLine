@@ -1,7 +1,6 @@
 # -*- ruby -*-
 #
 # * datafileを読み、引数とマッチするものをリストする
-#   引数はARGVに入っている
 #
 
 require 'json'
@@ -49,11 +48,6 @@ class HelpLine
     File.open("/tmp/helpline.cmd","w"){ |f|
       f.puts ARGV.join(' ')
     }
-    
-    if res[0].length == 0
-      puts "ヘルプがみつかりません"
-      exit
-    end
 
     git_repository = File.exist?(".git")
     listed = {}

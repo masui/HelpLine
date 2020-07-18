@@ -7,7 +7,7 @@ require 'json'
 require 'scrapbox'
 
 class HelpLine
-  def update(sources) # sources = ['HelpLine', '~/ScrapboxData/masui.json', ...]
+  def update(sources) # sources = ['HelpLine', '/Users/masui/ScrapboxData/masui.json', ...]
     dumpdata = {}
     dumpdata['codes'] = []
     dumpdata['defs'] = []
