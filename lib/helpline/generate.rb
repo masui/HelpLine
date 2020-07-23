@@ -49,16 +49,19 @@ class HelpLine
       f.puts ARGV.join(' ')
     }
 
-    git_repository = File.exist?(".git")
     listed = {}
     list = res[0].find_all { |a| # 0 ambig
-      # a = ["現在の状況を表示する {56}", "git status {56}"], etc.
+      # a = ["git: 現在の状況を表示する {56}", "git status {56}"], etc.
       if a[0] =~ /voidvoidvoid/
         false
-      elsif a[0] =~ /^git:/ && !git_repository
-        false
       else
-        if listed[a[1]]
+        ok = true
+        if a[0] =~ /^(\w+):/ # git: みたいな定義
+          cond = $1
+          methodname = "if_#{cond}"
+          ok = eval("defined?(#{methodname}) ? #{methodname} : true")
+        end
+        if !ok || listed[a[1]]
           false
         else
           listed[a[1]] = true
