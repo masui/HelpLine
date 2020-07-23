@@ -59,6 +59,9 @@ class TestFoo < MiniTest::Unit::TestCase
   end
 
   def test_notfound
+    #
+    # 変な引数からは何も答が出ないことを確認
+    #
     assert @helpline.generate("foo bar hoge").length == 0
   end
 
