@@ -48,7 +48,7 @@ class HelpLine
         lines.each { |line|
           if src && line =~ /^\s+/ then
             code << line
-          elsif line =~ /^code:(.*\.rb)$/ then
+          elsif line =~ /^code:(help_.*\.rb)$/ then
             if code.length > 0
               puts "...#{title}"
               puts code[0]
@@ -80,13 +80,14 @@ class HelpLine
         processing_defs = false
         cmd_defined = false
         data.each { |line|
-          if line =~ /^[\$\?]/
+          #if line =~ /^[\$\?]/
+          if line =~ /^[\?]\s+\S+/
             dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"
             cmd_defined = false
             processing_defs = true
-          elsif line =~ /^\%/
+          elsif line =~ /^\%\s+\S+/
             if !processing_defs
-              puts "'$'で始まる用例定義なしでコマンドを定義しようとしています (#{title})"
+              puts "'?'で始まる用例定義なしでコマンドを定義しようとしています (#{title})"
               exit
             end
             dumpdata['defs'] << "#{line} {#{dumpdata['pages'].length-1}}"

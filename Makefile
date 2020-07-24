@@ -13,8 +13,19 @@ update-local:
 	helpline --update ~/ScrapboxData/HelpLine.json ~/ScrapboxData/masui-helpline.json
 #	helpline --update ~/ScrapboxData/HelpLine.json ~/ScrapboxData/masui-helpline.json ~/ScrapboxData/masui.json
 
+all:
+	helpline --update \
+		~/ScrapboxData/HelpLine.json \
+		~/ScrapboxData/masui-helpline.json \
+		~/ScrapboxData/masui.json \
+		~/ScrapboxData/toshiyukimasui.json
+
 update-quick:
-	helpline --update ~/ScrapboxData/HelpLine.json masui-helpline
+	helpline --update \
+		~/ScrapboxData/HelpLine.json \
+		~/ScrapboxData/masui.json \
+		~/ScrapboxData/toshiyukimasui.json \
+		~/masui-helpline
 
 #
 # テスト
