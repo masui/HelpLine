@@ -59,7 +59,10 @@ class HelpLine
         if a[0] =~ /^(\w+):/ # git: みたいな定義
           cond = $1
           methodname = "if_#{cond}"
-          ok = eval("defined?(#{methodname}) ? #{methodname} : true")
+          # ok = eval("defined?(#{methodname}) ? #{methodname} : true")
+          if self.private_methods.include?(methodname.intern) # methodnameが登録されているか
+            ok = self.send methodname
+          end
         end
         if !ok || listed[a[1]]
           false
