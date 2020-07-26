@@ -1,0 +1,14 @@
+{
+    "name": "HelpLine",
+    "description" : "To use, type 'h' plus a search term into the Omnibox.",
+    "version": "1.2",
+    "background": {
+	"scripts": [
+	    "suggests.js",
+	    "helpline.js"
+	],
+	"persistent": false
+    },
+    "omnibox": { "keyword" : "h" },
+    "manifest_version": 2
+}
