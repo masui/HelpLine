@@ -1,7 +1,7 @@
 {
     "name": "HelpLine",
     "description" : "To use, type 'h' plus a search term into the Omnibox.",
-    "version": "1.2",
+    "version": "1.4",
     "background": {
 	"scripts": [
 	    "suggests.js",
@@ -9,6 +9,14 @@
 	],
 	"persistent": false
     },
-    "omnibox": { "keyword" : "h" },
+    "omnibox": { "keyword" : "/" },
+    "browser_action": {
+	"default_icon": {
+	    "16": "yellow.png"
+	}
+    },
+    "icons": {
+        "16": "yellow.png"
+    },
     "manifest_version": 2
 }
