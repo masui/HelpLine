@@ -14,11 +14,11 @@ update-local:
 #	helpline --update ~/ScrapboxData/HelpLine.json ~/ScrapboxData/masui-helpline.json ~/ScrapboxData/masui.json
 
 all:
-	helpline --update ~/ScrapboxData/{HelpLine,masui-helpline,masui,toshiyukimasui,masuilab,masui-bookmarks}.json
+	helpline --update ~/ScrapboxData/{HelpLine,masui-helpline,masui,toshiyukimasui,masuilab,masui-bookmarks,masui-family}.json
 	cd omnibox; make conv
 
 update-quick:
-	helpline --update ~/ScrapboxData/{HelpLine,masui,toshiyukimasui,masuilab,masui-bookmarks}.json masui-helpline
+	helpline --update ~/ScrapboxData/{HelpLine,masui,toshiyukimasui,masuilab,masui-bookmarks,masui-family}.json masui-helpline
 	cd omnibox; make conv
 
 #
