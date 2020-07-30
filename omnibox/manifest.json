@@ -20,7 +20,7 @@
 	"scripts": [
 	    "jquery-2.1.4.min.js",
 	    "suggests.js",
-	    "helpline.js"
+	    "background.js"
 	],
 	"persistent": false
     },

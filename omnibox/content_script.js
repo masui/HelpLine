@@ -1,11 +1,9 @@
-//$(function() {
-//    alert(window.scrapbox)
-//})
+require("re_expand") // browserifyで展開
 
-require("re_expand")
-
+//
+// コールバックでpopup.jsからの値を受け取る
+//
 chrome.runtime.onMessage.addListener(message => {
-    // コールバックでpopup.jsからの値を受け取れる
     if (message.type !== 'CLICK_POPUP') {
 	return;
     }
