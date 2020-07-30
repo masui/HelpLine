@@ -10,7 +10,6 @@
 	{
 	    "matches": [ "https://scrapbox.io/*/*" ],
 	    "js": [
-		"jquery-2.1.4.min.js",
 		"content_script_browserify.js"
 	    ],
 	    "run_at": "document_idle"
@@ -18,7 +17,6 @@
     ],
     "background": {
 	"scripts": [
-	    "jquery-2.1.4.min.js",
 	    "suggests.js",
 	    "background.js"
 	],
