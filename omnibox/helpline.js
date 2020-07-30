@@ -7,6 +7,10 @@
 // This event is fired each time the user updates the text in the omnibox,
 // as long as the extension's keyword mode is still active.
 
+chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.tabs.sendMessage(tab.id, { type: 'CLICK_POPUP', message: "message" })
+})
+
 chrome.omnibox.onInputChanged.addListener(
     function(text, suggest) {
 	//var data = suggests.filter(function(x){

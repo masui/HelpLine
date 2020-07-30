@@ -29,10 +29,10 @@
 	"default_icon": {
 	    "16": "helpline.png"
 	},
-	"default_title": "Register helpfeel",
-	"default_popup": "popup.html"
+	"default_title": "Register helpfeel"
     },
     "icons": {
+	"16": "helpline.png"
     },
     "options_page": "setting.html"
 }
