@@ -9,8 +9,8 @@ chrome.runtime.onMessage.addListener(message => {
     if (message.type !== 'CLICK_POPUP') {
 	return;
     }
-    //alert("message received from popup.js")
-    
+
+    // 消したい場合
     //chrome.storage.local.set({'suggests': {}}, function () {
     //});
     //return;
@@ -31,7 +31,6 @@ chrome.runtime.onMessage.addListener(message => {
 
 	descs = [] // Helpfeel記法
 	for(line of document.querySelectorAll('code')){
-	    //if(line.className == "cli" || line.className == "helpfeel"){
 	    if(line.className == "helpfeel"){ // ? xxxx
 		descs.push(line)
 	    }
@@ -46,9 +45,6 @@ chrome.runtime.onMessage.addListener(message => {
 			m = l.textContent.match(/^\?\s+(.*)/)
 			expanded = m[1].expand()
 			for(s of expanded){
-			    //alert(`${s} => ${cmd}`)
-			    //data = { content: cmd, description: s }
-			    //suggests.push(data)
 			    suggests[s] = cmd
 			}
 		    }
@@ -63,10 +59,7 @@ chrome.runtime.onMessage.addListener(message => {
 			m = l.textContent.match(/^\?\s+(.*)/)
 			expanded = m[1].expand()
 			for(s of expanded){
-			    //alert(`${s} => ${cmd}`)
-			    //data = { content: 'currentpage', description: s }
-			    //suggests.push(data)
-			    suggests[s] = cmd
+			    suggests[s] = location.href
 			}
 		    }
 		    chrome.storage.sync.set({'suggests': suggests}, function () {
@@ -80,18 +73,11 @@ chrome.runtime.onMessage.addListener(message => {
 		m = l.textContent.match(/^\?\s+(.*)/)
 		expanded = m[1].expand()
 		for(s of expanded){
-		    //alert(`${s} => ${cmd}`)
-		    //data = { content: 'currentpage', description: s }
-		    //suggests.push(data)
-		    suggests[s] = cmd
+		    suggests[s] = location.href
 		}
 	    }
 	    chrome.storage.sync.set({'suggests': suggests}, function () {
 	    });
 	}
     })
-	
-    //alert(document.querySelectorAll('code.helpfeel span.entry'))
-    //alert(window.scrapbox)
-    //alert(window.scrapbox.Project.pages)
 });

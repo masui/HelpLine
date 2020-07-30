@@ -1,7 +1,7 @@
 {
     "name": "HelpLine",
     "description" : "To use, type '/ ' plus a search term into the Omnibox.",
-    "version": "1.4",
+    "version": "1.5",
     "manifest_version": 2,
     "permissions": [
 	"storage"
@@ -27,6 +27,7 @@
     "omnibox": { "keyword" : "/" },
     "browser_action": {
 	"default_icon": {
+	    "16": "helpline.png"
 	},
 	"default_title": "Register helpfeel",
 	"default_popup": "popup.html"
