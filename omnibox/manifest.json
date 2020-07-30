@@ -1,9 +1,24 @@
 {
     "name": "HelpLine",
-    "description" : "To use, type 'h' plus a search term into the Omnibox.",
+    "description" : "To use, type '/ ' plus a search term into the Omnibox.",
     "version": "1.4",
+    "manifest_version": 2,
+    "permissions": [
+	"storage"
+    ],
+    "content_scripts": [
+	{
+	    "matches": [ "https://scrapbox.io/*/*" ],
+	    "js": [
+		"jquery-2.1.4.min.js",
+		"content_script_browserify.js"
+	    ],
+	    "run_at": "document_idle"
+	}
+    ],
     "background": {
 	"scripts": [
+	    "jquery-2.1.4.min.js",
 	    "suggests.js",
 	    "helpline.js"
 	],
@@ -12,11 +27,11 @@
     "omnibox": { "keyword" : "/" },
     "browser_action": {
 	"default_icon": {
-	    "16": "yellow.png"
-	}
+	},
+	"default_title": "Register helpfeel",
+	"default_popup": "popup.html"
     },
     "icons": {
-        "16": "yellow.png"
     },
-    "manifest_version": 2
+    "options_page": "setting.html"
 }

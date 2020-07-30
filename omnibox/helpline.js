@@ -7,17 +7,37 @@
 // This event is fired each time the user updates the text in the omnibox,
 // as long as the extension's keyword mode is still active.
 
-
-
 chrome.omnibox.onInputChanged.addListener(
     function(text, suggest) {
-	var data = suggests.filter(function(x){
-	    return x.description.match(RegExp(text,'i'))
+	//var data = suggests.filter(function(x){
+	//    return x.description.match(RegExp(text,'i'))
+	//})
+
+	var data = []
+	chrome.storage.sync.get(["suggests"], function (value) {
+	    //for(var x in value){
+	    //	alert(x)
+	    //}
+
+	    var value_data = value.suggests;
+	    if(value_data){
+		for(var d in value_data){
+		    var entry = {}
+		    entry['description'] = d
+		    entry['content'] = value_data[d]
+		    data.push(entry)
+		}
+	    }
+
+	    data = data.filter(function(x){
+		return x.description.match(RegExp(text,'i'))
+	    })
+	    suggest(data)
 	})
 	// よく使うものはトップに出るようにするとか
 	// data.unshift({content: "aaaaa", description: "bbbbb"})
 	// 学習させておくのは良いかも
-	suggest(data)
+	//  suggest(data)
     }
 )
 
