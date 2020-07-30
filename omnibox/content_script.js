@@ -13,26 +13,21 @@ chrome.runtime.onMessage.addListener(message => {
     //});
     //return;
 
-    suggests = {}
     chrome.storage.sync.get(["suggests"], function (value) {
-	//alert(`value is ${value}`)
-	var value_data = value.suggests;
-	//alert(value_data)
-	if(value_data){
-	    //for(var data in value_data){
-	    //	alert(data)
-	    //	alert(value_data[data])
-	    //}
-	    suggests = value_data
+	var suggests = {}
+	if(value.suggests){
+	    suggests = value.suggests
 	}
-	//alert('-----')
 
+	//
+	// Scrapboxページの内容を1行ずつ調べてHelpfeel記法を処理する
+	//
 	descs = [] // Helpfeel記法
 	for(line of document.querySelectorAll('code')){
-	    if(line.className == "helpfeel"){ // ? xxxx
+	    if(line.className == "helpfeel"){ // ? ではじまるHelpfeel記法
 		descs.push(line)
 	    }
-	    else if(line.className == "cli"){ // % xxxxx
+	    else if(line.className == "cli"){ // % ではじまるコマンド指定
 		if(descs.length == 0){
 		    alert("Helpfeel記法が定義されていません")
 		}
@@ -41,13 +36,12 @@ chrome.runtime.onMessage.addListener(message => {
 		    cmd = m[2]
 		    for(l of descs){
 			m = l.textContent.match(/^\?\s+(.*)/)
-			expanded = m[1].expand()
+			expanded = m[1].expand() // Helpfeel記法の正規表現を展開
 			for(s of expanded){
 			    suggests[s] = cmd
 			}
 		    }
-		    chrome.storage.sync.set({'suggests': suggests}, function () {
-		    });
+		    chrome.storage.sync.set({'suggests': suggests}, function(){ });
 		}
 		descs = []
 	    }
@@ -60,8 +54,7 @@ chrome.runtime.onMessage.addListener(message => {
 			    suggests[s] = location.href
 			}
 		    }
-		    chrome.storage.sync.set({'suggests': suggests}, function () {
-		    });
+		    chrome.storage.sync.set({'suggests': suggests}, function(){ });
 		}
 		descs = []
 	    }
@@ -74,8 +67,7 @@ chrome.runtime.onMessage.addListener(message => {
 		    suggests[s] = location.href
 		}
 	    }
-	    chrome.storage.sync.set({'suggests': suggests}, function () {
-	    });
+	    chrome.storage.sync.set({'suggests': suggests}, function(){ });
 	}
     })
 });
