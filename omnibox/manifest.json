@@ -1,6 +1,6 @@
 {
     "name": "HelpLine",
-    "description" : "To use, type '/ ' plus a search term into the Omnibox.",
+    "description" : "'/ ' をomniboxに入力してHelpfeel検索する",
     "version": "1.5",
     "manifest_version": 2,
     "permissions": [
@@ -30,7 +30,9 @@
 	"default_title": "Helpfeel登録"
     },
     "icons": {
-	"16": "helpline.png"
+	"16": "helpline.png",
+	"32": "helpline-32.png",
+	"96": "helpline-96.png"
     },
     "options_page": "setting.html"
 }
