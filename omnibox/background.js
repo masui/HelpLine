@@ -22,20 +22,16 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
     
     var data = []
     chrome.storage.sync.get(["suggests"], function (value) {
-	var value_data = value.suggests;
-	if(value_data){
-	    for(var d in value_data){
-		var entry = {}
-		entry['description'] = d
-		entry['content'] = value_data[d]
-		data.push(entry)
+	var suggests = value.suggests
+	if(suggests){
+	    for(var desc in suggests){
+		if(desc.match(RegExp(text,'i'))){
+		    data.push({'description': desc, 'content': suggests[desc]})
+		}
 	    }
 	}
-	
-	data = data.filter(function(x){
-	    return x.description.match(RegExp(text,'i'))
-	})
-	suggest(data)
+
+	suggest(data) // 候補を表示
     })
     
     // よく使うものはトップに出るようにするとか
