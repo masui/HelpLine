@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(message => {
 	    var project = m[1]
 	    var title = m[3]
 	    if(!title){ // ページリスト
-		fetch(`https://scrapbox.io/api/pages/${project}?limit=100`)
+		fetch(`https://scrapbox.io/api/pages/${project}?limit=1000`)
 		    .then(function(response) {
 			return response.json();
 		    })
@@ -81,7 +81,7 @@ chrome.runtime.onMessage.addListener(message => {
 				    return response.text()
 				})
 				.then(function(text){
-				    process(text.split(/\n/),project,title)
+				    process(text.split(/\n/),project,title) // この経緯をどこかに表示できないのか
 				})
   			}
 		    });
