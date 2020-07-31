@@ -4,5 +4,6 @@ browserify:
 all:
 	cd ..; make all
 
+# suggests.jsにヘルプデータを書いておくバージョン
 conv:
 	ruby conv.rb > suggests.js
