@@ -1,12 +1,8 @@
 require("re_expand") // browserifyで展開
 
-// 消したい場合
-//chrome.storage.local.set({'suggests': {}}, function () {
-//});
-//return;
-
 var suggests = {}
 var descs = []
+var status;
 
 function terminate_def(cmd){
     if(descs.length > 0){
@@ -29,6 +25,7 @@ function process(lines,project,title){
     descs = [] // Helpfeel記法
     for(var line of lines){
 	if(line.match(/^\?\s/)){ // ? ではじまるHelpfeel記法
+	    status.text(decodeURIComponent(`${title} - ${line}`))
 	    descs.push(line)
 	}
 	else if(line.match(/^\%\s/)){ // % ではじまるコマンド指定
@@ -58,6 +55,17 @@ chrome.runtime.onMessage.addListener(message => {
     if (message.type !== 'CLICK_POPUP') {
 	return;
     }
+
+    height = $(window).height()
+    status = $('<div>')
+    status.css('position','absolute')
+    status.css('width','100%')
+    status.css('height','18pt')
+    status.css('top',`${height-18}px`)
+    status.css('left','0pt')
+    status.css('background-color','#ffd')
+    $('body').append(status)
+    
     chrome.storage.sync.get(["suggests"], function (value) {
 	if(value.suggests){
 	    suggests = value.suggests
@@ -92,9 +100,13 @@ chrome.runtime.onMessage.addListener(message => {
 			return response.text()
 		    })
 		    .then(function(text){
+			//alert(text)
+			//alert(project)
+			//alert(title)
 			process(text.split(/\n/),project,title)
 		    })
 	    }
 	}
+	setTimeout(function(){ status.remove() }, 2000)
     })
-});
+})

@@ -10,6 +10,7 @@
 	{
 	    "matches": [ "https://scrapbox.io/*/*" ],
 	    "js": [
+		"jquery-2.1.4.min.js",
 		"content_script_browserify.js"
 	    ],
 	    "run_at": "document_idle"
