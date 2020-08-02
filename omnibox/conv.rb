@@ -1,3 +1,8 @@
+#
+# ~/.helpline.jsonからsuggests.jsを作るスクリプト
+# 利用しなくなった
+#
+
 require "json"
 require "re_expand"
 
