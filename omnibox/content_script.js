@@ -2,7 +2,16 @@ require("re_expand") // browserifyで展開
 
 var suggests = {}
 var descs = []
-var status;
+
+var status = $('<div>')
+    .css('position','absolute')
+    .css('width','100%')
+    .css('height','18pt')
+    .css('top',`${$(window).height()-18}px`)
+    .css('left','0pt')
+    .css('background-color','#ffd')
+    .appendTo($('body'))
+    .hide()
 
 function terminate_def(cmd){
     if(descs.length > 0){
@@ -18,14 +27,16 @@ function terminate_def(cmd){
     descs = []
 }
 
-function process(lines,project,title){
+function process(lines,project){
     //
     // Scrapboxページの内容を1行ずつ調べてHelpfeel記法を処理する
     //
     descs = [] // Helpfeel記法
+    title = lines[0]
     for(var line of lines){
 	if(line.match(/^\?\s/)){ // ? ではじまるHelpfeel記法
-	    status.text(decodeURIComponent(`${title} - ${line}`))
+	    desc = line.replace(/^\?\s+/,'')
+	    status.text(decodeURIComponent(`${title} - ${desc}`))
 	    descs.push(line)
 	}
 	else if(line.match(/^\%\s/)){ // % ではじまるコマンド指定
@@ -56,16 +67,8 @@ chrome.runtime.onMessage.addListener(message => {
 	return;
     }
 
-    height = $(window).height()
-    status = $('<div>')
-    status.css('position','absolute')
-    status.css('width','100%')
-    status.css('height','18pt')
-    status.css('top',`${height-18}px`)
-    status.css('left','0pt')
-    status.css('background-color','#ffd')
-    $('body').append(status)
-    
+    status.show()
+
     chrome.storage.sync.get(["suggests"], function (value) {
 	if(value.suggests){
 	    suggests = value.suggests
@@ -89,7 +92,7 @@ chrome.runtime.onMessage.addListener(message => {
 				    return response.text()
 				})
 				.then(function(text){
-				    process(text.split(/\n/),project,title) // この経緯をどこかに表示できないのか
+				    process(text.split(/\n/),project)
 				})
   			}
 		    });
@@ -100,13 +103,11 @@ chrome.runtime.onMessage.addListener(message => {
 			return response.text()
 		    })
 		    .then(function(text){
-			//alert(text)
-			//alert(project)
-			//alert(title)
-			process(text.split(/\n/),project,title)
+			process(text.split(/\n/),project)
 		    })
 	    }
 	}
-	setTimeout(function(){ status.remove() }, 2000)
+
+	setTimeout(function(){ status.hide() }, 10000)
     })
 })
