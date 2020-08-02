@@ -4,6 +4,11 @@
 
 'use strict';
 
+var suggestnames = []
+for(var i=0;i<256;i++){
+    suggestnames[i] = `suggests${i}`
+}
+
 //
 // browserActionボタンを押したときcontent_script.jsにメッセージを送る
 //
@@ -21,12 +26,14 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
     //})
     
     var data = []
-    chrome.storage.sync.get(["suggests"], function (value) {
-	var suggests = value.suggests
-	if(suggests){
-	    for(var desc in suggests){
-		if(desc.match(RegExp(text,'i'))){
-		    data.push({'description': desc, 'content': suggests[desc]})
+    chrome.storage.sync.get(suggestnames, function (value) {
+	for(var i=0;i<256;i++){
+	    var suggests = value[`suggests${i}`]
+	    if(suggests){
+		for(var desc in suggests){
+		    if(desc.match(RegExp(text,'i'))){
+			data.push({'description': desc, 'content': suggests[desc]})
+		    }
 		}
 	    }
 	}

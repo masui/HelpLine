@@ -1,6 +1,15 @@
 require("re_expand") // browserifyで展開
+const crypto = require('crypto')
 
-var suggests = {}
+var suggests = []
+for(var i=0;i<256;i++){
+    suggests[i] = {}
+}
+var suggestnames = []
+for(var i=0;i<256;i++){
+    suggestnames[i] = `suggests${i}`
+}
+
 var descs = []
 
 var status = $('<div>')
@@ -13,16 +22,24 @@ var status = $('<div>')
     .appendTo($('body'))
     .hide()
 
+function hash(str){ // 文字列を0〜255の値に
+    const md5 = crypto.createHash('md5')
+    return parseInt(md5.update(str).digest('hex').substring(0,2),16)
+}
+
 function terminate_def(cmd){
+    var h = hash(cmd)
     if(descs.length > 0){
 	for(l of descs){
 	    var m = l.match(/^\?\s+(.*)/)
 	    expanded = m[1].expand() // Helpfeel記法の正規表現を展開
 	    for(s of expanded){
-		suggests[s] = cmd
+		suggests[h][s] = cmd
 	    }
 	}
-	chrome.storage.sync.set({'suggests': suggests}, function(){ });
+	var setval = {}
+	setval[`suggests${h}`] = suggests[h]
+	chrome.storage.sync.set(setval, function(){ });
     }
     descs = []
 }
@@ -60,18 +77,21 @@ function process(lines,project){
 }
 	
 //
-// コールバックでpopup.jsからの値を受け取る
+// コールバックでbackground.jsからの値を受け取る
 //
 chrome.runtime.onMessage.addListener(message => {
     if (message.type !== 'CLICK_POPUP') {
 	return;
     }
 
+    status.text('')
     status.show()
 
-    chrome.storage.sync.get(["suggests"], function (value) {
-	if(value.suggests){
-	    suggests = value.suggests
+    chrome.storage.sync.get(suggestnames, function (value) {
+	for(var i=0;i<256;i++){
+	    if(value[`suggests${i}`]){
+		suggests[i] = value[`suggests${i}`]
+	    }
 	}
 	
 	m = location.href.match(/scrapbox\.io\/([a-zA-Z0-9\-]+)(\/(.*))?$/)
