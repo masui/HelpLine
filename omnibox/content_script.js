@@ -32,7 +32,7 @@ function terminate_def(cmd){
     if(descs.length > 0){
 	for(l of descs){
 	    var m = l.match(/^\?\s+(.*)/)
-	    expanded = m[1].expand() // Helpfeel記法の正規表現を展開
+	    expanded = m[1].replace(/[\[\]]/g,'').expand() // Helpfeel記法の正規表現を展開
 	    for(s of expanded){
 		suggests[h][s] = cmd
 	    }
