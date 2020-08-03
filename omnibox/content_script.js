@@ -130,7 +130,7 @@ chrome.runtime.onMessage.addListener(message => {
 	else {
 	    cmd = location.href
 	    var h = hash(cmd)
-	    var desc=window.prompt(`Help説明文を入力`,'');
+	    var desc=window.prompt(`Help説明文を入力`,document.title);
 	    if(desc){
 		expanded = desc.expand() // Helpfeel記法の正規表現を展開
 		for(s of expanded){
