@@ -95,7 +95,7 @@ chrome.runtime.onMessage.addListener(message => {
 	}
 	
 	m = location.href.match(/scrapbox\.io\/([a-zA-Z0-9\-]+)(\/(.*))?$/)
-	if(m[1]){
+	if(m && m[1]){
 	    var project = m[1]
 	    var title = m[3]
 	    if(!title){ // ページリスト
@@ -125,6 +125,24 @@ chrome.runtime.onMessage.addListener(message => {
 		    .then(function(text){
 			process(text.split(/\n/),project)
 		    })
+	    }
+	}
+	else {
+	    cmd = location.href
+	    var h = hash(cmd)
+	    var desc=window.prompt(`Help説明文を入力`,'');
+	    if(desc){
+		expanded = desc.expand() // Helpfeel記法の正規表現を展開
+		for(s of expanded){
+		    status.text(s)
+		    suggests[h][s] = cmd
+		}
+		var setval = {}
+		setval[`suggests${h}`] = suggests[h]
+		chrome.storage.sync.set(setval, function(){ });
+	    }
+	    else {
+		status.hide()
 	    }
 	}
 
