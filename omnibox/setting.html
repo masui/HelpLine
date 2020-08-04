@@ -1,19 +1,22 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>HelpLineのsetting</title>
+    <title>HelpLine</title>
     <script src="jquery-2.1.4.min.js"></script>
     <script src="setting_browserify.js"></script>
   </head>
   <body>
-    <p>
-      バックアップ: <input type="button" value="ヘルプデータバックアップ" id="save">
-    </p>
-    <p>
-      データ読み込み: <input type="file" value="ヘルプデータ読み込み" id="read" accept="application/json">
-    </p>
-    <p>
-      データ消去: <input type="button" value="ヘルプデータクリヤ" id="clear">
-    </p>
+    <h1>Helplineデータの処理</h1>
+
+    <ul>
+      <li>データは<code>chrome.storage</code>に格納されています</li>
+      <li>データはJSON型式でセーブ/リストアできます</li>
+    </ul>
+
+    <blockquote>
+    <p>バックアップ: <input type="button" value="データをバックアップ" id="save"></p>
+    <p>データ読み込み: <input type="file" value="ヘルプデータ読み込み" id="read" accept="application/json"></p>
+    <p>データ消去: <input type="button" value="データを削除" id="clear"></p>
+    </blockquote>
   </body>
 </html>
