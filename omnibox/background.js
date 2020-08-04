@@ -5,7 +5,7 @@
 'use strict';
 
 var suggestnames = []
-for(var i=0;i<256;i++){
+for(var i=0;i<100;i++){
     suggestnames[i] = `suggests${i}`
 }
 
@@ -27,7 +27,7 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
     
     var data = []
     chrome.storage.sync.get(suggestnames, function (value) {
-	for(var i=0;i<256;i++){
+	for(var i=0;i<100;i++){
 	    var suggests = value[`suggests${i}`]
 	    if(suggests){
 		for(var desc in suggests){

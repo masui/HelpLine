@@ -2,11 +2,11 @@ require("re_expand") // browserifyで展開
 const crypto = require('crypto')
 
 var suggests = []
-for(var i=0;i<256;i++){
+for(var i=0;i<100;i++){
     suggests[i] = {}
 }
 var suggestnames = []
-for(var i=0;i<256;i++){
+for(var i=0;i<100;i++){
     suggestnames[i] = `suggests${i}`
 }
 
@@ -24,7 +24,7 @@ var status = $('<div>')
 
 function hash(str){ // 文字列を0〜255の値に
     const md5 = crypto.createHash('md5')
-    return parseInt(md5.update(str).digest('hex').substring(0,2),16)
+    return parseInt(md5.update(str).digest('hex').substring(0,4),16) % 100
 }
 
 function terminate_def(cmd){
@@ -88,7 +88,7 @@ chrome.runtime.onMessage.addListener(message => {
     status.show()
 
     chrome.storage.sync.get(suggestnames, function (value) {
-	for(var i=0;i<256;i++){
+	for(var i=0;i<100;i++){
 	    if(value[`suggests${i}`]){
 		suggests[i] = value[`suggests${i}`]
 	    }

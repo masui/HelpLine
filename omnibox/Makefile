@@ -1,5 +1,6 @@
 js:
 	browserify content_script.js -o content_script_browserify.js
+	browserify setting.js -o setting_browserify.js
 
 
 #
