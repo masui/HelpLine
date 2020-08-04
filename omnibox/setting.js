@@ -29,20 +29,37 @@ function handleFileSelect(evt) {
     var reader = new FileReader();
     reader.onload = function(e){
 	var helpdata = JSON.parse(e.target.result)
+
 	var suggests = []
 	for(var i=0;i<100;i++){
 	    suggests[i] = {}
 	}
-	for(var desc in helpdata){
-	    var cmd = helpdata[desc]
-	    var h = hash(cmd)
-	    suggests[h][desc] = cmd
-	}
+	
+	var suggestnames = []
 	for(var i=0;i<100;i++){
-	    var setval = {}
-	    setval[`suggests${i}`] = suggests[i]
-	    chrome.storage.sync.set(setval, function(){ });
+	    suggestnames[i] = `suggests${i}`
 	}
+	chrome.storage.sync.get(suggestnames, function (value) {
+	    for(var i=0;i<100;i++){
+		var suggest_n = `suggests${i}`
+		if(value[suggest_n]){
+		    for(var desc in value[suggest_n]){
+			suggests[i][desc] = value[suggest_n][desc]
+		    }
+		}
+	    }
+	    for(var desc in helpdata){
+		var cmd = helpdata[desc]
+		var h = hash(cmd)
+		suggests[h][desc] = cmd
+	    }
+
+	    for(var i=0;i<100;i++){
+		var setval = {}
+		setval[`suggests${i}`] = suggests[i]
+		chrome.storage.sync.set(setval, function(){ });
+	    }
+	})
     }
 
     reader.readAsText(f);
