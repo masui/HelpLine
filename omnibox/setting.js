@@ -1,10 +1,17 @@
+//
+// HelpLineの設定画面でデータを扱う
+//
+
 const crypto = require('crypto')
 
-function hash(str){ // 文字列を0〜255の値に
+function hash(str){ // 文字列を0〜99のハッシュに変換
     const md5 = crypto.createHash('md5')
     return parseInt(md5.update(str).digest('hex').substring(0,4),16) % 100
 }
 
+//
+// chrome.storage のデータをローカルファイルにセーブ
+//
 function save(){
     chrome.storage.sync.get(null, function(items) { // nullだと全データ読み込み
 	var data = {}
@@ -24,6 +31,9 @@ function save(){
     });
 }
 
+//
+// ローカルファイルからデータを読出して chrome.storage にデータを足す
+//
 function handleFileSelect(evt) {
     var f = evt.target.files[0]
     var reader = new FileReader();
@@ -65,6 +75,9 @@ function handleFileSelect(evt) {
     reader.readAsText(f);
 }
 
+//
+// chrome.storage のデータ消去
+//
 function clear(){
     chrome.storage.sync.clear();
 }

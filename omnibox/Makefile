@@ -8,7 +8,15 @@ js:
 #
 ZIPFILES=manifest.json realurl.js jquery-2.1.4.min.js md5.js crypt.js settings.js settings.html icons/realurl-48.png icons/realurl-96.png
 
-ZIPFILES=manifest.json background.js content_script_browserify.js helpline-32.png helpline-96.png helpline.png jquery-2.1.4.min.js
+ZIPFILES=\
+	manifest.json \
+	background.js \
+	content_script_browserify.js \
+	setting_browserify.js \
+	jquery-2.1.4.min.js \
+	helpline-32.png \
+	helpline-96.png \
+	helpline.png
 zip: js
 	/bin/rm -f helpline.zip
 	zip -r helpline.zip ${ZIPFILES}

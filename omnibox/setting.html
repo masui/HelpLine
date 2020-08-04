@@ -1,21 +1,25 @@
+<!--
+    HelpLineの拡張機能
+-->
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>HelpLine</title>
+    <title>HelpLineのデータ読み書き</title>
     <script src="jquery-2.1.4.min.js"></script>
     <script src="setting_browserify.js"></script>
   </head>
   <body>
     <h1>Helplineデータの処理</h1>
-
+    
     <ul>
-      <li>データは<code>chrome.storage</code>に格納されています</li>
-      <li>JSON型式でセーブ/リストアできます</li>
+      <li>HelpLineのデータは<code>chrome.storage</code>に格納されています</li>
+      <li>下のボタンを使ってJSON型式でローカルファイルにセーブ/リストアできます</li>
+      <li>読み込んだデータは既存データに追加されます</li>
     </ul>
 
     <blockquote>
-    <p>バックアップ: <input type="button" value="データをバックアップ" id="save"></p>
-    <p>データ読み込み: <input type="file" value="ヘルプデータ読み込み" id="read" accept="application/json"></p>
+    <p>データをファイルにバックアップ: <input type="button" value="データをバックアップ" id="save"></p>
+    <p>ファイルからデータ読み込み: <input type="file" value="ヘルプデータ読み込み" id="read" accept="application/json"></p>
     <p>データ消去: <input type="button" value="データを削除" id="clear"></p>
     </blockquote>
   </body>
