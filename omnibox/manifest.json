@@ -9,7 +9,7 @@
     ],
     "content_scripts": [
 	{
-	    "matches": [ "http://*/*", "https://*/*" ],
+	    "matches": ["<all_urls>"],
 	    "js": [
 		"jquery-2.1.4.min.js",
 		"content_script_browserify.js"
@@ -19,7 +19,6 @@
     ],
     "background": {
 	"scripts": [
-	    "suggests.js",
 	    "background.js"
 	],
 	"persistent": false

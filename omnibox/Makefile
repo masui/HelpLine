@@ -13,6 +13,7 @@ ZIPFILES=\
 	background.js \
 	content_script_browserify.js \
 	setting_browserify.js \
+	setting.html \
 	jquery-2.1.4.min.js \
 	helpline-32.png \
 	helpline-96.png \
