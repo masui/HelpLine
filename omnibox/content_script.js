@@ -39,7 +39,7 @@ function terminate_def(cmd){
 	}
 	var setval = {}
 	setval[`suggests${h}`] = suggests[h]
-	chrome.storage.sync.set(setval, function(){ });
+	chrome.storage.local.set(setval, function(){ });
     }
     descs = []
 }
@@ -87,7 +87,7 @@ chrome.runtime.onMessage.addListener(message => {
     status.text('')
     status.show()
 
-    chrome.storage.sync.get(suggestnames, function (value) {
+    chrome.storage.local.get(suggestnames, function (value) {
 	for(var i=0;i<100;i++){
 	    if(value[`suggests${i}`]){
 		suggests[i] = value[`suggests${i}`]
@@ -139,7 +139,7 @@ chrome.runtime.onMessage.addListener(message => {
 		}
 		var setval = {}
 		setval[`suggests${h}`] = suggests[h]
-		chrome.storage.sync.set(setval, function(){ });
+		chrome.storage.local.set(setval, function(){ });
 	    }
 	    else {
 		status.hide()

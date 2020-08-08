@@ -26,7 +26,7 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
     //})
     
     var data = []
-    chrome.storage.sync.get(suggestnames, function (value) {
+    chrome.storage.local.get(suggestnames, function (value) {
 	for(var i=0;i<100;i++){
 	    var suggests = value[`suggests${i}`]
 	    if(suggests){

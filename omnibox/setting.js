@@ -13,7 +13,7 @@ function hash(str){ // 文字列を0〜99のハッシュに変換
 // chrome.storage のデータをローカルファイルにセーブ
 //
 function save(){
-    chrome.storage.sync.get(null, function(items) { // nullだと全データ読み込み
+    chrome.storage.local.get(null, function(items) { // nullだと全データ読み込み
 	var data = {}
 	for(var key in items){ // "suggests0" ～ "suggests255"
 	    var val = items[key]
@@ -49,7 +49,7 @@ function handleFileSelect(evt) {
 	for(var i=0;i<100;i++){
 	    suggestnames[i] = `suggests${i}`
 	}
-	chrome.storage.sync.get(suggestnames, function (value) {
+	chrome.storage.local.get(suggestnames, function (value) {
 	    for(var i=0;i<100;i++){
 		var suggest_n = `suggests${i}`
 		if(value[suggest_n]){
@@ -67,7 +67,7 @@ function handleFileSelect(evt) {
 	    for(var i=0;i<100;i++){
 		var setval = {}
 		setval[`suggests${i}`] = suggests[i]
-		chrome.storage.sync.set(setval, function(){ });
+		chrome.storage.local.set(setval, function(){ });
 	    }
 	})
     }
@@ -79,7 +79,7 @@ function handleFileSelect(evt) {
 // chrome.storage のデータ消去
 //
 function clear(){
-    chrome.storage.sync.clear();
+    chrome.storage.local.clear();
 }
     
 $(function() {
