@@ -9,4 +9,6 @@
 
 ## 開発方法
 - `npm install`
-- `make`
+- `npm install browserify -g`
+- `bundle install`
+- `make all`
