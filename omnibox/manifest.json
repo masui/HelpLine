@@ -35,6 +35,7 @@
 	"32": "helpline-32.png",
 	"48": "helpline-48.png",
 	"96": "helpline-96.png",
+	"128": "helpline-128.png",
 	"192": "helpline-192.png"
     },
     "options_page": "setting.html"

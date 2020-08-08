@@ -18,6 +18,7 @@ ZIPFILES=\
 	helpline-32.png \
 	helpline-48.png \
 	helpline-96.png \
+	helpline-128.png \
 	helpline-192.png
 
 zip: js
