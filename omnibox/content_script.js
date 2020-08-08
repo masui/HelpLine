@@ -58,7 +58,7 @@ function process(lines,project){
 	}
 	else if(line.match(/^\%\s/)){ // % ではじまるコマンド指定
 	    if(descs.length == 0){
-		alert("Helpfeel記法が定義されていません")
+		alert(`Helpfeel記法が定義されていません - ${title} / ${line}`)
 	    }
 	    else {
 		m = line.match(/^\%\s+(echo|open)\s+(.*)/)
