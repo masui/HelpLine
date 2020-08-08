@@ -2,6 +2,12 @@ js:
 	browserify content_script.js -o content_script_browserify.js
 	browserify setting.js -o setting_browserify.js
 
+RM = rm -f
+
+ifeq ($(OS),Windows_NT)
+    CPANM = cpanm.bat
+    RM = cmd.exe /C del
+endif
 
 #
 # Chromeエクステンション公開用のzipを作る
@@ -19,7 +25,7 @@ ZIPFILES=\
 	helpline-96.png \
 	helpline.png
 zip: js
-	/bin/rm -f helpline.zip
+	$(RM) helpline.zip
 	zip -r helpline.zip ${ZIPFILES}
 
 # all:
