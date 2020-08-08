@@ -5,6 +5,7 @@ build/
 package-lock.json
 *.dmg
 *_browserify.js
+*.zip
 pkg/
 
 Gemfile.lock
