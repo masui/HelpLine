@@ -6,3 +6,7 @@
 <li>詳細は<a href="https://masui.github.io/HelpLine/">こちら</a></li>
 </ul>
   
+
+## 開発方法
+- `npm install`
+- `make`
