@@ -6,7 +6,6 @@ js:
 #
 # Chromeエクステンション公開用のzipを作る
 #
-ZIPFILES=manifest.json realurl.js jquery-2.1.4.min.js md5.js crypt.js settings.js settings.html icons/realurl-48.png icons/realurl-96.png
 
 ZIPFILES=\
 	manifest.json \
@@ -15,9 +14,12 @@ ZIPFILES=\
 	setting_browserify.js \
 	setting.html \
 	jquery-2.1.4.min.js \
+	helpline-16.png \
 	helpline-32.png \
+	helpline-48.png \
 	helpline-96.png \
-	helpline.png
+	helpline-192.png
+
 zip: js
 	/bin/rm -f helpline.zip
 	zip -r helpline.zip ${ZIPFILES}

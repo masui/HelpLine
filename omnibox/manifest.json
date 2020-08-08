@@ -1,7 +1,7 @@
 {
     "name": "HelpLine",
     "description" : "'/ ' をomniboxに入力してHelpfeel検索する",
-    "version": "1.6",
+    "version": "1.7",
     "manifest_version": 2,
     "permissions": [
 	"storage",
@@ -26,14 +26,16 @@
     "omnibox": { "keyword" : "/" },
     "browser_action": {
 	"default_icon": {
-	    "16": "helpline.png"
+	    "16": "helpline-16.png"
 	},
 	"default_title": "Helpfeel登録"
     },
     "icons": {
-	"16": "helpline.png",
+	"16": "helpline-16.png",
 	"32": "helpline-32.png",
-	"96": "helpline-96.png"
+	"48": "helpline-48.png",
+	"96": "helpline-96.png",
+	"192": "helpline-192.png"
     },
     "options_page": "setting.html"
 }

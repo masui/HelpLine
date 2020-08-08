@@ -130,10 +130,11 @@ chrome.runtime.onMessage.addListener(message => {
 	else {
 	    cmd = location.href
 	    var h = hash(cmd)
+	    
 	    var desc=window.prompt(`Help説明文を入力`,document.title);
 	    if(desc){
-		expanded = desc.expand() // Helpfeel記法の正規表現を展開
-		for(s of expanded){
+		var expanded = desc.expand() // Helpfeel記法の正規表現を展開
+		for(var s of expanded){
 		    status.text(s)
 		    suggests[h][s] = cmd
 		}
@@ -141,8 +142,22 @@ chrome.runtime.onMessage.addListener(message => {
 		setval[`suggests${h}`] = suggests[h]
 		chrome.storage.local.set(setval, function(){ });
 	    }
-	    else {
+	    else { // descが空のとき
 		status.hide()
+		alert(`ヘルプを消去します (${cmd})`)
+		// suggests[h][s] == cmd のものを削除
+		var name = `suggests${h}`
+		chrome.storage.local.get(name, function (value) {
+		    suggests = value[name]
+		    for (var x in suggests){
+			if(suggests[x].match(cmd)){
+			    delete suggests[x]
+			}
+		    }
+		    var setval = {}
+		    setval[name] = suggests
+		    chrome.storage.local.set(setval, function(){ });
+		})
 	    }
 	}
 
