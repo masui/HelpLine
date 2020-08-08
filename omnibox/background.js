@@ -27,18 +27,22 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
     
     var data = []
     chrome.storage.sync.get(suggestnames, function (value) {
-	for(var i=0;i<100;i++){
-	    var suggests = value[`suggests${i}`]
-	    if(suggests){
-		for(var desc in suggests){
-		    if(desc.match(RegExp(text,'i'))){
-			data.push({'description': desc, 'content': suggests[desc]})
-		    }
-		}
-	    }
-	}
-
-	suggest(data) // 候補を表示
+       for(var i=0;i<100;i++){
+            var suggests = value[`suggests${i}`]
+            if(suggests){
+            for(var desc in suggests){
+                if(desc.match(RegExp(text,'i'))){
+                    var xml = '<dim>'+desc+'</dim>'
+                    xml += '<url> - '+suggests[desc]+'</url>'
+                    data.push({
+                        'content': suggests[desc],
+                        'description': xml,
+                    })
+                }
+            }
+            }
+        }
+        suggest(data) // 候補を表示
     })
     
     // よく使うものはトップに出るようにするとか
@@ -49,11 +53,22 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
 //
 // ユーザがメニューを選択したとき呼ばれるもの
 //
-chrome.omnibox.onInputEntered.addListener(function(text) {
+chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     if(text.match(/^http/)){
-	window.open(text) // location.href = は動かない
+        // location.href = は動かない 
+        switch (disposition) {
+            case "currentTab":
+                chrome.tabs.update(null, {url: text});
+                break;
+            case "newForegroundTab":
+                chrome.tabs.create({url: text});
+                break;
+            case "newBackgroundTab":
+                chrome.tabs.create({url: text, active: false});
+                break;
+        }
     }
     else {
-	window.open('http://goquick.org/' + text)
+        window.open('http://goquick.org/' + text)
     }
 })
