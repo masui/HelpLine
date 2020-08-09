@@ -54,6 +54,15 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
 	window.open(text) // location.href = は動かない
     }
     else {
-	window.open('http://goquick.org/' + text)
+	fetch('https://goquick.org') // GoQuick.orgユーザはGoQuick.orgを利用
+	    .then(response => response.text())
+	    .then(data => {
+		if(data.match("GoQuick Login")){
+		    window.open(`https://google.com/search?q=${text}`)
+		}
+		else {
+		    window.open('http://goquick.org/' + text)
+		}
+	    })
     }
 })
