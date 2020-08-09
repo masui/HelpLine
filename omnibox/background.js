@@ -27,19 +27,19 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
     
     var data = []
     chrome.storage.sync.get(suggestnames, function (value) {
-       for(var i=0;i<100;i++){
+        for(var i=0;i<100;i++){
             var suggests = value[`suggests${i}`]
             if(suggests){
-            for(var desc in suggests){
-                if(desc.match(RegExp(text,'i'))){
-                    var xml = '<dim>'+desc+'</dim>'
-                    xml += '<url> - '+suggests[desc]+'</url>'
-                    data.push({
-                        'content': suggests[desc],
-                        'description': xml,
-                    })
+                for(var desc in suggests){
+                    if(desc.match(RegExp(text,'i'))){
+                        var xml = '<dim>'+desc+'</dim>'
+                        xml += '<url> - '+suggests[desc]+'</url>'
+                        data.push({
+                            'content': suggests[desc],
+                            'description': xml,
+                        })
+                    }
                 }
-            }
             }
         }
         suggest(data) // 候補を表示
