@@ -4,6 +4,8 @@
 
 'use strict';
 
+const Asearch = require("asearch") // browserifyで展開
+
 var suggestnames = []
 for(var i=0;i<100;i++){
     suggestnames[i] = `suggests${i}`
@@ -20,18 +22,14 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 // ユーザがomniboxで何か入力したとき呼ばれるもの
 //
 chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
-    // suggests.jsの静的なデータを使うとき
-    //var data = suggests.filter(function(x){
-    //    return x.description.match(RegExp(text,'i'))
-    //})
-    
     var data = []
     chrome.storage.local.get(suggestnames, function (value) {
+	var as = new Asearch(` ${text.toLowerCase()} `)
 	for(var i=0;i<100;i++){
 	    var suggests = value[`suggests${i}`]
 	    if(suggests){
 		for(var desc in suggests){
-		    if(desc.match(RegExp(text,'i'))){
+		    if(as.match(desc.toLowerCase(),0)){
 			data.push({'description': desc, 'content': suggests[desc]})
 		    }
 		}

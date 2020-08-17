@@ -19,7 +19,7 @@
     ],
     "background": {
 	"scripts": [
-	    "background.js"
+	    "background_browserify.js"
 	],
 	"persistent": false
     },

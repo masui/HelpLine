@@ -1,6 +1,7 @@
 js:
 	browserify content_script.js -o content_script_browserify.js
 	browserify setting.js -o setting_browserify.js
+	browserify background.js -o background_browserify.js
 
 
 #
@@ -9,7 +10,7 @@ js:
 
 ZIPFILES=\
 	manifest.json \
-	background.js \
+	background_browserify.js \
 	content_script_browserify.js \
 	setting_browserify.js \
 	setting.html \
