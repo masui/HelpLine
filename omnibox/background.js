@@ -36,7 +36,7 @@ chrome.omnibox.onInputChanged.addListener(function(text, suggest) {
 	    }
 	}
 
-	suggest(data) // 候補を表示
+	suggest(data.slice(0,10)) // 候補を表示 数を制限しないと候補が出ない
     })
     
     // よく使うものはトップに出るようにするとか
