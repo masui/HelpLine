@@ -44,6 +44,41 @@ function terminate_def(cmd){
     descs = []
 }
 
+function register_page(){
+    var cmd = location.href
+    var h = hash(cmd)
+    
+    var desc=window.prompt(`Help説明文を入力`,document.title);
+    if(desc){
+	var expanded = desc.expand() // Helpfeel記法の正規表現を展開
+	for(var s of expanded){
+	    status.text(s)
+	    suggests[h][s] = cmd
+	}
+	var setval = {}
+	setval[`suggests${h}`] = suggests[h]
+	chrome.storage.local.set(setval, function(){ });
+    }
+    else { // descが空のとき
+	status.hide()
+	alert(`ヘルプを消去します (${cmd})`)
+	// suggests[h][s] == cmd のものを削除
+	var name = `suggests${h}`
+	chrome.storage.local.get(name, function (value) {
+	    suggests = value[name]
+	    for (var x in suggests){
+		if(suggests[x].match(cmd)){
+		    delete suggests[x]
+		}
+	    }
+	    var setval = {}
+	    setval[name] = suggests
+	    chrome.storage.local.set(setval, function(){ });
+	})
+    }
+}
+
+
 function process(lines,project){
     //
     // Scrapboxページの内容を1行ずつ調べてHelpfeel記法を処理する
@@ -79,9 +114,7 @@ function process(lines,project){
     terminate_def(`https://scrapbox.io/${project}/${title}`)
 
     if(!found){
-	status.text(decodeURIComponent(title))
-	descs = [ `? ${title}` ]
-	terminate_def(`https://scrapbox.io/${project}/${title}`)
+	register_page()
     }
 }
 
@@ -137,37 +170,7 @@ chrome.runtime.onMessage.addListener(message => {
 	    }
 	}
 	else {
-	    cmd = location.href
-	    var h = hash(cmd)
-	    
-	    var desc=window.prompt(`Help説明文を入力`,document.title);
-	    if(desc){
-		var expanded = desc.expand() // Helpfeel記法の正規表現を展開
-		for(var s of expanded){
-		    status.text(s)
-		    suggests[h][s] = cmd
-		}
-		var setval = {}
-		setval[`suggests${h}`] = suggests[h]
-		chrome.storage.local.set(setval, function(){ });
-	    }
-	    else { // descが空のとき
-		status.hide()
-		alert(`ヘルプを消去します (${cmd})`)
-		// suggests[h][s] == cmd のものを削除
-		var name = `suggests${h}`
-		chrome.storage.local.get(name, function (value) {
-		    suggests = value[name]
-		    for (var x in suggests){
-			if(suggests[x].match(cmd)){
-			    delete suggests[x]
-			}
-		    }
-		    var setval = {}
-		    setval[name] = suggests
-		    chrome.storage.local.set(setval, function(){ });
-		})
-	    }
+	    register_page()
 	}
 
 	setTimeout(function(){ status.hide() }, 10000)
