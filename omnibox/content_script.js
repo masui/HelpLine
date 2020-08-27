@@ -59,9 +59,9 @@ function register_page(){
 	setval[`suggests${h}`] = suggests[h]
 	chrome.storage.local.set(setval, function(){ });
     }
-    else { // descが空のとき
-	status.hide()
+    else if(desc == ''){ // 空文字列入力
 	alert(`ヘルプを消去します (${cmd})`)
+	status.hide()
 	// suggests[h][s] == cmd のものを削除
 	var name = `suggests${h}`
 	chrome.storage.local.get(name, function (value) {
@@ -75,6 +75,8 @@ function register_page(){
 	    setval[name] = suggests
 	    chrome.storage.local.set(setval, function(){ });
 	})
+    }
+    else { // desc == null (キャンセル)
     }
 }
 
