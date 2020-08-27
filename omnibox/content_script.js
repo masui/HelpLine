@@ -49,12 +49,15 @@ function process(lines,project){
     // Scrapboxページの内容を1行ずつ調べてHelpfeel記法を処理する
     //
     descs = [] // Helpfeel記法
-    title = lines[0]
-    for(var line of lines){
+    let title = lines[0].text
+    let found = false
+    for(var entry of lines){
+	var line = entry.text
 	if(line.match(/^\?\s/)){ // ? ではじまるHelpfeel記法
 	    desc = line.replace(/^\?\s+/,'')
 	    status.text(decodeURIComponent(`${title} - ${desc}`))
 	    descs.push(line)
+	    found = true
 	}
 	else if(line.match(/^\%\s/)){ // % ではじまるコマンド指定
 	    if(descs.length == 0){
@@ -74,8 +77,14 @@ function process(lines,project){
 	}
     }
     terminate_def(`https://scrapbox.io/${project}/${title}`)
+
+    if(!found){
+	status.text(decodeURIComponent(title))
+	descs = [ `? ${title}` ]
+	terminate_def(`https://scrapbox.io/${project}/${title}`)
+    }
 }
-	
+
 //
 // コールバックでbackground.jsからの値を受け取る
 //
@@ -107,23 +116,23 @@ chrome.runtime.onMessage.addListener(message => {
 			for(var page of json.pages){
 			    var title = page.title
 			    console.log(title)
-			    fetch(`https://scrapbox.io/api/pages/${project}/${title}/text`)
+			    fetch(`https://scrapbox.io/api/pages/${project}/${title}`)
 				.then(function(response) {
-				    return response.text()
+				    return response.json()
 				})
-				.then(function(text){
-				    process(text.split(/\n/),project)
+				.then(function(json){
+				    process(json.lines,project)
 				})
   			}
 		    });
 	    }
 	    else { // 単独ページ
-		fetch(`https://scrapbox.io/api/pages/${project}/${title}/text`)
+		fetch(`https://scrapbox.io/api/pages/${project}/${title}`)
 		    .then(function(response) {
-			return response.text()
+			return response.json()
 		    })
-		    .then(function(text){
-			process(text.split(/\n/),project)
+		    .then(function(json){
+			process(json.lines,project)
 		    })
 	    }
 	}
