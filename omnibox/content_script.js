@@ -81,7 +81,7 @@ function register_page(){
 }
 
 
-function process(lines,project){
+function process(lines,project,ask){
     //
     // Scrapboxページの内容を1行ずつ調べてHelpfeel記法を処理する
     //
@@ -115,7 +115,7 @@ function process(lines,project){
     }
     terminate_def(`https://scrapbox.io/${project}/${title}`)
 
-    if(!found){
+    if(!found && ask){
 	register_page()
     }
 }
@@ -156,7 +156,7 @@ chrome.runtime.onMessage.addListener(message => {
 				    return response.json()
 				})
 				.then(function(json){
-				    process(json.lines,project)
+				    process(json.lines,project,false)
 				})
   			}
 		    });
@@ -167,7 +167,7 @@ chrome.runtime.onMessage.addListener(message => {
 			return response.json()
 		    })
 		    .then(function(json){
-			process(json.lines,project)
+			process(json.lines,project,true)
 		    })
 	    }
 	}

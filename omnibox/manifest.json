@@ -1,7 +1,7 @@
 {
     "name": "HelpLine",
     "description" : "'/ ' をomniboxに入力してHelpfeel検索する",
-    "version": "1.11",
+    "version": "1.12",
     "manifest_version": 2,
     "permissions": [
 	"storage",
