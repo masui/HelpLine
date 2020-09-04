@@ -138,10 +138,11 @@ chrome.runtime.onMessage.addListener(message => {
 	    }
 	}
 	
-	m = location.href.match(/scrapbox\.io\/([a-zA-Z0-9\-]+)(\/(.*))?$/)
-	if(m && m[1]){
-	    var project = m[1]
-	    var title = m[3]
+	ms = location.href.match(/scrapbox\.io\/([a-zA-Z0-9\-]+)(\/(.*))?$/)
+	mg = location.href.match(/gyazo\.com\/([0-9a-f]{32})/i)
+	if(ms && ms[1]){
+	    var project = ms[1]
+	    var title = ms[3]
 	    if(!title){ // ページリスト
 		fetch(`https://scrapbox.io/api/pages/${project}?limit=1000`)
 		    .then(function(response) {
@@ -170,6 +171,25 @@ chrome.runtime.onMessage.addListener(message => {
 			process(json.lines,project,true)
 		    })
 	    }
+	}
+	else if(mg && mg[1]){ // GyazoページにHelpfeel記述があれば登録
+	    gyazoid = mg[1]
+	    lines = $('.image-desc-display').text().split(/\n/)
+	    descs = []
+	    for(var line of lines){
+		if(line.match(/^\?\s/)){ // ? ではじまるHelpfeel記法
+		    desc = line.replace(/^\?\s+/,'')
+		    descs.push(line)
+		    status.text(decodeURIComponent(`${desc}`))
+		}
+	    }
+	    if(descs.length > 0){
+		terminate_def(`https://gyazo.com/${gyazoid}`)
+	    }
+	    else {
+		register_page()
+	    }
+		
 	}
 	else {
 	    register_page()
