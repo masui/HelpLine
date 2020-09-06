@@ -174,17 +174,23 @@ chrome.runtime.onMessage.addListener(message => {
 	}
 	else if(mg && mg[1]){ // GyazoページにHelpfeel記述があれば登録
 	    gyazoid = mg[1]
-	    lines = $('.image-desc-display').text().split(/\n/)
-	    descs = []
-	    for(var line of lines){
-		if(line.match(/^\?\s/)){ // ? ではじまるHelpfeel記法
-		    desc = line.replace(/^\?\s+/,'')
-		    descs.push(line)
-		    status.text(decodeURIComponent(`${desc}`))
+	    // lines = $('.image-desc-display').text().split(/\n/)
+	    if($('.image-desc-display')[0]){
+		lines = $('.image-desc-display')[0].innerHTML.split('<br>') // これは苦しい!
+		descs = []
+		for(var line of lines){
+		    if(line.match(/^\?\s/)){ // ? ではじまるHelpfeel記法
+			desc = line.replace(/^\?\s+/,'')
+			descs.push(line)
+			status.text(decodeURIComponent(`${desc}`))
+		    }
 		}
-	    }
-	    if(descs.length > 0){
-		terminate_def(`https://gyazo.com/${gyazoid}`)
+		if(descs.length > 0){
+		    terminate_def(`https://gyazo.com/${gyazoid}`)
+		}
+		else {
+		    register_page()
+		}
 	    }
 	    else {
 		register_page()
