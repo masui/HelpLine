@@ -376,53 +376,56 @@ There should be better way to make everything more searchable by casual computer
 %   フツーの検索システムの上に皮をかぶせる形で実装する
 
 To solve the vocabulary problem and the translation problem,
-we propose the combination of three techniques.
+we propose the combination of three techniques described below.
 
-\begin{itemize}
+\begin{enumerate}
+  
+\item \textbf{Using ExpandSearch}
+  
+  The main idea for solving the problem is 
+  providing \textbf{regular expressions} (REs)
+  for  each document so that a wide variety of user queries can match one of the
+  strings expanded from the REs.
+  
+  When we want to provide a manual that describes how to delete a file, 
+  we provide a RE like \verb*(delete|remove) (a file|data)*
+  and generate all the text that match this RE.
+  In this case, we can epand this RE into
+  \verb|delete a file|,
+  \verb|delete data|,
+  \verb|remove a file|, and
+  \verb|remove data|.
+  and use all these strings for the search.
+  Users can find this document by using fleible query like
+  \verb|delete file| or
+  \verb|remove data|.
+  We can add descriptions in other languages, like \verb*(ファイル|データ)を(消す|(消去|削除)する)*
+  A user can use a phrase like ``ファイルを消去する'' to find the manual page.
 
-\item Using ExpandSearch
+\item \textbf{Approximate pattern matching}
 
-The main idea for solving the problem is 
-providing \textbf{regular expressions} (REs)
-for  each document so that a wide variety of user queries can match one of the expanded strings.
+  People make spelling errors all the time, and approximate pattern matching algorithm
+  works quite effectively for almost all search activities.
+  Using the ExpandHelp algorithm, all the expressions are expanded in advance,
+  so simple approximate pattern matching algorithms can be applied for the search.
+  For example, a query like ``del dta'' can be used
 
-When we want to provide a manual that describes how to delete a file, 
-we provide a RE like \verb|(delete|remove) (a file|data)|
-and generate all the text that match this RE.
-In this case, we can epand this RE into
-\verb|delete a file|,
-\verb|delete data|,
-\verb|remove a file|, and
-\verb|remove data|.
-and use all these strings for the search.
-Users can find this document by using fleible query like
-\verb|delete file| or
-\verb|remove data|.
-We can add descriptions in other languages, like \verb|(ファイル|データ)を(消す|(消去|削除)する)|
-A user can use a phrase like ``ファイルを消去する'' to find the manual page.
+\item \textbf{Document expansion by users}
 
-\item Approximate pattern matching
+  As we have shown before, one of the big reasons why we fail to find a document is that
+  the user's search keyword does not exist in the document.
+  Providing entries for ExpandSearch can solve the problem, but
+  
+  If the author of the document does not provide the data, it would be nice if
+  other users can add the ExpandHelp entries.
+  This strategy is very similar to writing a hands-on document for an existing document,
+  but adding ExpandHelp entries is much easier than authoring  a document from scratch.
 
-People make spelling errors all the time, and approximate pattern matching algorithm works quite effectively for almost all search activities.
-Using the ExpandHelp algorithm, all the expressions are expanded in advance,
-so simple approximate pattern matching algorithms can be applied for the search.
-For example, a query like ``del dta'' can be used
-
-\item Document expansion by users
-
-As we have shown before, one of the big reasons why we fail to find a document is that
-the user's search keyword does not exist in the document.
- Providing entries for ExpandHelp can solve the problem, but
-If the author of the does not provide the data, it would be nice if other users can add
-the ExpandHelp entries.
-This strategy is very similar to writing a hands-on document for an existing document,
-but adding ExpandHelp entries is much easier than authoring  a document from scratch.
-
-\end{itemize}
+\end{enumerate}
 
 \section{Examples}
 
-\subsection{Helpfeel services}
+\subsection{Helpfeel}
 
 We have been applying ExpahdSearch for various customer support services on existing Web services.
 The help system based on ExpandSearch is called \textit{Helpfeel}, and
@@ -435,10 +438,15 @@ Figure xxx shows an example Helpfeel page that supports finding FAQs
 for PayPay Free market run by Yahoo! Japan.
 We provide the description on the Scrapbox wiki service,
 
-\begin{verbatim}
- https://paypayfleamarket.yahoo.co.jp/help/
-[https://gyazo.com/3d964512606a5e25646104a738ab104e]
-\end{verbatim}
+
+% https://paypayfleamarket.yahoo.co.jp/help/
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
+  \caption{PayPay Freemarket}
+  \Description{PayPay}
+\end{figure}
 
 \subsection{HelpLine}
 
