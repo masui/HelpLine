@@ -182,22 +182,22 @@ and other systems, but keyword search is still not an easy task,
 because it is fundamentally difficulto to find appropriate information
 that does not contain the keyword given by the user.
 
-\begin{verbatim}
-Webでもパソコンでも情報検索はキーワード検索が主流だが、キーワード検索は昔も今も難しい
-根本的に、[[本文に含まれていない文字列の検索が難しい]]からである
-\end{verbatim}
+% Webでもパソコンでも情報検索はキーワード検索が主流だが、キーワード検索は昔も今も難しい
+% 根本的に、[[本文に含まれていない文字列の検索が難しい]]からである
 
-On the help system of MacOS Catalina (v10.15.5), we cannot tell how to remove a file
+The help system of MacOS (Catalina v10.15.5) does not tell a user how to remove a file.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=10cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
-  \caption{Mac}
+  \caption{Asking the help application how to remove a file.}
   \Description{Mac Mac}
 \end{figure}
 
-We can find how to set the clock, but the user has to know that
-setting the clock and changing date is the same thing.
+Using the same help application, 
+a user can find how to set the system clock of the computer,
+but the user has to know that
+``setting the clock'' and ``changing date'' means the same thing.
 
 \begin{figure}[H]
   \centering
@@ -206,166 +206,177 @@ setting the clock and changing date is the same thing.
   \Description{Mac Mac}
 \end{figure}
 
-We can find information on Google because...
-For example we can find how to XXXX by using YYYY, because somebody on the net has written an article on XXXX using the keyword YYYY.
+We can get this kind of information fairly easily using search systems on Internet,
+so many people prefer getting information using search engines rather than
+using help systems provided by manufacturers.
 
-\begin{verbatim}
-Googleとかで意外とみつかる気がするのは、Web上のメジャーな情報は
-いろんな人がいろんな言葉で情報をアップしてるからだろう (出典)
-機能を検索したとき、トップに出るのはメーカーのサイトではない
-情報が無いからではなく、キーワードがマッチしないからだと思われる
-\end{verbatim}
+We can find information on Google because there are tremendous information
+that describe how to ``remove a file'' on Mac.
+If there are documens that contain ``remove'', ``file'', and ``Mac'',
+finding such documents are not easy.
 
-We can find the information on XXXX because XXXX is fairly popular, but finding information of less popular things is more difficult.
+That seems to be the main reason why people are satisfied with search engines on the net
+for finding popular? information.
 
-\begin{verbatim}
-メジャーじゃないシステムや特殊な状況のヘルプなどの場合、文書もユーザも少ないから苦労する
-キーワードが少しでも違うとみつからない
-開発者の用語とユーザの用語が違うことの違いの問題がさらにひどい
-\end{verbatim}
+% For example we can find how to XXXX by using YYYY, because somebody on the net has written an article on XXXX using the keyword YYYY.
 
-When we want to find the user's console of Google Chrome extension, we
-cannot find it on Google search, because the official name of the
-feature is "Google dashboard."
+% Googleとかで意外とみつかる気がするのは、Web上のメジャーな情報は
+% いろんな人がいろんな言葉で情報をアップしてるからだろう (出典)
+% 機能を検索したとき、トップに出るのはメーカーのサイトではない
+% 情報が無いからではなく、キーワードがマッチしないからだと思われる
 
-\begin{verbatim}
-e.g. メジャーじゃないxxxxxシステムのyyyyy機能
-  Google Chrome Extensionのconsoleとかみつからない (dashboardだとみつかる)
-		(他の例も)
-\end{verbatim}
+On the other hand,
+finding a less popular information is rather difficult,
+because not enough document related to the topic is found on the net.
+
+If there is only one document on the net
+that describes the \texttt{console} feature of a minor system \texttt{xxxxx},
+people cannot find the document using a similar keyword \texttt{dashboard}
+since the document does not contain the word \texttt{dashboard}.
+
+% メジャーじゃないシステムや特殊な状況のヘルプなどの場合、文書もユーザも少ないから苦労する
+% キーワードが少しでも違うとみつからない
+% 開発者の用語とユーザの用語が違うことの違いの問題がさらにひどい
+
+% e.g. メジャーじゃないxxxxxシステムのyyyyy機能
+%   Google Chrome Extensionのconsoleとかみつからない (dashboardだとみつかる)
+% 	(他の例も)
 
 FAQs provided by service providers are not usually considered useful
 because the terms used by the people on the service are usually
 different from the word that user can think of.
 
-\begin{verbatim}
-いわゆるFAQは大抵不十分(出典)
-   特殊なサービスの特殊な機能について書かれてることが多いからだろう
-   メジャーなサービスであっても、ググって本家FAQが出てくることなど無い
-    誰かが言い替えたものがヒットするのが普通 (出典)
-\end{verbatim}
+% いわゆるFAQは大抵不十分(出典)
+%   特殊なサービスの特殊な機能について書かれてることが多いからだろう
+%   メジャーなサービスであっても、ググって本家FAQが出てくることなど無い
+%    誰かが言い替えたものがヒットするのが普通 (出典)
 
 Even finding the users' old documents can be sometimes difficult,
-because people might want to use different keywords for the same
+because people might use different keywords for the same
 thing. He might try to find a file on "ZZZ" and fail, because he used
-the term "WWW" instead before.
+the term "WWW" before.
 
-\begin{verbatim}
-自分のメモですら後でみつけられなくて困ることも多い
- 微妙に利用単語が違うとみつからない
- 良いファイル名をつけたつもりでも後から検索できないことがある
-\end{verbatim}
+% 自分のメモですら後でみつけられなくて困ることも多い
+%  微妙に利用単語が違うとみつからない
+%  良いファイル名をつけたつもりでも後から検索できないことがある
 
 Various techniques have been proposed to solve this vocabulary problem.
 But not very successful.
 
-\begin{verbatim}
-母語が違うときはさらに大変である
-頭の中の単語を英語に変換する必要がある
-常にTranslationや言い替えが必要だといっていいだろう
-(いったん文書がみつかれば、それを理解することはできるが、そもそもみつけるのが難しいのである)
-クエリや検索技術を工夫して解決しようとする方法が多い
-原文はいじれないから
- いろんな言い回しで検索する研究は大昔からある
-\end{verbatim}
+Finding documents are even more difficult when
+the user's mother language is different from the language used in the document.
+When a user wants to find how to ``delete a file'' but the
+manual of the system is written in French,
+he has to \textbf{translate} the term ``delete'' and ``file''
+before the search.
+Non-English speakers are always having trouble
+translating the word in their brain into English words
+before searching on the net.
 
-If the system knows that removing a file and deleting a file is the same, the system can try to find something using the keyword "delete", even when the user specified the keyword "remove".
 
-\begin{verbatim}
-シソーラスを使うことがすぐ考えられる
-\end{verbatim}
-
-This kind of technique is called [/* Query expansion], and simle query
-expansion is possible if proper dictionary is provided.
+% 母語が違うときはさらに大変である
+% 頭の中の単語を英語に変換する必要がある
+% 常にTranslationや言い替えが必要だといっていいだろう
+% (いったん文書がみつかれば、それを理解することはできるが、そもそもみつけるのが難しいのである)
+% クエリや検索技術を工夫して解決しようとする方法が多い
+% 原文はいじれないから
+%  いろんな言い回しで検索する研究は大昔からある
 
 \subsection{Query Expansion}
 
-\begin{verbatim}
-クエリに工夫する方法
-   シソーラス的検索の一般化
-   検索対象の本文は変わらないから不十分
-   クエリだけ拡張してもしょうがない
-   本文に固有名詞的なものが少ない場合はみつけにくい
-   e.g. 「良い論文を書く方法」「査読を通す方法」「インパクトある論文を書く方法」
-    「レビュワーを説得する技術」 vs 「良い論文を書く方法」
-ユーザが指定するあらゆるキーワードを拡張するのは不可能である
-John F. Kennedy
+The vocabulary problem and the translation problem can be solved
+if the search system have a thesaurus and a translation dictionary.
 
-翻訳してから検索するのも一種のQUery Expansionである
-日本語を入力すると英語のWikipediaがみつかることもある => これは違う原理
-\end{verbatim}
+For example, 
+if the system knows that removing a file and deleting a file is the same,
+the system can try to find something using the keyword ``delete'',
+even when the user specified the keyword ``remove''.
+
+This kind of technique is called \textit{Query expansion}, and simple query
+expansion is possible if proper dictionary is provided.
+
+
+% クエリに工夫する方法
+%    シソーラス的検索の一般化
+%    検索対象の本文は変わらないから不十分
+%    クエリだけ拡張してもしょうがない
+%    本文に固有名詞的なものが少ない場合はみつけにくい
+%    e.g. 「良い論文を書く方法」「査読を通す方法」「インパクトある論文を書く方法」
+%     「レビュワーを説得する技術」 vs 「良い論文を書く方法」
+% ユーザが指定するあらゆるキーワードを拡張するのは不可能である
+% John F. Kennedy
+% 
+% 翻訳してから検索するのも一種のQUery Expansionである
+% 日本語を入力すると英語のWikipediaがみつかることもある => これは違う原理
 
 Query expansion is effective when simple substitution of keywords are satisfactory enough.
 Using 'delete' in addition to 'remove' works...
-However, it does not work for finding a document for vague topics.
-For example, if you want to find a document that describes "how to write a good paper",
-you will have little chance finding a document related to the topic.
-Maybe it would be better to use keywords like "how to persuade reviewers".
-However, expanding a phrase like "write a good paper" to "persude reviewers" is impossible.
 
-\begin{verbatim}
-  別の言い替え文書(Tipsとか逆引き辞典)を用意
-   便利だがメジャーなものに限られる
-   もと文書と全然違うところで作り直しは大変すぎるが、逆引き本は売れている
-   hands-on と言うのだろうか?
-    ちょっと違う
-    handbook かな?
-    firsthand
-\end{verbatim}
+However, it does not work for finding a document for vague topics.
+For example, if you want to find a document that describes ``how to write a good paper'',
+you will have little chance finding a document related to the topic.
+Maybe it would be better to use keywords like ``how to persuade reviewers''.
+However, expanding a phrase like ``write a good paper'' to ``persude reviewers'' is impossible,
+unless the expander knows the contents.
+
+%  別の言い替え文書(Tipsとか逆引き辞典)を用意
+%   便利だがメジャーなものに限られる
+%   もと文書と全然違うところで作り直しは大変すぎるが、逆引き本は売れている
+%   hands-on と言うのだろうか?
+%    ちょっと違う
+%    handbook かな?
+%    firsthand
 
 Similarly, 
-When we want to find a library function of a programming language, query expansion does not work.
-For example, when we want to write a poker game and want to select five cards from the deck,
-what library should we use?
+when we want to find a library function of a programming language, query expansion does not work.
+For example, when we want to write a poker game program and
+want to select five cards from the deck, what library should we use?
 you want to selet randomly two items from an array in Ruby,
-you can use the `sample()` method.
-However, "randomly selecting items" and "sample" are so different, it is very hard for users to
-find the method unless the manual contains words like "randomly select"
+you can use the \texttt{sample()} method.
+However, ``randomly selecting items'' and \texttt{sample} are so different, it is very hard for users to
+find the method unless the manual contains words like ``randomly select''.
 
-\begin{verbatim}
-「配列からランダムに要素をふたつ取得」 = `a.sample(2)`
-    `sample`という単語はなかなか出てこないのではないか
-    pick upとかselectとかchooseとか言ってしまいそう
-\end{verbatim}
+% 「配列からランダムに要素をふたつ取得」 = `a.sample(2)`
+%    `sample`という単語はなかなか出てこないのではないか
+%    pick upとかselectとかchooseとか言ってしまいそう
 
 It is even more difficult if the user wants to find information that is not easily described with keywords.
 When a user wants to know what the icons on the Mac desktop mean, he might want to to 
-search by saying "What is the symbol with three curved lines [wifi.icon] on my computer display?
+search by saying "What is the symbol with three curved lines
+\includegraphics[width=6mm,bb=0 0 225 225]{figures/fb2349ca17df1876178857566e7c68ef.png} % wifi icon
+on my computer display?
 (folding fan, two black 90-degree arcs above a black circcle)
 
-\begin{verbatim}
-  特殊な言葉が使われていない場合は検索が難しい
-   「Macの画面の上の方の宇宙船みたいな記号」では駄目
-    「メニューバーの音声アイコン」だとみつかるかもしれないが
-  他の言語の場合でも同じである
- [[原文を拡張する感じにして、簡潔なインタフェースを用意して任意のキーワードを使えるのが良い]]
-\end{verbatim}
+%  特殊な言葉が使われていない場合は検索が難しい
+%   「Macの画面の上の方の宇宙船みたいな記号」では駄目
+%    「メニューバーの音声アイコン」だとみつかるかもしれないが
+%  他の言語の場合でも同じである
+% [[原文を拡張する感じにして、簡潔なインタフェースを用意して任意のキーワードを使えるのが良い]]
 
 There should be better way to make everything more searchable by casual computer users.
 
 \section{Solutions}
 
-\begin{verbatim}
-[[解決策]]
- [[解決策1:]] 展開ヘルプで徹底的に拡張/曖昧検索
-  [[検索対象側で、いろんなクエリに対応できるような工夫をしておく]]
-  あらゆるクエリにマッチするように、いろんな表現を用意しておく
-   Query をExpandするわけではなく、あらゆるQueryに対応できるように[[本文をExpandする]]
-   本文になければ、いくらQueryをExpandしてもみつからないから
-   クエリパタンで`(dashboard|console)` などと指定するのではなく、[[本文に両方書いておく]]
-   RegExpによる展開とAsearchによる曖昧検索
-  いろんな表現を用意しておけばいろんな表現で検索できるのはあたりまえだが、用意する手間は減らせる
- [[解決策2:]] ユーザが勝手に検索対象をExpandする
-  逆引き辞典式
-  既存のキーワード検索インタフェースをユーザが拡張する
-  自分で登録 (scrapbox, 拡張機能)
-   `console`でも検索できるようにする
-  自分のデータには記述するし、他人のデータにも記述する
- これらを[[ExpandSearch]]と呼ぶ
-  フツーの検索システムの上に皮をかぶせる形で実装する
-\end{verbatim}
+% [[解決策]]
+%  [[解決策1:]] 展開ヘルプで徹底的に拡張/曖昧検索
+%   [[検索対象側で、いろんなクエリに対応できるような工夫をしておく]]
+%   あらゆるクエリにマッチするように、いろんな表現を用意しておく
+%    Query をExpandするわけではなく、あらゆるQueryに対応できるように[[本文をExpandする]]
+%    本文になければ、いくらQueryをExpandしてもみつからないから
+%    クエリパタンで`(dashboard|console)` などと指定するのではなく、[[本文に両方書いておく]]
+%    RegExpによる展開とAsearchによる曖昧検索
+%   いろんな表現を用意しておけばいろんな表現で検索できるのはあたりまえだが、用意する手間は減らせる
+%  [[解決策2:]] ユーザが勝手に検索対象をExpandする
+%   逆引き辞典式
+%   既存のキーワード検索インタフェースをユーザが拡張する
+%   自分で登録 (scrapbox, 拡張機能)
+%    `console`でも検索できるようにする
+%   自分のデータには記述するし、他人のデータにも記述する
+%  これらを[[ExpandSearch]]と呼ぶ
+%   フツーの検索システムの上に皮をかぶせる形で実装する
 
-To solve the vocabulary problem, we propose the combination of three techniques.
+To solve the vocabulary problem and the translation problem,
+we propose the combination of three techniques.
 
 \begin{itemize}
 
@@ -418,9 +429,7 @@ The help system based on ExpandSearch is called \textit{Helpfeel}, and
 
 Helpfeel is a FAQ engine that supports users who do not have enough vocabulary for the Web services they want to use.
 
-\begin{verbatim}
-(ここでどこかのサポートシステムを示す)
-\end{verbatim}
+% ここでどこかのサポートシステムを示す
 
 Figure xxx shows an example Helpfeel page that supports finding FAQs
 for PayPay Free market run by Yahoo! Japan.
