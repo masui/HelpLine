@@ -8,3 +8,9 @@ package-lock.json
 pkg/
 
 Gemfile.lock
+
+*.aux
+*.log
+*.out
+*.dvi
+*.xcp
