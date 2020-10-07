@@ -5,6 +5,21 @@
 
 \usepackage{here} % [H]とするとその場所に配置されるらしい
 
+\def\GH{\textsf{GitHelp}}
+\def\GIT{\texttt{git}}
+\def\EH{\textsf{ExpandHelp}}
+\def\SB{\textsf{Scrapbox}}
+\long\def\tt#1{\texttt{#1}}
+\long\def\stt#1{\texttt{\fontsize{9pt}{0pt}\selectfont{#1}}}
+\long\def\sf#1{\textsf{#1}}
+\long\def\ssf#1{\textsf{\fontsize{9pt}{0pt}\selectfont{#1}}}
+\long\def\qtt#1{``\tt{#1}''}   % quote tt
+\long\def\sqtt#1{``\stt{#1}''} % small quote tt
+\long\def\qsf#1{``\sf{#1}''}
+\long\def\sqsf#1{``\ssf{#1}''}
+\long\def\qit#1{``\textit{#1}''}
+\long\def\smallfont{\fontsize{9pt}{0pt}\selectfont}
+
 \long\def\comment#1{}
 
 %%
@@ -457,6 +472,127 @@ The total number of git manuals on unix is .....
 
 We created the GitHelp system using ExpandHelp, so that git users can easily
 remember command options and use it without perfectly remembering the git commands.
+
+----------------------------
+
+We implemented the {\GH} system
+with which a user can translate his vague intention in various languages
+into a complete {\GIT} command
+using the {\EH} framework.
+
+% \subsection{Entering a command}
+
+We assume that the user uses \tt{bash} for his software
+development activities.
+% 
+When a user wants to compare the latest \stt{README.md} file
+with the same file from 2 versions before,
+he might try to use {\GIT} with an option
+``{\smallfont\verb|HEAD^^|}''
+for specifying the old version.
+
+\begin{figure}[h]
+  {\smallfont
+  \verb|$ git diff HEAD^^ README.md|
+  \par
+  \verb|$|
+  }
+  \caption{Invoking \stt{git diff}.}
+  \label{gitdiff}
+\end{figure}
+
+% \begin{quotation}
+%   {\smallfont
+%   \verb|$ git diff HEAD^^ README.md|
+%   \par
+%   \verb|$|
+%   }
+% \end{quotation}
+
+However, nothing happens here because
+\verb|HEAD^^|
+specifies a file included in the older commit,
+and the command in figure \ref{gitdiff} only compares the
+\stt{README.md} with the file included in an old commit, where
+\stt{README.md} might not have changed since then.
+
+If {\GH} is installed,
+the user can type a special shortcut key
+% (e.g. \tt{Cmd-Ctrl-G})
+to invoke {\GH} after typing \sqtt{git RE 2} to see how he can
+perform the task.
+
+\begin{figure}[h]
+  % \includegraphics[width=9cm,bb=0 0 1194 822]{figures/example1.png}
+  \includegraphics[width=9cm,bb=0 0 900 600]{../../GitHelp/paper/figures/example1.png}
+  %\includegraphics[width=9cm,bb=0 0 1000 600]{figures/githelp_e2.png}
+  \caption{Invoking {\GH} after typing \stt{git read 2}.}
+  \label{example1}
+\end{figure}
+
+Here, various candidate entries with
+descriptions and command strings are listed,
+just like text input support systems for non-English languages.
+One of the entries says
+``\ssf{Compare} \stt{README.md} \ssf{with the one from 2 versions before}'',
+and if the user thinks that's what he wants to do,
+he can select the entry by typing arrow keys and type the enter key.
+Then the user's input string is replaced by the right command string
+that satisfies the user's need.
+
+A description like \sqsf{2 days ago} is also shown in the candidate list
+of Figure \ref{example1}.
+This means that the user can use the same string \sqtt{git RE 2}
+for getting the information of \stt{README.md} file of the day before yesterday.
+The generated argument
+``{\smallfont\verb|@{2 days ago}|}'',
+may not be familiar to most {\GIT} users,
+but users can perform this task only by giving \sqtt{RE} and \sqtt{2}
+without knowing the correct syntax of this option.
+
+When the user types a special shortcut key
+after typing \sqtt{git sh reed 3},
+entries related to \stt{README.md} file are listed because
+\sqtt{reed} is close to \sqtt{README.md}.
+
+\begin{figure}[h]
+  %\includegraphics[width=9cm,bb=0 0 1100 760]{figures/example2.png}
+  \includegraphics[width=9cm,bb=-100 0 800 550]{../../GitHelp/paper/figures/example2.png}
+  \caption{Invoking {\GH} after typing \stt{git sh reed 3}.}
+  \label{example2}
+\end{figure}
+
+A Japanese {\GIT} user can do the same thing just like
+1vEnglish-speaking users (Figure \ref{example3}).
+He can use the term \qtt{表}, etc. to find how he can perform the job.
+
+\begin{figure}[t]
+  % bb=0 0 1290 866
+  % \includegraphics[width=12cm,bb=-100 -100 1190 766]{figures/githelp1.png}
+  \includegraphics[width=12cm,bb=-100 -100 1190 766]{../../GitHelp/paper/figures/example4.png}
+  \caption{Invoking {\GH} in Japanese environment.}
+  \label{example3}
+\end{figure}
+
+If the user wants to know more about the command line,
+he can click the
+\raisebox{-2pt}{\includegraphics[height=11pt,bb=0 0 200 200]{../../GitHelp/paper/figures/info-xxl.png}}
+button and see the Wiki page shown in Figure \ref{scrapboxpage}.
+The user can edit the page if he wants to add information or finds an error.
+In this page, description part is preceded by a ``\texttt{\$}'' symbol and
+the command part is preceded by ``\texttt{\%}''.
+
+
+\begin{figure}[t]
+% \centerline{\includegraphics[width=100mm,bb=0 0 1428 1288]{figures/scrapbox1.png}}
+  \centerline{\includegraphics[width=100mm,bb=-50 -50 1100 950]{../../GitHelp/paper/figures/scrapbox3.png}}
+  \caption{A {\SB} page for \tt{git diff}.}
+  \label{scrapboxpage}
+\end{figure}
+
+
+
+
 
 \subsection{OmniHelp}
 
