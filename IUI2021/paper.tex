@@ -138,9 +138,9 @@
   \texttt{delete Makefile} and immediately execute it.
 
   We have been using this document expansion technique called
-  ExpandSearch for several years, and the system is working on various
+  {\ES} for several years, and the system is working on various
   commercial Web services. In this paper, we describe the idea and
-  implementation of ExpandHelp and show how it works in the wild.
+  implementation of {\ES} and show how it works in the wild.
 \end{abstract}
 
 % 異なる言語でも大丈夫
@@ -195,19 +195,20 @@
 \section{Introduction}
 
 People are frequently searching information using keywords on Google
-and other systems, but keyword search is still not an easy task,
+and other systems.
+But keyword search is still not an easy task,
 because it is fundamentally difficulto to find appropriate information
 that does not contain the keyword given by the user.
 
 % Webでもパソコンでも情報検索はキーワード検索が主流だが、キーワード検索は昔も今も難しい
 % 根本的に、[[本文に含まれていない文字列の検索が難しい]]からである
 
-The help system of MacOS (Catalina v10.15.5) does not tell a user how to remove a file.
+The help system of MacOS (Catalina v10.15.5) cannot tell us how to remove a file.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=10cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
-  \caption{Asking the help application how to remove a file.}
+  \includegraphics[width=12cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
+  \caption{Asking the help application on Mac how to remove a file.}
   \Description{Mac Mac}
 \end{figure}
 
@@ -218,22 +219,21 @@ but the user has to know that
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=10cm,bb=0 0 1310 1090]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
+  \includegraphics[width=12cm,bb=0 0 1310 1090]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
   \caption{Mac}
   \Description{Mac Mac}
 \end{figure}
 
-We can get this kind of information fairly easily using search systems on Internet,
+We can get this kind of information fairly easily using search systems on the net,
 so many people prefer getting information using search engines rather than
 using help systems provided by manufacturers.
 
 We can find information on Google because there are tremendous information
 that describe how to ``remove a file'' on Mac.
 If there are documens that contain ``remove'', ``file'', and ``Mac'',
-finding such documents are not easy.
-
-That seems to be the main reason why people are satisfied with search engines on the net
-for finding popular? information.
+finding such documents are not difficult.
+That seems to be the main reason why people are satisfied with search engines
+for finding popular information.
 
 % For example we can find how to XXXX by using YYYY, because somebody on the net has written an article on XXXX using the keyword YYYY.
 
@@ -244,8 +244,8 @@ for finding popular? information.
 
 On the other hand,
 finding a less popular information is rather difficult,
-because not enough document related to the topic is found on the net.
-
+because not enough documents related to the topic is found on the net.
+%
 If there is only one document on the net
 that describes the \texttt{console} feature of a minor system \texttt{xxxxx},
 people cannot find the document using a similar keyword \texttt{dashboard}
@@ -259,9 +259,10 @@ since the document does not contain the word \texttt{dashboard}.
 %   Google Chrome Extensionのconsoleとかみつからない (dashboardだとみつかる)
 % 	(他の例も)
 
-FAQs provided by service providers are not usually considered useful
+FAQs (frequently asked questions) provided by service providers are
+usually not considered useful
 because the terms used by the people on the service are usually
-different from the word that user can think of.
+different from the keywords that user can imagine.
 
 % いわゆるFAQは大抵不十分(出典)
 %   特殊なサービスの特殊な機能について書かれてることが多いからだろう
@@ -269,27 +270,27 @@ different from the word that user can think of.
 %    誰かが言い替えたものがヒットするのが普通 (出典)
 
 Even finding the users' old documents can be sometimes difficult,
-because people might use different keywords for the same
-thing. He might try to find a file on "ZZZ" and fail, because he used
-the term "WWW" before.
+because people might use different keywords for the same thing case by case.
+He might try to find a file related to ``IUI'' and fail, because he used
+the term ``intelligent user interface'' for the file name.
+%
+Various techniques have been proposed to solve this vocabulary problem,
+but not very successful enough.
 
 % 自分のメモですら後でみつけられなくて困ることも多い
 %  微妙に利用単語が違うとみつからない
 %  良いファイル名をつけたつもりでも後から検索できないことがある
 
-Various techniques have been proposed to solve this vocabulary problem.
-But not very successful.
-
 Finding documents are even more difficult when
 the user's mother language is different from the language used in the document.
 When a user wants to find how to ``delete a file'' but the
 manual of the system is written in French,
-he has to \textbf{translate} the term ``delete'' and ``file''
+he has to translate the term ``delete'' and ``file'' into French
 before the search.
 Non-English speakers are always having trouble
 translating the word in their brain into English words
-before searching on the net.
-
+before searching information, because important information are
+usually provided in English.
 
 % 母語が違うときはさらに大変である
 % 頭の中の単語を英語に変換する必要がある
@@ -301,17 +302,34 @@ before searching on the net.
 
 \subsection{Query Expansion}
 
+% Query expansion (QE) is the process of reformulating a given query to
+% improve retrieval performance in information retrieval operations,
+% particularly in the context of query understanding.[1] In the context
+% of search engines, query expansion involves evaluating a user's input
+% (what words were typed into the search query area, and sometimes other
+% types of data) and expanding the search query to match additional
+% documents. Query expansion involves techniques such as:
+% 
+% * Finding synonyms of words, and searching for the synonyms as well
+% * Finding semantically related words (e.g. antonyms, meronyms, hyponyms, hypernyms)
+% * Finding all the various morphological forms of words by stemming each word in the search query
+% * Fixing spelling errors and automatically searching for the corrected form or suggesting it in the results
+% * Re-weighting the terms in the original query
+%
+% Query expansion is a methodology studied in the field of computer
+% science, particularly within the realm of natural language processing
+% and information retrieval.
+
 The vocabulary problem and the translation problem can be solved
 if the search system have a thesaurus and a translation dictionary.
-
+%
 For example, 
 if the system knows that removing a file and deleting a file is the same,
 the system can try to find something using the keyword ``delete'',
 even when the user specified the keyword ``remove''.
-
-This kind of technique is called \textit{Query expansion}, and simple query
+%
+This kind of technique is called ``\textit{Query expansion}'', and simple query
 expansion is possible if proper dictionary is provided.
-
 
 % クエリに工夫する方法
 %    シソーラス的検索の一般化
@@ -327,7 +345,8 @@ expansion is possible if proper dictionary is provided.
 % 日本語を入力すると英語のWikipediaがみつかることもある => これは違う原理
 
 Query expansion is effective when simple substitution of keywords are satisfactory enough.
-Using 'delete' in addition to 'remove' works...
+In the previous example, using the keyword ``delete'' in addition to ``remove'' works
+for finding the manual entry.
 
 However, it does not work for finding a document for vague topics.
 For example, if you want to find a document that describes ``how to write a good paper'',
@@ -399,8 +418,8 @@ we propose the combination of three techniques described below.
   
 \item \textbf{Using ExpandSearch}
   
-  The main idea for solving the problem is 
-  providing \textbf{regular expressions} (REs)
+  Our main idea for solving the problem is 
+  providing regular expressions (REs)
   for  each document so that a wide variety of user queries can match one of the
   strings expanded from the REs.
   
@@ -423,7 +442,7 @@ we propose the combination of three techniques described below.
 
   People make spelling errors all the time, and approximate pattern matching algorithm
   works quite effectively for almost all search activities.
-  Using the ExpandHelp algorithm, all the expressions are expanded in advance,
+  Using the ExpandSearch algorithm, all the expressions are expanded in advance,
   so simple approximate pattern matching algorithms can be applied for the search.
   For example, a query like ``del dta'' can be used
 
@@ -434,9 +453,9 @@ we propose the combination of three techniques described below.
   Providing entries for {\ES} can solve the problem, but
   
   If the author of the document does not provide the data, it would be nice if
-  other users can add the ExpandHelp entries.
+  other users can add the {\ES} entries.
   This strategy is very similar to writing a hands-on document for an existing document,
-  but adding ExpandHelp entries is much easier than authoring  a document from scratch.
+  but adding {\ES} entries is much easier than authoring  a document from scratch.
 
 \end{enumerate}
 
@@ -464,16 +483,17 @@ we propose the combination of three techniques described below.
 
 \subsection{HelpLine}
 
-Some Unix command line tools have many options and features, and difficult to understand in many cases.
-Many programmers are recently using the git version control system, but the concept of git is difficult, and
+Some Unix command line tools have many options and features that are difficult to remember.
+Many programmers are recently using the git version control system,
+but the concept of git is difficult, and
 the command line options are extremely complicated.
-The total number of git manuals on unix is .....
+The total number of git manuals on unix is xxxxx lines.
 
-We created the GitHelp system using {\ES}, so that git users can easily
+
+We created the {\HL} system using {\ES}, so that git users can easily
 remember command options and use it without perfectly remembering the git commands.
 
-
-We implemented the HelpLine system
+We implemented the {\HL} system
 with which a user can translate his vague intention in various languages
 into a complete {\GIT} command
 using the {\ES} framework.
@@ -507,10 +527,10 @@ and the command in figure \ref{gitdiff} only compares the
 \stt{README.md} with the file included in an old commit, where
 \stt{README.md} might not have changed since then.
 
-If HelpLine is installed,
+If {\HL} is installed,
 the user can type a special shortcut key
 (e.g. \texttt{Ctrl-J})
-to invoke HelpLine after typing \sqtt{git RE 2} to see how he can
+to invoke {\HL} after typing \sqtt{git RE 2} to see how he can
 perform the task.
 
 \begin{figure}[h]
@@ -577,7 +597,7 @@ the command part is preceded by ``\texttt{\%}''.
 
 \subsection{OmniSearch}
 
-OmniSearch is an implementation of ExpandSearch that runs on Chrome browser.
+OmniSearch is an implementation of {\ES} that runs on Chrome browser.
 The URL window on Chrome is called omnibox, 
 
 \subsection{Helpfeel}
@@ -589,19 +609,22 @@ The help system based on {\ES} is called {\HF}, and
 
 % ここでどこかのサポートシステムを示す
 
-Figure xxx shows an example {\HF} page that supports finding FAQs
-for PayPay Free market run by Yahoo! Japan.
-We provide the description on the Scrapbox wiki service,
+Figure \ref{paypayhf} shows an example {\HF} page that supports finding FAQs
+for ``PayPay Free Market'' run by Yahoo! Japan\footnote{
+  \ssf{https:{\slash}{\slash}paypayfleamarket.yahoo.co.jp{\slash}help{\slash}}
+}.
 
-
-% https://paypayfleamarket.yahoo.co.jp/help/
+% We provide the description on the Scrapbox wiki service,
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
   \caption{PayPay Freemarket}
+  \label{paypayhf}
   \Description{PayPay}
 \end{figure}
+
+ものすごく問いあわせが減った
 
 \section{Implementation}
 
@@ -615,9 +638,9 @@ We provide the description on the Scrapbox wiki service,
 
 \subsection{ExpandSearch}
 
-A flexible search mechanism ``ExpandSearch'' is used in HelpLine.
+A flexible search mechanism ``{\ES}'' is used in {\HL}.
 %
-The database used in ExpandSearch are provided as a set of data entries
+The database used in {\ES} are provided as a set of data entries
 consisting of a regular expression that represents description of the data entry
 and a corresponding command pattern string.
 A description string is used to produce natural language texts
@@ -1295,7 +1318,7 @@ easily incorporated to {\ES} databases.
 
 \end{verbatim}
 
-\paragraph{Applications of ExpandHelp}
+\paragraph{Applications of ExpandSearch}
 
 Since the translation mechanism of {\ES} is simple and flexible,
 it can be used for a wide range of application domains where
