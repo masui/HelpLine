@@ -7,9 +7,10 @@
 
 \usepackage{here} % [H]とするとその場所に配置されるらしい
 
-\def\GH{\textsf{GitHelp}}
+\def\HL{\textsf{HelpLine}}
+\def\HF{\textsf{Helpfeel}}
 \def\GIT{\texttt{git}}
-\def\EH{\textsf{ExpandHelp}}
+\def\ES{\textsf{ExpandSearch}}
 \def\SB{\textsf{Scrapbox}}
 \long\def\tt#1{\texttt{#1}}
 \long\def\stt#1{\texttt{\fontsize{9pt}{0pt}\selectfont{#1}}}
@@ -430,7 +431,7 @@ we propose the combination of three techniques described below.
 
   As we have shown before, one of the big reasons why we fail to find a document is that
   the user's search keyword does not exist in the document.
-  Providing entries for ExpandSearch can solve the problem, but
+  Providing entries for {\ES} can solve the problem, but
   
   If the author of the document does not provide the data, it would be nice if
   other users can add the ExpandHelp entries.
@@ -441,28 +442,25 @@ we propose the combination of three techniques described below.
 
 \section{Examples}
 
-\subsection{Helpfeel}
-
-We have been applying ExpahdSearch for various customer support services on existing Web services.
-The help system based on ExpandSearch is called \textit{Helpfeel}, and
-
-Helpfeel is a FAQ engine that supports users who do not have enough vocabulary for the Web services they want to use.
-
-% ここでどこかのサポートシステムを示す
-
-Figure xxx shows an example Helpfeel page that supports finding FAQs
-for PayPay Free market run by Yahoo! Japan.
-We provide the description on the Scrapbox wiki service,
-
-
-% https://paypayfleamarket.yahoo.co.jp/help/
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
-  \caption{PayPay Freemarket}
-  \Description{PayPay}
-\end{figure}
+% [[ExpandSearchの実例]]
+%  まず実例を紹介する。実装はあとで。[[評価実験にもなっている。]]
+% [[実例1]] ExpandHelpの実際の利用
+%  ScrapboxというWiki上にいろんな表現を用意しておく
+%  Helpfeel
+%   PayPayフリマなどですごく効率があがった
+%  実際これによりヘルプ問い合わせは劇的に減る (出典: Helpfeel)
+% [[実例2]] 検索インタフェースの融合
+%  マイHelpfeel
+%  検索をひとつの方法に統合する
+%   検索方法が複数だと面倒臭い
+%    ググって出なければ逆引き辞典を検索する、みたいなのは面倒
+%   同じ検索インタフェースでいろんなところを探すほうが簡単である
+%   どこにメモしたか忘れて困ることがなくなる
+%  自分のデータが増えていく状況のグラフを書ける!
+% 
+% [[実例3]]
+%  gitのヘルプ - コマンドラインで動くもの
+%   パラメタを指定して実行につなげることすらできる
 
 \subsection{HelpLine}
 
@@ -471,15 +469,14 @@ Many programmers are recently using the git version control system, but the conc
 the command line options are extremely complicated.
 The total number of git manuals on unix is .....
 
-We created the GitHelp system using ExpandHelp, so that git users can easily
+We created the GitHelp system using {\ES}, so that git users can easily
 remember command options and use it without perfectly remembering the git commands.
 
-----------------------------
 
-We implemented the {\GH} system
+We implemented the HelpLine system
 with which a user can translate his vague intention in various languages
 into a complete {\GIT} command
-using the {\EH} framework.
+using the {\ES} framework.
 
 % \subsection{Entering a command}
 
@@ -493,22 +490,15 @@ he might try to use {\GIT} with an option
 for specifying the old version.
 
 \begin{figure}[h]
-  {\smallfont
-  \verb|$ git diff HEAD^^ README.md|
-  \par
-  \verb|$|
+  \vbox{
+    \begin{verbatim}
+      $ git diff HEAD^^ README.md
+      $
+    \end{verbatim}
   }
   \caption{Invoking \stt{git diff}.}
   \label{gitdiff}
 \end{figure}
-
-% \begin{quotation}
-%   {\smallfont
-%   \verb|$ git diff HEAD^^ README.md|
-%   \par
-%   \verb|$|
-%   }
-% \end{quotation}
 
 However, nothing happens here because
 \verb|HEAD^^|
@@ -517,27 +507,24 @@ and the command in figure \ref{gitdiff} only compares the
 \stt{README.md} with the file included in an old commit, where
 \stt{README.md} might not have changed since then.
 
-If {\GH} is installed,
+If HelpLine is installed,
 the user can type a special shortcut key
-% (e.g. \tt{Cmd-Ctrl-G})
-to invoke {\GH} after typing \sqtt{git RE 2} to see how he can
+(e.g. \texttt{Ctrl-J})
+to invoke HelpLine after typing \sqtt{git RE 2} to see how he can
 perform the task.
 
 \begin{figure}[h]
-  % \includegraphics[width=9cm,bb=0 0 1194 822]{figures/example1.png}
   \includegraphics[width=9cm,bb=0 0 900 600]{../../GitHelp/paper/figures/example1.png}
-  %\includegraphics[width=9cm,bb=0 0 1000 600]{figures/githelp_e2.png}
-  \caption{Invoking {\GH} after typing \stt{git read 2}.}
+  \caption{Invoking {\HL} after typing \stt{git read 2}.}
   \label{example1}
 \end{figure}
 
-Here, various candidate entries with
-descriptions and command strings are listed,
+Here, various candidate entries with descriptions and command strings are listed,
 just like text input support systems for non-English languages.
 One of the entries says
 ``\ssf{Compare} \stt{README.md} \ssf{with the one from 2 versions before}'',
 and if the user thinks that's what he wants to do,
-he can select the entry by typing arrow keys and type the enter key.
+he can select the entry by typing arrow keys and the enter key.
 Then the user's input string is replaced by the right command string
 that satisfies the user's need.
 
@@ -551,27 +538,25 @@ may not be familiar to most {\GIT} users,
 but users can perform this task only by giving \sqtt{RE} and \sqtt{2}
 without knowing the correct syntax of this option.
 
-When the user types a special shortcut key
+When the user types the shortcut key
 after typing \sqtt{git sh reed 3},
+approximate pattern matching is automatically performed, and
 entries related to \stt{README.md} file are listed because
-\sqtt{reed} is close to \sqtt{README.md}.
+\sqtt{reed} matches \sqtt{README.md} with one error.
 
 \begin{figure}[h]
-  %\includegraphics[width=9cm,bb=0 0 1100 760]{figures/example2.png}
   \includegraphics[width=9cm,bb=-100 0 800 550]{../../GitHelp/paper/figures/example2.png}
-  \caption{Invoking {\GH} after typing \stt{git sh reed 3}.}
+  \caption{Invoking {\HL} after typing \stt{git sh reed 3}.}
   \label{example2}
 \end{figure}
 
 A Japanese {\GIT} user can do the same thing just like
-1vEnglish-speaking users (Figure \ref{example3}).
+English-speaking users (Figure \ref{example3}).
 He can use the term \qtt{表}, etc. to find how he can perform the job.
 
 \begin{figure}[t]
-  % bb=0 0 1290 866
-  % \includegraphics[width=12cm,bb=-100 -100 1190 766]{figures/githelp1.png}
   \includegraphics[width=12cm,bb=-100 -100 1190 766]{../../GitHelp/paper/figures/example4.png}
-  \caption{Invoking {\GH} in Japanese environment.}
+  \caption{Invoking {\HL} in Japanese environment.}
   \label{example3}
 \end{figure}
 
@@ -583,44 +568,40 @@ The user can edit the page if he wants to add information or finds an error.
 In this page, description part is preceded by a ``\texttt{\$}'' symbol and
 the command part is preceded by ``\texttt{\%}''.
 
-
 \begin{figure}[t]
-% \centerline{\includegraphics[width=100mm,bb=0 0 1428 1288]{figures/scrapbox1.png}}
   \centerline{\includegraphics[width=100mm,bb=-50 -50 1100 950]{../../GitHelp/paper/figures/scrapbox3.png}}
   \caption{A {\SB} page for \tt{git diff}.}
   \label{scrapboxpage}
 \end{figure}
 
 
+\subsection{OmniSearch}
 
-
-
-\subsection{OmniHelp}
-
-OmniHelp is an implementation of ExpandHelp that runs on Chrome browser.
+OmniSearch is an implementation of ExpandSearch that runs on Chrome browser.
 The URL window on Chrome is called omnibox, 
 
-\begin{verbatim}
-[[ExpandSearchの実例]]
- まず実例を紹介する。実装はあとで。[[評価実験にもなっている。]]
-[[実例1]] ExpandHelpの実際の利用
- ScrapboxというWiki上にいろんな表現を用意しておく
- Helpfeel
-  PayPayフリマなどですごく効率があがった
- 実際これによりヘルプ問い合わせは劇的に減る (出典: Helpfeel)
-[[実例2]] 検索インタフェースの融合
- マイHelpfeel
- 検索をひとつの方法に統合する
-  検索方法が複数だと面倒臭い
-   ググって出なければ逆引き辞典を検索する、みたいなのは面倒
-  同じ検索インタフェースでいろんなところを探すほうが簡単である
-  どこにメモしたか忘れて困ることがなくなる
- 自分のデータが増えていく状況のグラフを書ける!
+\subsection{Helpfeel}
 
-[[実例3]]
- gitのヘルプ - コマンドラインで動くもの
-  パラメタを指定して実行につなげることすらできる
-\end{verbatim}
+We have been applying ExpahdSearch for various customer support services on existing Web services.
+The help system based on {\ES} is called {\HF}, and
+
+{\HF} is a FAQ engine that supports users who do not have enough vocabulary for the Web services they want to use.
+
+% ここでどこかのサポートシステムを示す
+
+Figure xxx shows an example {\HF} page that supports finding FAQs
+for PayPay Free market run by Yahoo! Japan.
+We provide the description on the Scrapbox wiki service,
+
+
+% https://paypayfleamarket.yahoo.co.jp/help/
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
+  \caption{PayPay Freemarket}
+  \Description{PayPay}
+\end{figure}
 
 \section{Implementation}
 
@@ -632,12 +613,12 @@ The URL window on Chrome is called omnibox,
   omniboxを利用するとか
 \end{verbatim}
 
-\subsection{ExpandHelp}
+\subsection{ExpandSearch}
 
-A flexible help data retrieval mechanism ``{\EH}'' is used in {\GH}.
+A flexible search mechanism ``ExpandSearch'' is used in HelpLine.
 %
-Help data used in {\EH} are provided as a set of data entries
-consisting of a regular expression that represents description of the help entry
+The database used in ExpandSearch are provided as a set of data entries
+consisting of a regular expression that represents description of the data entry
 and a corresponding command pattern string.
 A description string is used to produce natural language texts
 that are easily understandable by users,
@@ -651,8 +632,7 @@ current file and older file can be defined like this:
   \textbf{description}: \\
   \stt{Compare (\#\{files\}) with the one from (1|2|3|4) versions before}\\
   \textbf{command}: \\
-  {\smallfont\verb|git diff $(git rev-list -n #{$2} HEAD -- #{$1})^|} \\
-  {\smallfont\verb| -- #{$1}|}
+  {\smallfont\verb|git diff $(git rev-list -n #{$2} HEAD -- #{$1})^ -- #{$1}|}
 \end{quote}
 
 Special symbols like \stt{\#\{files\}} in the description part is expanded to
@@ -677,7 +657,7 @@ For example,
   \stt{(\#\{files\})を(1|2|3|4)個前のものと比較する}
 \end{quote}
   
-can be used for Japanese users.
+can be used for Japanese {\GIT} users.
 In this case,
 \sqsf{README.mdを1個前のものと比較する},
 \sqsf{README.mdを2個前のものと比較する}, etc.
@@ -758,7 +738,7 @@ and we will describe the details later.
 
 Regular expressions are widely used for finding patterns in text strings
 in modern programming languages and in the Unix environment.
-In {\EH}, we use regular expressions for
+In {\ES}, we use regular expressions for
 generating various patterns of descriptions from a short specification.
 For example, we use a short regular expression
 \sqtt{(remove|delete|erase) (data|file)}
@@ -768,12 +748,12 @@ for representing expressions like
 Converting a regular expression to a state transition machine is a
 straightforward task.
 When we have a regular expression
-\sqtt{Compare (README.md|index.html|package.json) with the one (1|2|...|10) versions before}, 
+\sqtt{Compare (README.md|index.html|package.json) with the one from (1|2|...|10) versions before}, 
 we can convert it into a state transition diagram
 shown in Figure \ref{statemachine1}.
 
 \begin{figure}[htb]
-\includegraphics[width=90mm,bb=0 0 571 126]{figures/statemachine.pdf}
+\includegraphics[width=90mm,bb=0 0 571 126]{../../GitHelp/paper/figures/statemachine.pdf}
 \caption{State transition diagram for a \stt{git} command description.}
 \label{statemachine1}
 \end{figure}
@@ -792,17 +772,17 @@ we can generate the following description texts.
 \paragraph{Phase 2: Generating texts from a state transition diagram}
 
 Using the state transition diagram shown in Figure \ref{statemachine1},
-{\EH} generates all the strings represented in the regular expressions,
+{\ES} generates all the strings represented in the regular expressions,
 and filter them by the pattern provided by the user.
 
 We can generate texts from a state transition diagram by traversing nodes one by one.
 Starting at the start node
-(\raisebox{-2pt}{\includegraphics[height=10pt,bb=0 0 40 40]{figures/startnode.pdf}})
+(\raisebox{-2pt}{\includegraphics[height=10pt,bb=0 0 40 40]{../../GitHelp/paper/figures/startnode.pdf}})
 in Figure \ref{statemachine1},
 we can visit other nodes via edges and generate a tree of generated texts
 shown in Figure \ref{gentree1}.
 After visiting the initial node
-\raisebox{-2pt}{\includegraphics[height=10pt,bb=0 0 40 40]{figures/startnode.pdf}},
+\raisebox{-2pt}{\includegraphics[height=10pt,bb=0 0 40 40]{../../GitHelp/paper/figures/startnode.pdf}},
 the system generates a string \sqsf{Compare} and proceeds to the next node.
 In the second generation,
 the system can add \sqsf{README.md}, \sqsf{index.html}, and \sqsf{package.json}
@@ -816,7 +796,7 @@ strings consisting of \tt{0}s and \tt{1}s, so the generation should be
 terminated at a certain generation.
 
 \begin{figure}[htb]
-\includegraphics[width=85mm,bb=0 0 643 398]{figures/gentree1.pdf}
+\includegraphics[width=85mm,bb=0 0 643 398]{../../GitHelp/paper/figures/gentree1.pdf}
 \caption{Generating a text tree from a state transition machine.}
 \label{gentree1}
 \end{figure}
@@ -854,7 +834,7 @@ after generating all the texts from the regular expression,
 and it is better to calculate the matching
 at the time of generating each text.
 We call it the \qit{generate-and-filter} strategy,
-and implemented the algorithm in {\EH}.
+and implemented the algorithm in {\ES}.
 Unlike simple puzzle problems where
 conditions are strict and finding one solution is enough,
 our goal is to find help description strings
@@ -879,7 +859,7 @@ he can use a patter matching state machine like below,
 where the gray circle denotes that the state is active.
 
 \begin{figure}[h]
-  \centerline{\includegraphics[width=50mm,bb=0 0 439 73]{figures/readme1.pdf}}
+  \centerline{\includegraphics[width=50mm,bb=0 0 439 73]{../../GitHelp/paper/figures/readme1.pdf}}
   \caption{A state machine for \qsf{README}.}
   \label{readme1}
 \end{figure}
@@ -889,7 +869,7 @@ state machine receives \sqsf{R}, both the first and the second node become activ
 and the activation state will change to the following pattern.
 
 \begin{figure}[h]
-  \centerline{\includegraphics[width=50mm,bb=0 0 439 73]{figures/readme2.pdf}}
+  \centerline{\includegraphics[width=50mm,bb=0 0 439 73]{../../GitHelp/paper/figures/readme2.pdf}}
   \caption{After receiving \qsf{R}.}
   \label{readme2}
 \end{figure}
@@ -917,9 +897,6 @@ The state machine shown in Figure \ref{readme1} can accept only one pattern
 it can be easily expanded to detect texts that contain a word
 similar to the pattern (e.g. \sqsf{REEDEE}).
 
-%   *  ** 
-%  risto rante
-%  restaurant
 % \begin{figure}[htb]
 %   \centerline{\includegraphics[width=30mm,bb=0 0 104 51]{figures/readme-mismatch.pdf}}
 %   \caption{Matching error between \qsf{README} and \qsf{REEDEE}.}
@@ -931,7 +908,7 @@ flexible pattern matcher which can accept strings with
 0 to 3 matching errors.
 
 \begin{figure}[htb]
-  \centerline{\includegraphics[width=60mm,bb=0 0 443 282]{figures/readme-ambig.pdf}}
+  \centerline{\includegraphics[width=60mm,bb=0 0 443 282]{../../GitHelp/paper/figures/readme-ambig.pdf}}
   \caption{A pattern matcher accepting 0-3 errors.}
   \label{shifterambig}
 \end{figure}
@@ -953,7 +930,7 @@ With these additional links, this expanded machine can detect a text which
 matches \sqsf{README} with 0 to 3 errors.
 
 \begin{figure}[htb]
-  \centerline{\includegraphics[width=60mm,bb=0 0 443 282]{figures/readme-reedee.pdf}}
+  \centerline{\includegraphics[width=60mm,bb=0 0 443 282]{../../GitHelp/paper/figures/readme-reedee.pdf}}
   \caption{Accepting \sqsf{REEDEE}'' using a matcher for \sqsf{README}.}
   \label{readme-reedee}
 \end{figure}
@@ -981,13 +958,13 @@ The status pattern is calculated from the status pattern
 stored in the preceding node and the string associated with the edge.
 
 \begin{figure}[htb]
-  \centerline{\includegraphics[width=50mm,bb=0 0 302 230]{figures/RE_2.pdf}}
+  \centerline{\includegraphics[width=50mm,bb=0 0 302 230]{../../GitHelp/paper/figures/RE_2.pdf}}
   \caption{A pattern matcher for \sqtt{REE 2}.}
   \label{RE_2}
 \end{figure}
 
 \begin{figure*}[bth]
-\centerline{\includegraphics[width=110mm,bb=0 0 643 446]{figures/gentree2.pdf}}
+\centerline{\includegraphics[width=110mm,bb=0 0 643 446]{../../GitHelp/paper/figures/gentree2.pdf}}
 \caption{Matching statuses for \sqtt{REE 2} associated with text generation nodes.}
 \label{gentree2}
 \end{figure*}
@@ -1020,14 +997,14 @@ the whole generate-and-filter calculation is quick.
 % A portion of the help data in Ruby is shown in Figure \ref{helpdata}.
 
 % \begin{figure*}[bt]
-% \centerline{\includegraphics[width=146mm]{figures/04ad7dee5679450e5390821745b5a0b7.png}}
+% \centerline{\includegraphics[width=146mm]{../../GitHelp/paper/figures/04ad7dee5679450e5390821745b5a0b7.png}}
 % \caption{A portion of the help data in Ruby.}
 % \label{helpdata}
 % \end{figure*}
 
 \subsection{Sharing the database on the Web}
 
-The data used in {\GH} are represented as ``{\SB}'' documents
+The data used in {\HL} are represented as ``{\SB}'' documents
 shown in Figure \ref{scrapboxpage}.
 %
 {\SB} is a general-purpose real-time Wiki system for data sharing.
@@ -1037,14 +1014,14 @@ on Web browsers just like using text editors.
 % \begin{figure}[htb]
 % \begin{verbatim}
 % \end{verbatim}
-% % \centerline{\includegraphics[width=100mm,bb=0 0 1428 1288]{figures/scrapbox1.png}}
-% \centerline{\includegraphics[width=100mm,bb=-50 -50 1000 900]{figures/scrapbox1.png}}
+% % \centerline{\includegraphics[width=100mm,bb=0 0 1428 1288]{../../GitHelp/paper/figures/scrapbox1.png}}
+% \centerline{\includegraphics[width=100mm,bb=-50 -50 1000 900]{../../GitHelp/paper/figures/scrapbox1.png}}
 % \caption{A {\SB} page for \tt{git diff}.}
 % \label{xxxxx}
 % \end{figure}
 
 This page shows how to use \sqtt{git diff}, and
-the page contains command specifications in {\EH} format
+the page contains command specifications in {\ES} format
 in addition to the documentation.
 
 % Specs and command lines are specified with a special symbol, and
@@ -1061,11 +1038,11 @@ under the ``Literate Programming''\footnote{
 } style.
 
 Also, since the database is on the Wiki page, any member of the
-Wiki can correct the document or add additional {\GH} specifications.
-When a user could not get a good support from {\GH}, he can add
-{\EH} specifications to the {\SB} document himself
+Wiki can correct the document or add additional {\HL} specifications.
+When a user could not get a good support from {\HL}, he can add
+{\ES} specifications to the {\SB} document himself
 so that he and other people can get better support
-from {\GH} next time.
+from {\HL} next time.
 
 \section{Related Work}
 
@@ -1085,7 +1062,7 @@ find somebody who can give good answers to our questions.
 This is a good news, but 
 asking many trivial questions on the net is not considered to be a
 good manner, and
-using a powerful and flexible local help system like {\EH} is
+using a powerful and flexible local help system like {\ES} is
 preferable most of the time.
 
 \subsection{Input Methods}
@@ -1099,8 +1076,8 @@ people are using them every day for entering texts in their mother language.
 Figure \ref{gyaim} shows an example of a Japanese IM.
 
 \begin{figure}[H]
-  % \includegraphics[width=8cm,bb=0 0 976 670]{figures/nyuuryoku-ime.png}
-  \centerline{\includegraphics[width=8cm,bb=0 0 976 670]{figures/nyuuryoku-ime.png}}
+  % \includegraphics[width=8cm,bb=0 0 976 670]{../../GitHelp/paper/figures/nyuuryoku-ime.png}
+  \centerline{\includegraphics[width=8cm,bb=0 0 976 670]{../../GitHelp/paper/figures/nyuuryoku-ime.png}}
   \caption{An IM for Japanese text input.}
   \label{gyaim}
 \end{figure}
@@ -1115,7 +1092,7 @@ IMs are very popular in the modern computing environment in the world
 and it is very common for people to 
 use translation systems for using computers.
 %
-The behavior of {\GH} is similar to conventional IMs, and
+The behavior of {\HL} is similar to conventional IMs, and
 integration of multiple IM-like systems should be challenged in the future.
 
 \subsection{Text and code completion}
@@ -1139,8 +1116,8 @@ this idea have been proposed and adopted in command shells and text editors.
 Gitsome\footnote{\textsf{https:{\slash}{\slash}github.com{\slash}donnemartin{\slash}gitsome}}
 helps {\GIT} users by
 dynamically showing possible arguments and related manuals on the Unix shell,
-just like {\GH} does.
-The goal of Gitsome is almost the same as {\GH} and we agree with its concept,
+just like {\HL} does.
+The goal of Gitsome is almost the same as {\HL} and we agree with its concept,
 but Gitsome does not support flexible approximate matching and
 help data sharing.
 
@@ -1235,7 +1212,7 @@ but users should have a vague knowledge about the correct names
 (e.g. \sqtt{chooser}, \sqtt{dialog}),
 and large code example corpus should exist before being able to
 create the database.
-{\EH} database can be created by hand at the time of the system development
+{\ES} database can be created by hand at the time of the system development
 and no corpus is required.
 
 % [HMM]を使って正しいコードを予測して提示する
@@ -1270,7 +1247,7 @@ how to handle compile errors,
 based on the people's experiences of handling compile errors.
 %
 Resources on the net are precious, and such data can be
-easily incorporated to {\EH} databases.
+easily incorporated to {\ES} databases.
 
 %= 他人のヒストリを使ってコンパイルエラー対処法をサジェスト
 
@@ -1320,32 +1297,32 @@ easily incorporated to {\EH} databases.
 
 \paragraph{Applications of ExpandHelp}
 
-Since the translation mechanism of {\EH} is simple and flexible,
+Since the translation mechanism of {\ES} is simple and flexible,
 it can be used for a wide range of application domains where
 intelligent help is required.
-{\EH} is actually used as the help page for
+{\ES} is actually used as the help page for
 one of our Web services, hoping that
 novice users can easily find the feature they need.
 When a user submits a query that includes vocabularies
-not in the {\EH} document,
+not in the {\ES} document,
 we are able to add them to the {\SB} database easily.
 
 Figure \ref{mac1} and Figure \ref{mac2} shows how
-{\EH} can be used as a launcher for MacOS.
-Like {\GH}, users can execute concrete commands only by
+{\ES} can be used as a launcher for MacOS.
+Like {\HL}, users can execute concrete commands only by
 showing small fragments of their intentions to the system.
 
 \begin{figure}[h]
-  %\centerline{\includegraphics[width=8cm,bb=0 0 397 247]{figures/clock.png}}
-  \centerline{\includegraphics[width=8cm,bb=0 0 300 200]{figures/mac1.png}}
-  \caption{Using {\EH} in the menu bar of MacOS.}
+  %\centerline{\includegraphics[width=8cm,bb=0 0 397 247]{../../GitHelp/paper/figures/clock.png}}
+  \centerline{\includegraphics[width=8cm,bb=0 0 300 200]{../../GitHelp/paper/figures/mac1.png}}
+  \caption{Using {\ES} in the menu bar of MacOS.}
   \label{mac1}
 \end{figure}
 
 \begin{figure}[h]
-  %\centerline{\includegraphics[width=8cm,bb=0 0 392 185]{figures/mac2.png}}
-  \centerline{\includegraphics[width=8cm,bb=0 0 300 130]{figures/mac2.png}}
-  \caption{Using {\EH} in the menu bar of MacOS.}
+  %\centerline{\includegraphics[width=8cm,bb=0 0 392 185]{../../GitHelp/paper/figures/mac2.png}}
+  \centerline{\includegraphics[width=8cm,bb=0 0 300 130]{../../GitHelp/paper/figures/mac2.png}}
+  \caption{Using {\ES} in the menu bar of MacOS.}
   \label{mac2}
 \end{figure}
 
@@ -1358,7 +1335,7 @@ users can right-click a data icon to show a menu,
 and select what he wants to do from the menu.
 Switching between command-oriented usage pattern and
 data-oriented usage pattern is sometimes confusing.
-Using {\EH}, users can find what they can do
+Using {\ES}, users can find what they can do
 either by specifying commands or by specifying data, 
 without worrying about the order.
 
@@ -1369,34 +1346,34 @@ it is fairly easy for users to write description texts.
 People can easily write a help description like
 \sqtt{(Start|Run) Firefox browser}
 without having a knowledge of automata or formal grammar.
-We can use arbitrary texts for the database of {\EH}.
+We can use arbitrary texts for the database of {\ES}.
 For example,
 we can collect hundreds of books titled ``Windows tips'' from the market
-and convert all the title of the tips into help data of {\EH}.
+and convert all the title of the tips into help data of {\ES}.
 
 \section{Conclusion}
 
 We proposed the ``translation paradigm'' for bridging the gap between
 users' intention and actual operations.
 %
-We have introduced a general-purpose flexible framework {\EH}
+We have introduced a general-purpose flexible framework {\ES}
 that can translate fragments of user's vague intentions into
 concrete command strings required to control computers and
 other complex artifacts.
-We showed the principles and applications of {\EH} by using it
-for {\GH}, a help system for supporting {\GIT} users
+We showed the principles and applications of {\ES} by using it
+for {\HL}, a help system for supporting {\GIT} users
 based on the shared database that any user can edit to share
 translation knowledge between users.
 %
-{\EH} framework is useful for any kind of systems that need
+{\ES} framework is useful for any kind of systems that need
 some kind of user support, and we are planning to use it
 for various applications and Web services in the future.
 
 % Unlike existing smart IDEs for supporting programming tasks,
-% {\EH} framework can be used in wide range of situations
+% {\ES} framework can be used in wide range of situations
 % where translation-based help is required.
 % 
-% Using the powerful and flexible help system ``{\EH}''
+% Using the powerful and flexible help system ``{\ES}''
 % constructed on the generate-and-filter algorithm, where
 % the system generates all the possible expressions of
 % help entries expanded from regular expressions,
