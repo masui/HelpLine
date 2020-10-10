@@ -13,15 +13,15 @@
 \def\ES{\textsf{ExpandSearch}}
 \def\SB{\textsf{Scrapbox}}
 \long\def\tt#1{\texttt{#1}}
-\long\def\stt#1{\texttt{\fontsize{9pt}{0pt}\selectfont{#1}}}
+\long\def\stt#1{\texttt{\fontsize{8pt}{0pt}\selectfont{#1}}}
 \long\def\sf#1{\textsf{#1}}
-\long\def\ssf#1{\textsf{\fontsize{9pt}{0pt}\selectfont{#1}}}
+\long\def\ssf#1{\textsf{\fontsize{8pt}{0pt}\selectfont{#1}}}
 \long\def\qtt#1{``\tt{#1}''}   % quote tt
 \long\def\sqtt#1{``\stt{#1}''} % small quote tt
 \long\def\qsf#1{``\sf{#1}''}
 \long\def\sqsf#1{``\ssf{#1}''}
 \long\def\qit#1{``\textit{#1}''}
-\long\def\smallfont{\fontsize{9pt}{0pt}\selectfont}
+\long\def\smallfont{\fontsize{8pt}{0pt}\selectfont}
 
 \long\def\comment#1{}
 
@@ -1122,7 +1122,7 @@ maybe because now we can use the Internet for getting intelligent help from
 real people,
 either by searching existing Web pages or 
 by asking in user forums like StackOverflow\footnote{
-  \textsf{https://stackoverflow.com/}
+  \ssf{https:{\slash}{\slash}stackoverflow.com{\slash}}
 }.
 Information on the net is rich these days, and we can easily
 find somebody who can give good answers to our questions.
@@ -1330,39 +1330,36 @@ easily incorporated to {\ES} databases.
 
 \section{Discussions}
 
-\begin{verbatim}
-    検索システムを選んでから検索キーワードを入力するのに慣れてしまっている
-  この必要がないことを知ると驚きがある
- 検索されやすいように工夫するとか馬鹿げてると
-思うかもしれないか、ググって出なきゃ無いのと同じだということを考えると、
-ある程度工夫することは意味があるし、自分が後でさがすときにも役に立つわけである
-  ゲームのように記述を増やす工夫もできるかもしれない
-  タイトルに迷ったら両方書くみたいな
- どこにある情報でもひとつのインタフェースでみつかるのは強烈に嬉しい
+%     検索システムを選んでから検索キーワードを入力するのに慣れてしまっている
+%   この必要がないことを知ると驚きがある
+%  検索されやすいように工夫するとか馬鹿げてると
+% 思うかもしれないか、ググって出なきゃ無いのと同じだということを考えると、
+% ある程度工夫することは意味があるし、自分が後でさがすときにも役に立つわけである
+%   ゲームのように記述を増やす工夫もできるかもしれない
+%   タイトルに迷ったら両方書くみたいな
+%  どこにある情報でもひとつのインタフェースでみつかるのは強烈に嬉しい
+% 
+% [[説得ポイント]]
+%  ExpandHelp
+%   自分が入力したキーワードが検索結果に出現する嬉しさ
+%  検索方法の統合
+%  ヘルプシステムの実績
+% 
+% [[関連システム / 参考文献]]
+%  普通の[https://en.wikipedia.org/wiki/Query_expansion クエリ拡張]
+%  Relevance Feedback
+%   検索パタンを増やすことに効果があるといえる
+%  [https://scrapbox.io/UIPedia/George_Furnas:_The_vocabulary_problem_in_human-system_communication Vocabulary problem]
+%  [文芸的プログラミング]
+%   ExpandHelp記述は文芸的プログラミングの一種だと思えばいい
+%   冗長な感じで書くといい
+%  [/Rubytips] の実例
+% 
+% 日本語を入力すると英語のWikipediaがみつかることもある
+%  これはたぶん原文を翻訳したものを検索対象にしている
+%  これもDocument Expansionといえる
 
-[[説得ポイント]]
- ExpandHelp
-  自分が入力したキーワードが検索結果に出現する嬉しさ
- 検索方法の統合
- ヘルプシステムの実績
-
-[[関連システム / 参考文献]]
- 普通の[https://en.wikipedia.org/wiki/Query_expansion クエリ拡張]
- Relevance Feedback
-  検索パタンを増やすことに効果があるといえる
- [https://scrapbox.io/UIPedia/George_Furnas:_The_vocabulary_problem_in_human-system_communication Vocabulary problem]
- [文芸的プログラミング]
-  ExpandHelp記述は文芸的プログラミングの一種だと思えばいい
-  冗長な感じで書くといい
- [/Rubytips] の実例
-
-日本語を入力すると英語のWikipediaがみつかることもある
- これはたぶん原文を翻訳したものを検索対象にしている
- これもDocument Expansionといえる
-
-\end{verbatim}
-
-\paragraph{Applications of ExpandSearch}
+\subsection*{Other applications of ExpandSearch}
 
 Since the translation mechanism of {\ES} is simple and flexible,
 it can be used for a wide range of application domains where
@@ -1381,19 +1378,19 @@ showing small fragments of their intentions to the system.
 
 \begin{figure}[h]
   %\centerline{\includegraphics[width=8cm,bb=0 0 397 247]{../../GitHelp/paper/figures/clock.png}}
-  \centerline{\includegraphics[width=8cm,bb=0 0 300 200]{../../GitHelp/paper/figures/mac1.png}}
+  \centerline{\includegraphics[width=7cm,bb=0 0 300 200]{../../GitHelp/paper/figures/mac1.png}}
   \caption{Using {\ES} in the menu bar of MacOS.}
   \label{mac1}
 \end{figure}
 
 \begin{figure}[h]
   %\centerline{\includegraphics[width=8cm,bb=0 0 392 185]{../../GitHelp/paper/figures/mac2.png}}
-  \centerline{\includegraphics[width=8cm,bb=0 0 300 130]{../../GitHelp/paper/figures/mac2.png}}
+  \centerline{\includegraphics[width=7cm,bb=0 0 300 130]{../../GitHelp/paper/figures/mac2.png}}
   \caption{Using {\ES} in the menu bar of MacOS.}
   \label{mac2}
 \end{figure}
 
-\paragraph{Order of command and arguments}
+\subsection*{Order of command and arguments}
 
 Using a command shell,
 users have to enter a command first and enter options and arguments after that.
@@ -1406,7 +1403,7 @@ Using {\ES}, users can find what they can do
 either by specifying commands or by specifying data, 
 without worrying about the order.
 
-\paragraph{Usage of regular expressions}
+\subsection*{Usage of regular expressions}
 
 An advantage of using a regular expression is that
 it is fairly easy for users to write description texts.
