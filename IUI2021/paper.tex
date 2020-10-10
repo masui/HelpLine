@@ -108,7 +108,8 @@
 %% article.
 \begin{abstract}
   Although intelligent text search algorithms are widely available
-  these days, documents are still hard to find in many cases. It is
+  these days, searching documents is still difficult in many cases.
+  It is
   usually hard to find useful information in help systems and manual
   pages, even when required information exists in the documents.
 
@@ -206,10 +207,15 @@ that does not contain the keyword given by the user.
 The help system of MacOS (Catalina v10.15.5) cannot tell us how to remove a file.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=12cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
+  %\centering
+  % \includegraphics[width=7cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
+  \includegraphics[width=7cm,bb=-50 0 950 800]{figures/eaa80e41ddc3d3620fae133007274573.png}
+  % \includegraphics[width=7cm,bb=0 0 1310 1090]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
+  \includegraphics[width=7cm,bb=-50 0 950 800]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
+  \par
+  (a) Searching ``remove files'' \hspace{3cm} (b) Searching ``Set clock''
   \caption{Asking the help application on Mac how to remove a file.}
-  \Description{Mac Mac}
+  %\Description{Mac Mac}
 \end{figure}
 
 Using the same help application, 
@@ -217,12 +223,12 @@ a user can find how to set the system clock of the computer,
 but the user has to know that
 ``setting the clock'' and ``changing date'' means the same thing.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=12cm,bb=0 0 1310 1090]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
-  \caption{Mac}
-  \Description{Mac Mac}
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=12cm,bb=0 0 1310 1090]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
+%   \caption{Mac}
+%   \Description{Mac Mac}
+% \end{figure}
 
 We can get this kind of information fairly easily using search systems on the net,
 so many people prefer getting information using search engines rather than
@@ -328,7 +334,9 @@ if the system knows that removing a file and deleting a file mean the same thing
 the system can try to find something using the keyword ``delete'',
 even when the user specified the keyword ``remove''.
 %
-Techniques like this are called ``\textit{Query expansion}'',
+Techniques like this are called ``\textit{Query expansion}''\footnote{
+  \ssf{https:{\slash}{\slash}en.wikipedia.org{\slash}wiki{\slash}Query\_expansion}
+},
 and simple query expansion is possible if a good thesaurus is available.
 
 % クエリに工夫する方法
@@ -383,7 +391,7 @@ find the method unless the manual contains words like ``randomly select''.
 It is even more difficult if the user wants to find information that is not easily described with keywords.
 When a user wants to know the meaning of an icon on the desktop, he might think
 ``What is the symbol with curved lines and a circle
-\includegraphics[width=6mm,bb=0 0 225 225]{figures/fb2349ca17df1876178857566e7c68ef.png} % wifi icon
+\includegraphics[width=6mm,bb=-40 30 225 225]{figures/fb2349ca17df1876178857566e7c68ef.png} % wifi icon
 at the top of my Mac display?'',
 but he cannot finding the information using these keywords in his brain.
 (folding fan, two black 90-degree arcs above a black circle)
@@ -473,7 +481,9 @@ We call the combination of these techniques as ``document expansion''.
 
 \section{Examples}
 
-% [[ExpandSearchの実例]]
+In this section, we describe how
+document expansion strategy based on {\ES} works in various environments.
+
 %  まず実例を紹介する。実装はあとで。[[評価実験にもなっている。]]
 % [[実例1]] ExpandHelpの実際の利用
 %  ScrapboxというWiki上にいろんな表現を用意しておく
@@ -495,7 +505,8 @@ We call the combination of these techniques as ``document expansion''.
 
 \subsection{HelpLine}
 
-Some Unix command line tools have many options and features that are difficult to remember.
+Unix command line tools usually have many options and features that are difficult to
+understand and remember.
 Many programmers are recently using the git version control system,
 but the concept of git is difficult, and
 the command line options are extremely complicated.
