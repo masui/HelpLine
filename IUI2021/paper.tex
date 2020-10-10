@@ -643,9 +643,10 @@ any members of the wiki project can edit the data and share it among other users
 \subsection{Helpfeel}
 
 We have been applying ExpahdSearch for various customer support services on existing Web services.
-The help system based on {\ES} is called {\HF}, and
-
-{\HF} is a FAQ engine that supports users who do not have enough vocabulary for the Web services they want to use.
+The system is called {\HF}\footnote{
+  \ssf{https:{\slash}{\slash}helpfeel.com{\slash}}
+}, and
+it supports users who do not have enough vocabulary for the Web services they want to use.
 
 % ここでどこかのサポートシステムを示す
 
@@ -666,19 +667,17 @@ for ``PayPay Free Market'' run by Yahoo! Japan\footnote{
 
 After the introduction of ExpandSearch-based FAQ services,
 the number of phone calls to the customer support center of these companies have
-dramatically reduced, as much as 60\%.
+dropped to 40\%.
 %
 The ``hit rate'' at which users could find the information they need was 98\%.
 
 \section{Implementation}
 
-\begin{verbatim}
-[[実装]]
- ExpandHelpのアルゴリズム
-  正規表現の拡張とパラメタ代入
- HelpLineの実装
-  omniboxを利用するとか
-\end{verbatim}
+% [[実装]]
+%  ExpandHelpのアルゴリズム
+%   正規表現の拡張とパラメタ代入
+%  HelpLineの実装
+%   omniboxを利用するとか
 
 \subsection{ExpandSearch}
 
@@ -702,8 +701,8 @@ current file and older file can be defined like this:
   {\smallfont\verb|git diff $(git rev-list -n #{$2} HEAD -- #{$1})^ -- #{$1}|}
 \end{quote}
 
-Special symbols like \stt{\#\{files\}} in the description part is expanded to
-the list of filenames like \stt{README.md|index.html}.
+Special symbols like \sqtt{\#\{files\}} in the description part is expanded to
+the list of filenames like \sqtt{README.md|index.html}.
 The first regular expression, the description part,
 is for generating texts like
 \sqsf{Compare README.md with the one from 1 versions before}, 
@@ -723,7 +722,6 @@ For example,
 \begin{quote}
   \stt{(\#\{files\})を(1|2|3|4)個前のものと比較する}
 \end{quote}
-  
 can be used for Japanese {\GIT} users.
 In this case,
 \sqsf{README.mdを1個前のものと比較する},
@@ -790,7 +788,9 @@ are used for the matching.
 
 \subsubsection{Generating help menu entries}
 
-Finding appropriate entries from the (possibly huge) help document space is
+Finding appropriate entries from the
+% (possibly huge)
+help document space is
 performed in two steps.
 First, a state transition diagram is generated from the regular expressions
 used in the descriptions.
@@ -844,7 +844,7 @@ and filter them by the pattern provided by the user.
 
 We can generate texts from a state transition diagram by traversing nodes one by one.
 Starting at the start node
-(\raisebox{-2pt}{\includegraphics[height=10pt,bb=0 0 40 40]{../../GitHelp/paper/figures/startnode.pdf}})
+\raisebox{-2pt}{\includegraphics[height=10pt,bb=0 0 40 40]{../../GitHelp/paper/figures/startnode.pdf}}
 in Figure \ref{statemachine1},
 we can visit other nodes via edges and generate a tree of generated texts
 shown in Figure \ref{gentree1}.
