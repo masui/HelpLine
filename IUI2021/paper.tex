@@ -274,7 +274,7 @@ because people might use different keywords for the same thing case by case.
 He might try to find a file related to ``IUI'' and fail, because he used
 the term ``intelligent user interface'' for the file name.
 %
-Various techniques have been proposed to solve this vocabulary problem,
+Various techniques have been proposed to solve this vocabulary problem\cite{Furnas},
 but not very successful enough.
 
 % 自分のメモですら後でみつけられなくて困ることも多い
@@ -300,7 +300,7 @@ usually provided in English.
 % 原文はいじれないから
 %  いろんな言い回しで検索する研究は大昔からある
 
-\subsection{Query Expansion}
+\subsection*{Query Expansion}
 
 % Query expansion (QE) is the process of reformulating a given query to
 % improve retrieval performance in information retrieval operations,
@@ -320,16 +320,16 @@ usually provided in English.
 % science, particularly within the realm of natural language processing
 % and information retrieval.
 
-The vocabulary problem and the translation problem can be solved
+The vocabulary problem and the translation problem can sometimes be solved
 if the search system have a thesaurus and a translation dictionary.
 %
 For example, 
-if the system knows that removing a file and deleting a file is the same,
+if the system knows that removing a file and deleting a file mean the same thing,
 the system can try to find something using the keyword ``delete'',
 even when the user specified the keyword ``remove''.
 %
-This kind of technique is called ``\textit{Query expansion}'', and simple query
-expansion is possible if proper dictionary is provided.
+Techniques like this are called ``\textit{Query expansion}'',
+and simple query expansion is possible if a good thesaurus is available.
 
 % クエリに工夫する方法
 %    シソーラス的検索の一般化
@@ -347,8 +347,10 @@ expansion is possible if proper dictionary is provided.
 Query expansion is effective when simple substitution of keywords are satisfactory enough.
 In the previous example, using the keyword ``delete'' in addition to ``remove'' works
 for finding the manual entry.
+More sophisticated query expansion techniques are widely used in various modern
+information retrieval systems.
 
-However, it does not work for finding a document for vague topics.
+However, query expansion techniques do not work for finding a document for vague topics.
 For example, if you want to find a document that describes ``how to write a good paper'',
 you will have little chance finding a document related to the topic.
 Maybe it would be better to use keywords like ``how to persuade reviewers''.
@@ -364,9 +366,11 @@ unless the expander knows the contents.
 %    firsthand
 
 Similarly, 
-when we want to find a library function of a programming language, query expansion does not work.
+when we want to find a library function of a programming language,
+query expansion sometimes does not work.
 For example, when we want to write a poker game program and
-want to select five cards from the deck, what library should we use?
+want to write a program that select five cards from 52 cards,
+what library should we use?
 you want to selet randomly two items from an array in Ruby,
 you can use the \texttt{sample()} method.
 However, ``randomly selecting items'' and \texttt{sample} are so different, it is very hard for users to
@@ -377,11 +381,12 @@ find the method unless the manual contains words like ``randomly select''.
 %    pick upとかselectとかchooseとか言ってしまいそう
 
 It is even more difficult if the user wants to find information that is not easily described with keywords.
-When a user wants to know what the icons on the Mac desktop mean, he might want to to 
-search by saying "What is the symbol with three curved lines
+When a user wants to know the meaning of an icon on the desktop, he might think
+``What is the symbol with curved lines and a circle
 \includegraphics[width=6mm,bb=0 0 225 225]{figures/fb2349ca17df1876178857566e7c68ef.png} % wifi icon
-on my computer display?
-(folding fan, two black 90-degree arcs above a black circcle)
+at the top of my Mac display?'',
+but he cannot finding the information using these keywords in his brain.
+(folding fan, two black 90-degree arcs above a black circle)
 
 %  特殊な言葉が使われていない場合は検索が難しい
 %   「Macの画面の上の方の宇宙船みたいな記号」では駄目
@@ -414,6 +419,8 @@ There should be better way to make everything more searchable by casual computer
 To solve the vocabulary problem and the translation problem,
 we propose the combination of three techniques described below.
 
+We call the combination of these techniques as ``document expansion''.
+
 \begin{enumerate}
   
 \item \textbf{Using ExpandSearch}
@@ -423,39 +430,44 @@ we propose the combination of three techniques described below.
   for  each document so that a wide variety of user queries can match one of the
   strings expanded from the REs.
   
-  When we want to provide a manual that describes how to delete a file, 
-  we provide a RE like \verb*(delete|remove) (a file|data)*
-  and generate all the text that match this RE.
+  When we want to provide a (flexible?) manual that describes how to delete a file,
+  we expand the original document by
+  providing REs like \verb*(delete|remove) (a file|data)*
+  and generating all the texts that match the REs.
   In this case, we can epand this RE into
   \verb|delete a file|,
   \verb|delete data|,
   \verb|remove a file|, and
-  \verb|remove data|.
+  \verb|remove data|,
   and use all these strings for the search.
-  Users can find this document by using fleible query like
-  \verb|delete file| or
-  \verb|remove data|.
-  We can add descriptions in other languages, like \verb*(ファイル|データ)を(消す|(消去|削除)する)*
-  A user can use a phrase like ``ファイルを消去する'' to find the manual page.
+  Users can find this document by using various query keywords like
+  \verb|delete|, \verb|remove|, etc.
+  We can add REs in other languages
+  like \verb*(ファイル|データ)を(消す|(消去|削除)する)*.
+  A Japanese user can use a phrase like ``ファイルを消去する'' to find the manual page.
 
 \item \textbf{Approximate pattern matching}
 
-  People make spelling errors all the time, and approximate pattern matching algorithm
-  works quite effectively for almost all search activities.
-  Using the ExpandSearch algorithm, all the expressions are expanded in advance,
-  so simple approximate pattern matching algorithms can be applied for the search.
-  For example, a query like ``del dta'' can be used
+  People frequently make spelling errors,
+  and approximate pattern matching algorithms
+  work effectively for almost all search activities.
+  Using the {\ES} algorithm, all the expressions are expanded,
+  and simple approximate pattern matching algorithms work effectively.
+  For example, a query like ``del dta'' will work for
+  finding a document that describes how to ``delete data''.
 
 \item \textbf{Document expansion by users}
 
-  As we have shown before, one of the big reasons why we fail to find a document is that
+  One of the big reasons why we fail to find a document is that
   the user's search keyword does not exist in the document.
-  Providing entries for {\ES} can solve the problem, but
-  
-  If the author of the document does not provide the data, it would be nice if
-  other users can add the {\ES} entries.
-  This strategy is very similar to writing a hands-on document for an existing document,
-  but adding {\ES} entries is much easier than authoring  a document from scratch.
+  If a user can expand the target documents by
+  providing RE entries for {\ES},
+  other users can use {\ES} for finding the documents.
+  %
+  This strategy is similar to creating an external index or
+  writing a hands-on document for an existing document,
+  but adding {\ES} entries is much easier and more flexible than
+  authoring a document from scratch.
 
 \end{enumerate}
 
