@@ -2,8 +2,8 @@
 %
 %
 
-% \documentclass[manuscript,anonymous,review]{acmart}
-\documentclass[manuscript,screen,review]{acmart}
+\documentclass[manuscript,anonymous,review]{acmart}
+% \documentclass[manuscript,screen,review]{acmart}
 
 \usepackage{here} % [H]とするとその場所に配置されるらしい
 
@@ -204,7 +204,12 @@ that does not contain the keyword given by the user.
 % Webでもパソコンでも情報検索はキーワード検索が主流だが、キーワード検索は昔も今も難しい
 % 根本的に、[[本文に含まれていない文字列の検索が難しい]]からである
 
-The help system of MacOS (Catalina v10.15.5) cannot tell us how to remove a file.
+The standard help system on MacOS (Catalina v10.15.5)
+cannot tell the user how to remove a file (Figure \ref{machelp}(a)).
+%
+It can tell the user how to ``set the clock'', but
+the user has to know that
+``setting the clock'' and ``changing date'' means the same thing (Figure \ref{machelp}(b)).
 
 \begin{figure}[H]
   %\centering
@@ -214,14 +219,10 @@ The help system of MacOS (Catalina v10.15.5) cannot tell us how to remove a file
   \includegraphics[width=7cm,bb=-50 0 950 800]{figures/0cd679128d8f69eb2a8a966d6466a8a4.png}
   \par
   (a) Searching ``remove files'' \hspace{3cm} (b) Searching ``Set clock''
-  \caption{Asking the help application on Mac how to remove a file.}
+  \caption{Using the standard help application on Mac.}
+  \label{machelp}
   %\Description{Mac Mac}
 \end{figure}
-
-Using the same help application, 
-a user can find how to set the system clock of the computer,
-but the user has to know that
-``setting the clock'' and ``changing date'' means the same thing.
 
 % \begin{figure}[H]
 %   \centering
@@ -230,8 +231,8 @@ but the user has to know that
 %   \Description{Mac Mac}
 % \end{figure}
 
-We can get this kind of information fairly easily using search systems on the net,
-so many people prefer getting information using search engines rather than
+We can get this kind of information fairly easily using Google and other search engines on the net,
+so many people prefer getting information on the net rather than
 using help systems provided by manufacturers.
 
 We can find information on Google because there are tremendous information
@@ -249,13 +250,13 @@ for finding popular information.
 % 情報が無いからではなく、キーワードがマッチしないからだと思われる
 
 On the other hand,
-finding a less popular information is rather difficult,
-because not enough documents related to the topic is found on the net.
+finding less popular information is more difficult,
+because not enough documents related to the topic exist on the net.
 %
 If there is only one document on the net
-that describes the \texttt{console} feature of a minor system \texttt{xxxxx},
-people cannot find the document using a similar keyword \texttt{dashboard}
-since the document does not contain the word \texttt{dashboard}.
+that describes the \qtt{console} feature of a relatively minor system like \tt{Heroku},
+people cannot find the document using a similar keyword \qtt{dashboard}
+since the documents from \tt{Heroku} does not contain the word \qtt{dashboard}.
 
 % メジャーじゃないシステムや特殊な状況のヘルプなどの場合、文書もユーザも少ないから苦労する
 % キーワードが少しでも違うとみつからない
@@ -265,22 +266,22 @@ since the document does not contain the word \texttt{dashboard}.
 %   Google Chrome Extensionのconsoleとかみつからない (dashboardだとみつかる)
 % 	(他の例も)
 
-FAQs (frequently asked questions) provided by service providers are
+FAQs (frequently asked questions) by manufacturers and service providers are
 usually not considered useful
-because the terms used by the people on the service are usually
-different from the keywords that user can imagine.
+because the words used in the documents are
+often different from the keywords that user can imagine.
 
 % いわゆるFAQは大抵不十分(出典)
 %   特殊なサービスの特殊な機能について書かれてることが多いからだろう
 %   メジャーなサービスであっても、ググって本家FAQが出てくることなど無い
 %    誰かが言い替えたものがヒットするのが普通 (出典)
 
-Even finding the users' old documents can be sometimes difficult,
+Even finding the users' old memos can be sometimes difficult,
 because people might use different keywords for the same thing case by case.
 He might try to find a file related to ``IUI'' and fail, because he used
 the term ``intelligent user interface'' for the file name.
 %
-Various techniques have been proposed to solve this vocabulary problem\cite{Furnas},
+Various techniques have been proposed to solve this vocabulary problem\cite{Furnas:1987:VPH:32206.32212},
 but not very successful enough.
 
 % 自分のメモですら後でみつけられなくて困ることも多い
@@ -291,7 +292,7 @@ Finding documents are even more difficult when
 the user's mother language is different from the language used in the document.
 When a user wants to find how to ``delete a file'' but the
 manual of the system is written in French,
-he has to translate the term ``delete'' and ``file'' into French
+he has to \textit{translate} the term ``delete'' and ``file'' into French
 before the search.
 Non-English speakers are always having trouble
 translating the word in their brain into English words
@@ -326,7 +327,7 @@ usually provided in English.
 % science, particularly within the realm of natural language processing
 % and information retrieval.
 
-The vocabulary problem and the translation problem can sometimes be solved
+The vocabulary problem and the translation problem can partially be solved
 if the search system have a thesaurus and a translation dictionary.
 %
 For example, 
@@ -337,7 +338,7 @@ even when the user specified the keyword ``remove''.
 Techniques like this are called ``\textit{Query expansion}''\footnote{
   \ssf{https:{\slash}{\slash}en.wikipedia.org{\slash}wiki{\slash}Query\_expansion}
 },
-and simple query expansion is possible if a good thesaurus is available.
+and simple query expansion is effective if a good thesaurus is available.
 
 % クエリに工夫する方法
 %    シソーラス的検索の一般化
@@ -363,7 +364,7 @@ For example, if you want to find a document that describes ``how to write a good
 you will have little chance finding a document related to the topic.
 Maybe it would be better to use keywords like ``how to persuade reviewers''.
 However, expanding a phrase like ``write a good paper'' to ``persude reviewers'' is impossible,
-unless the expander knows the contents.
+unless the expander understands the intension of the user.
 
 %  別の言い替え文書(Tipsとか逆引き辞典)を用意
 %   便利だがメジャーなものに限られる
@@ -373,34 +374,35 @@ unless the expander knows the contents.
 %    handbook かな?
 %    firsthand
 
-Similarly, 
-when we want to find a library function of a programming language,
-query expansion sometimes does not work.
-For example, when we want to write a poker game program and
-want to write a program that select five cards from 52 cards,
-what library should we use?
-you want to selet randomly two items from an array in Ruby,
-you can use the \texttt{sample()} method.
-However, ``randomly selecting items'' and \texttt{sample} are so different, it is very hard for users to
-find the method unless the manual contains words like ``randomly select''.
-
+% ライブラリ関数 (やめる)
 % 「配列からランダムに要素をふたつ取得」 = `a.sample(2)`
 %    `sample`という単語はなかなか出てこないのではないか
 %    pick upとかselectとかchooseとか言ってしまいそう
 
-It is even more difficult if the user wants to find information that is not easily described with keywords.
-When a user wants to know the meaning of an icon on the desktop, he might think
-``What is the symbol with curved lines and a circle
-\includegraphics[width=6mm,bb=-40 30 225 225]{figures/fb2349ca17df1876178857566e7c68ef.png} % wifi icon
-at the top of my Mac display?'',
-but he cannot finding the information using these keywords in his brain.
-(folding fan, two black 90-degree arcs above a black circle)
+% Similarly, 
+% when we want to find a library function of a programming language,
+% query expansion sometimes does not work.
+% For example, when we want to write a poker game program and
+% want to write a program that select five cards from 52 cards,
+% what library should we use?
+% you want to selet randomly two items from an array in Ruby,
+% you can use the \texttt{sample()} method.
+% However, ``randomly selecting items'' and \texttt{sample} are so different, it is very hard for users to
+% find the method unless the manual contains words like ``randomly select''.
 
 %  特殊な言葉が使われていない場合は検索が難しい
 %   「Macの画面の上の方の宇宙船みたいな記号」では駄目
 %    「メニューバーの音声アイコン」だとみつかるかもしれないが
 %  他の言語の場合でも同じである
 % [[原文を拡張する感じにして、簡潔なインタフェースを用意して任意のキーワードを使えるのが良い]]
+
+It is even more difficult if the user wants to find information that is not easily described with keywords.
+When a user wants to know the meaning of an icon on the computer desktop, he might want to say
+``What is the symbol with curved lines and a circle
+\includegraphics[width=6mm,bb=-40 30 225 225]{figures/fb2349ca17df1876178857566e7c68ef.png} % wifi icon
+at the top of my Mac display?'',
+but he cannot find the information using such keywords in his brain.
+% (folding fan, two black 90-degree arcs above a black circle)
 
 There should be better way to make everything more searchable by casual computer users.
 
@@ -426,8 +428,8 @@ There should be better way to make everything more searchable by casual computer
 
 To solve the vocabulary problem and the translation problem,
 we propose the combination of three techniques described below.
-
-We call the combination of these techniques as ``document expansion''.
+%
+We call the combination of these techniques as ``\textit{document expansion}''.
 
 \begin{enumerate}
   
@@ -438,30 +440,30 @@ We call the combination of these techniques as ``document expansion''.
   for  each document so that a wide variety of user queries can match one of the
   strings expanded from the REs.
   
-  When we want to provide a (flexible?) manual that describes how to delete a file,
+  When we want to publish a easy-to-find manual that describes how to delete a file,
   we expand the original document by
-  providing REs like \verb*(delete|remove) (a file|data)*
+  providing REs like \qtt{(delete|remove) (a file|data)}
   and generating all the texts that match the REs.
   In this case, we can epand this RE into
-  \verb|delete a file|,
-  \verb|delete data|,
-  \verb|remove a file|, and
-  \verb|remove data|,
+  \qtt{delete a file},
+  \qtt{delete data},
+  \qtt{remove a file}, and
+  \qtt{remove data},
   and use all these strings for the search.
   Users can find this document by using various query keywords like
-  \verb|delete|, \verb|remove|, etc.
+  \qtt{delete}, \qtt{remove}, etc.
   We can add REs in other languages
-  like \verb*(ファイル|データ)を(消す|(消去|削除)する)*.
+  like \qtt{(ファイル|データ)を(消す|(消去|削除)する)}.
   A Japanese user can use a phrase like ``ファイルを消去する'' to find the manual page.
 
 \item \textbf{Approximate pattern matching}
 
-  People frequently make spelling errors,
-  and approximate pattern matching algorithms
+  Since people frequently make spelling errors,
+  approximate pattern matching algorithms
   work effectively for almost all search activities.
-  Using the {\ES} algorithm, all the expressions are expanded,
-  and simple approximate pattern matching algorithms work effectively.
-  For example, a query like ``del dta'' will work for
+  After getting all the expresssions expanded by the {\ES} algorithm,
+  simple approximate pattern matching algorithms work effectively.
+  For example, a query string like \qtt{del dta} will work for
   finding a document that describes how to ``delete data''.
 
 \item \textbf{Document expansion by users}
@@ -469,7 +471,7 @@ We call the combination of these techniques as ``document expansion''.
   One of the big reasons why we fail to find a document is that
   the user's search keyword does not exist in the document.
   If a user can expand the target documents by
-  providing RE entries for {\ES},
+  providing RE entries for {\ES} and share them,
   other users can use {\ES} for finding the documents.
   %
   This strategy is similar to creating an external index or
@@ -479,10 +481,10 @@ We call the combination of these techniques as ``document expansion''.
 
 \end{enumerate}
 
-\section{Examples}
-
-In this section, we describe how
+In the next section, we describe how
 document expansion strategy based on {\ES} works in various environments.
+
+\section{Examples}
 
 %  まず実例を紹介する。実装はあとで。[[評価実験にもなっている。]]
 % [[実例1]] ExpandHelpの実際の利用
@@ -507,48 +509,55 @@ document expansion strategy based on {\ES} works in various environments.
 
 Unix command line tools usually have many options and features that are difficult to
 understand and remember.
-Many programmers are recently using the git version control system,
-but the concept of git is difficult, and
-the command line options are extremely complicated.
-The total number of git manuals on unix is xxxxx lines.
+For example, many programmers are recently using a version controll system
+``git''\footnote{
+  \ssf{https:{\slash}{\slash}git-scm.com{\slash}}
+},
+but the concept of git is difficult and the command line options are extremely complicated.
+The total number of git manuals pages is bigger than 70,000.
 
-
-We created the {\HL} system using {\ES}, so that git users can easily
-remember command options and use it without perfectly remembering the git commands.
+To solve the difficulty of using commands,
+we created the {\HL} system using {\ES}, so that users of git and other complicated systems can
+easily remember command options and use it without remembering the details of the commands.
 
 We implemented the {\HL} system
 with which a user can translate his vague intention in various languages
-into a complete {\GIT} command
-using the {\ES} framework.
+into a complete command line using the {\ES} framework.
 
 % \subsection{Entering a command}
 
-We assume that the user uses \tt{bash} for his software
-development activities.
+We assume that the user uses \tt{bash} for his software development activities.
 % 
-When a user wants to compare the latest \stt{README.md} file
+When a user wants to compare the latest \sqtt{README.md} file
 with the same file from 2 versions before,
 he might try to use {\GIT} with an option
 ``{\smallfont\verb|HEAD^^|}''
 for specifying the old version.
 
-\begin{figure}[h]
-  \vbox{
-    \begin{verbatim}
-      $ git diff HEAD^^ README.md
-      $
-    \end{verbatim}
-  }
-  \caption{Invoking \stt{git diff}.}
-  \label{gitdiff}
-\end{figure}
+% \begin{figure}[h]
+%   \vbox{
+%     \begin{verbatim}
+%       $ git diff HEAD^^ README.md
+%       $
+%     \end{verbatim}
+%   }
+%   \caption{Invoking \stt{git diff}.}
+%   \label{gitdiff}
+% \end{figure}
+
+\begin{quote}
+\begin{verbatim}
+$ git diff HEAD^^ README.md
+$
+\end{verbatim}
+\end{quote}
 
 However, nothing happens here because
 \verb|HEAD^^|
 specifies a file included in the older commit,
-and the command in figure \ref{gitdiff} only compares the
-\stt{README.md} with the file included in an old commit, where
-\stt{README.md} might not have changed since then.
+and the command compares the
+\sqtt{README.md} with the file included in an old commit, where
+\sqtt{README.md} might not have changed since then.
 
 If {\HL} is installed,
 the user can type a special shortcut key
@@ -556,9 +565,9 @@ the user can type a special shortcut key
 to invoke {\HL} after typing \sqtt{git RE 2} to see how he can
 perform the task.
 
-\begin{figure}[h]
-  \includegraphics[width=9cm,bb=0 0 900 600]{../../GitHelp/paper/figures/example1.png}
-  \caption{Invoking {\HL} after typing \stt{git read 2}.}
+\begin{figure}[H]
+  \includegraphics[width=8cm,bb=0 0 900 600]{../../GitHelp/paper/figures/example1.png}
+  \caption{Invoking {\HL} after typing \sqtt{git read 2}.}
   \label{example1}
 \end{figure}
 
@@ -567,28 +576,32 @@ just like text input support systems for non-English languages.
 One of the entries says
 ``\ssf{Compare} \stt{README.md} \ssf{with the one from 2 versions before}'',
 and if the user thinks that's what he wants to do,
-he can select the entry by typing arrow keys and the enter key.
-Then the user's input string is replaced by the right command string
+he can select the entry by typing arrow keys.
+After typing the enter key for confirmation,
+the user's input string is replaced by the right command string
 that satisfies the user's need.
 
 A description like \sqsf{2 days ago} is also shown in the candidate list
 of Figure \ref{example1}.
 This means that the user can use the same string \sqtt{git RE 2}
-for getting the information of \stt{README.md} file of the day before yesterday.
+for getting the information of \sqtt{README.md} file of the day before yesterday.
 The generated argument
 ``{\smallfont\verb|@{2 days ago}|}'',
-may not be familiar to most {\GIT} users,
+may not be familiar to most {\GIT} users\footnote{
+  The authors asked more than 10 experienced git users if they know that option,
+  but nobody knew it.
+},
 but users can perform this task only by giving \sqtt{RE} and \sqtt{2}
 without knowing the correct syntax of this option.
 
 When the user types the shortcut key
 after typing \sqtt{git sh reed 3},
 approximate pattern matching is automatically performed, and
-entries related to \stt{README.md} file are listed because
+entries related to \sqtt{README.md} file are listed because
 \sqtt{reed} matches \sqtt{README.md} with one error.
 
-\begin{figure}[h]
-  \includegraphics[width=9cm,bb=-100 0 800 550]{../../GitHelp/paper/figures/example2.png}
+\begin{figure}[H]
+  \includegraphics[width=8cm,bb=-100 0 800 550]{../../GitHelp/paper/figures/example2.png}
   \caption{Invoking {\HL} after typing \stt{git sh reed 3}.}
   \label{example2}
 \end{figure}
@@ -597,8 +610,8 @@ A Japanese {\GIT} user can do the same thing just like
 English-speaking users (Figure \ref{example3}).
 He can use the term \qtt{表}, etc. to find how he can perform the job.
 
-\begin{figure}[t]
-  \includegraphics[width=12cm,bb=-100 -100 1190 766]{../../GitHelp/paper/figures/example4.png}
+\begin{figure}[H]
+  \includegraphics[width=8cm,bb=-100 -100 1190 766]{../../GitHelp/paper/figures/example4.png}
   \caption{Invoking {\HL} in Japanese environment.}
   \label{example3}
 \end{figure}
@@ -606,22 +619,26 @@ He can use the term \qtt{表}, etc. to find how he can perform the job.
 If the user wants to know more about the command line,
 he can click the
 \raisebox{-2pt}{\includegraphics[height=11pt,bb=0 0 200 200]{../../GitHelp/paper/figures/info-xxl.png}}
-button and see the Wiki page shown in Figure \ref{scrapboxpage}.
+button and see the wiki page\footnote{
+  A wiki system {\SB} (\ssf{https:{\slash}{\slash}Scrapbox.io{\slash}product{\slash}}) is used for the data sharing.
+} shown in Figure \ref{scrapboxpage}.
 The user can edit the page if he wants to add information or finds an error.
 In this page, description part is preceded by a ``\texttt{\$}'' symbol and
 the command part is preceded by ``\texttt{\%}''.
 
-\begin{figure}[t]
+\begin{figure}[H]
   \centerline{\includegraphics[width=100mm,bb=-50 -50 1100 950]{../../GitHelp/paper/figures/scrapbox3.png}}
   \caption{A {\SB} page for \tt{git diff}.}
   \label{scrapboxpage}
 \end{figure}
 
+Since the REs for expanding git manuals are written on wiki pages,
+any members of the wiki project can edit the data and share it among other users.
 
-\subsection{OmniSearch}
-
-OmniSearch is an implementation of {\ES} that runs on Chrome browser.
-The URL window on Chrome is called omnibox, 
+% \subsection{OmniSearch}
+% 
+% OmniSearch is an implementation of {\ES} that runs on Chrome browser.
+% The URL window on Chrome is called omnibox, 
 
 \subsection{Helpfeel}
 
@@ -635,19 +652,23 @@ The help system based on {\ES} is called {\HF}, and
 Figure \ref{paypayhf} shows an example {\HF} page that supports finding FAQs
 for ``PayPay Free Market'' run by Yahoo! Japan\footnote{
   \ssf{https:{\slash}{\slash}paypayfleamarket.yahoo.co.jp{\slash}help{\slash}}
-}.
-
-% We provide the description on the Scrapbox wiki service,
+} and ``Siroca'', a consumer electronics company.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
+  % \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
+  \includegraphics[width=7cm,bb=0 0 1982 1536]{figures/a0ba0873eeada33fad1bc383598f90c1.png}
+  \includegraphics[width=7cm,bb=0 0 1672 1472]{figures/6b491f2701af7193030e332686733568.png}
   \caption{PayPay Freemarket}
   \label{paypayhf}
-  \Description{PayPay}
+  %\Description{PayPay}
 \end{figure}
 
-ものすごく問いあわせが減った
+After the introduction of ExpandSearch-based FAQ services,
+the number of phone calls to the customer support center of these companies have
+dramatically reduced, as much as 60\%.
+%
+The ``hit rate'' at which users could find the information they need was 98\%.
 
 \section{Implementation}
 
@@ -1433,8 +1454,10 @@ for various applications and Web services in the future.
 
 % References must be the same font size as other body text.
 
-%\bibliographystyle{SIGCHI-Reference-Format}
-%\bibliography{paper}
+\newpage
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{paper}
 
 
 \end{document}
