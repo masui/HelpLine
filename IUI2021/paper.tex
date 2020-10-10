@@ -1,5 +1,5 @@
 %
-%
+% IUI2021 HelpLine (GitHelp)
 %
 
 \documentclass[manuscript,anonymous,review]{acmart}
@@ -43,9 +43,9 @@
 
 %% These commands are for a PROCEEDINGS abstract or paper.
 \acmConference[IUI '21]{IUI '21: ACM Conference}
-  {June 03--05, 2020}{Somewhere, Italy}
-\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
-  June 03--05, 2018, Woodstock, NY}
+  {April 13--17, 2021}{College Station, AZ}
+\acmBooktitle{IUI '21: ACM Symposium on Intelligent User Interface,
+  April 13--17, 2021, College Station, AZ}
 \acmPrice{15.00}
 \acmISBN{978-1-4503-XXXX-X/18/06}
 
@@ -154,33 +154,26 @@
 %%
 \begin{CCSXML}
 <ccs2012>
- <concept>
-  <concept_id>10010520.10010553.10010562</concept_id>
-  <concept_desc>Computer systems organization~Embedded systems</concept_desc>
-  <concept_significance>500</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010575.10010755</concept_id>
-  <concept_desc>Computer systems organization~Redundancy</concept_desc>
-  <concept_significance>300</concept_significance>
- </concept>
- <concept>
-  <concept_id>10010520.10010553.10010554</concept_id>
-  <concept_desc>Computer systems organization~Robotics</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
- <concept>
-  <concept_id>10003033.10003083.10003095</concept_id>
-  <concept_desc>Networks~Network reliability</concept_desc>
-  <concept_significance>100</concept_significance>
- </concept>
+  <concept>
+    <concept_id>10002951.10003317.10003338.10010403</concept_id>
+    <concept_desc>Information systems~Novelty in information retrieval</concept_desc>
+    <concept_significance>500</concept_significance>
+  </concept>
+  <concept>
+    <concept_id>10003120.10003121.10003124.10010862</concept_id>
+    <concept_desc>Human-centered computing~Command line interfaces</concept_desc>
+    <concept_significance>500</concept_significance>
+  </concept>
 </ccs2012>
 \end{CCSXML}
 
-\ccsdesc[500]{Computer systems organization~Embedded systems}
-\ccsdesc[300]{Computer systems organization~Redundancy}
-\ccsdesc{Computer systems organization~Robotics}
-\ccsdesc[100]{Networks~Network reliability}
+\ccsdesc[500]{Information systems~Novelty in information retrieval}
+\ccsdesc[500]{Human-centered computing~Command line interfaces}
+
+% \ccsdesc[500]{Computer systems organization~Embedded systems}
+% \ccsdesc[300]{Computer systems organization~Redundancy}
+% \ccsdesc{Computer systems organization~Robotics}
+% \ccsdesc[100]{Networks~Network reliability}
 
 %%
 %% Keywords. The author(s) should pick words that accurately describe
@@ -619,9 +612,9 @@ He can use the term \qtt{表}, etc. to find how he can perform the job.
 If the user wants to know more about the command line,
 he can click the
 \raisebox{-2pt}{\includegraphics[height=11pt,bb=0 0 200 200]{../../GitHelp/paper/figures/info-xxl.png}}
-button and see the wiki page\footnote{
-  A wiki system {\SB} (\ssf{https:{\slash}{\slash}Scrapbox.io{\slash}product{\slash}}) is used for the data sharing.
-} shown in Figure \ref{scrapboxpage}.
+button and see the {\SB}\footnote{
+  \ssf{https:{\slash}{\slash}Scrapbox.io{\slash}product{\slash}}
+} wiki page shown in Figure \ref{scrapboxpage}.
 The user can edit the page if he wants to add information or finds an error.
 In this page, description part is preceded by a ``\texttt{\$}'' symbol and
 the command part is preceded by ``\texttt{\%}''.
@@ -655,12 +648,17 @@ for ``PayPay Free Market'' run by Yahoo! Japan\footnote{
   \ssf{https:{\slash}{\slash}paypayfleamarket.yahoo.co.jp{\slash}help{\slash}}
 } and ``Siroca'', a consumer electronics company.
 
+% \includegraphics[width=7cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
+% \includegraphics[width=7cm,bb=-50 0 950 800]{figures/eaa80e41ddc3d3620fae133007274573.png}
+
 \begin{figure}[H]
   \centering
   % \includegraphics[width=10cm,bb=0 0 1716 1312]{figures/3d964512606a5e25646104a738ab104e.png}
-  \includegraphics[width=7cm,bb=0 0 1982 1536]{figures/a0ba0873eeada33fad1bc383598f90c1.png}
-  \includegraphics[width=7cm,bb=0 0 1672 1472]{figures/6b491f2701af7193030e332686733568.png}
-  \caption{PayPay Freemarket}
+  % \includegraphics[width=9cm,bb=0 0 1982 1536]{figures/a0ba0873eeada33fad1bc383598f90c1.png}
+  \includegraphics[width=7cm,bb=-200 0 1400 1400]{figures/a0ba0873eeada33fad1bc383598f90c1.png}
+  % \includegraphics[width=9cm,bb=0 0 1672 1472]{figures/6b491f2701af7193030e332686733568.png}
+  \includegraphics[width=7cm,bb=-200 0 1200 1300]{figures/6b491f2701af7193030e332686733568.png}
+  \caption{FAQ services based on Helpfeel.} 
   \label{paypayhf}
   %\Description{PayPay}
 \end{figure}
@@ -1071,21 +1069,12 @@ the whole generate-and-filter calculation is quick.
 
 \subsection{Sharing the database on the Web}
 
-The data used in {\HL} are represented as ``{\SB}'' documents
+The data used in {\HL} are represented as {\SB} documents
 shown in Figure \ref{scrapboxpage}.
 %
 {\SB} is a general-purpose real-time Wiki system for data sharing.
 {\SB} users can edit the contents of Wiki pages directly
 on Web browsers just like using text editors.
-
-% \begin{figure}[htb]
-% \begin{verbatim}
-% \end{verbatim}
-% % \centerline{\includegraphics[width=100mm,bb=0 0 1428 1288]{../../GitHelp/paper/figures/scrapbox1.png}}
-% \centerline{\includegraphics[width=100mm,bb=-50 -50 1000 900]{../../GitHelp/paper/figures/scrapbox1.png}}
-% \caption{A {\SB} page for \tt{git diff}.}
-% \label{xxxxx}
-% \end{figure}
 
 This page shows how to use \sqtt{git diff}, and
 the page contains command specifications in {\ES} format
@@ -1140,14 +1129,15 @@ and they are called as ``Input Methods'' (IMs).
 %
 Many research and development on IMs have been going on for years, and
 people are using them every day for entering texts in their mother language.
-Figure \ref{gyaim} shows an example of a Japanese IM.
 
-\begin{figure}[H]
-  % \includegraphics[width=8cm,bb=0 0 976 670]{../../GitHelp/paper/figures/nyuuryoku-ime.png}
-  \centerline{\includegraphics[width=8cm,bb=0 0 976 670]{../../GitHelp/paper/figures/nyuuryoku-ime.png}}
-  \caption{An IM for Japanese text input.}
-  \label{gyaim}
-\end{figure}
+% Figure \ref{gyaim} shows an example of a Japanese IM.
+% 
+% \begin{figure}[H]
+%   % \includegraphics[width=8cm,bb=0 0 976 670]{../../GitHelp/paper/figures/nyuuryoku-ime.png}
+%   \centerline{\includegraphics[width=7cm,bb=0 0 976 670]{../../GitHelp/paper/figures/nyuuryoku-ime.png}}
+%   \caption{An IM for Japanese text input.}
+%   \label{gyaim}
+% \end{figure}
 
 IMs are one form of translation systems that convert one
 expression (pronunciation, character shape, etc.)
@@ -1359,36 +1349,36 @@ easily incorporated to {\ES} databases.
 %  これはたぶん原文を翻訳したものを検索対象にしている
 %  これもDocument Expansionといえる
 
-\subsection*{Other applications of ExpandSearch}
-
-Since the translation mechanism of {\ES} is simple and flexible,
-it can be used for a wide range of application domains where
-intelligent help is required.
-{\ES} is actually used as the help page for
-one of our Web services, hoping that
-novice users can easily find the feature they need.
-When a user submits a query that includes vocabularies
-not in the {\ES} document,
-we are able to add them to the {\SB} database easily.
-
-Figure \ref{mac1} and Figure \ref{mac2} shows how
-{\ES} can be used as a launcher for MacOS.
-Like {\HL}, users can execute concrete commands only by
-showing small fragments of their intentions to the system.
-
-\begin{figure}[h]
-  %\centerline{\includegraphics[width=8cm,bb=0 0 397 247]{../../GitHelp/paper/figures/clock.png}}
-  \centerline{\includegraphics[width=7cm,bb=0 0 300 200]{../../GitHelp/paper/figures/mac1.png}}
-  \caption{Using {\ES} in the menu bar of MacOS.}
-  \label{mac1}
-\end{figure}
-
-\begin{figure}[h]
-  %\centerline{\includegraphics[width=8cm,bb=0 0 392 185]{../../GitHelp/paper/figures/mac2.png}}
-  \centerline{\includegraphics[width=7cm,bb=0 0 300 130]{../../GitHelp/paper/figures/mac2.png}}
-  \caption{Using {\ES} in the menu bar of MacOS.}
-  \label{mac2}
-\end{figure}
+% \subsection*{Other applications of ExpandSearch}
+% 
+% Since the translation mechanism of {\ES} is simple and flexible,
+% it can be used for a wide range of application domains where
+% intelligent help is required.
+% {\ES} is actually used as the help page for
+% one of our Web services, hoping that
+% novice users can easily find the feature they need.
+% When a user submits a query that includes vocabularies
+% not in the {\ES} document,
+% we are able to add them to the {\SB} database easily.
+% 
+% Figure \ref{mac1} and Figure \ref{mac2} shows how
+% {\ES} can be used as a launcher for MacOS.
+% Like {\HL}, users can execute concrete commands only by
+% showing small fragments of their intentions to the system.
+% 
+% \begin{figure}[h]
+%   %\centerline{\includegraphics[width=8cm,bb=0 0 397 247]{../../GitHelp/paper/figures/clock.png}}
+%   \centerline{\includegraphics[width=7cm,bb=0 0 300 200]{../../GitHelp/paper/figures/mac1.png}}
+%   \caption{Using {\ES} in the menu bar of MacOS.}
+%   \label{mac1}
+% \end{figure}
+% 
+% \begin{figure}[h]
+%   %\centerline{\includegraphics[width=8cm,bb=0 0 392 185]{../../GitHelp/paper/figures/mac2.png}}
+%   \centerline{\includegraphics[width=7cm,bb=0 0 300 130]{../../GitHelp/paper/figures/mac2.png}}
+%   \caption{Using {\ES} in the menu bar of MacOS.}
+%   \label{mac2}
+% \end{figure}
 
 \subsection*{Order of command and arguments}
 
