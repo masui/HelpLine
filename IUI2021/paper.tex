@@ -170,11 +170,6 @@
 \ccsdesc[500]{Information systems~Novelty in information retrieval}
 \ccsdesc[500]{Human-centered computing~Command line interfaces}
 
-% \ccsdesc[500]{Computer systems organization~Embedded systems}
-% \ccsdesc[300]{Computer systems organization~Redundancy}
-% \ccsdesc{Computer systems organization~Robotics}
-% \ccsdesc[100]{Networks~Network reliability}
-
 %%
 %% Keywords. The author(s) should pick words that accurately describe
 %% the work being presented. Separate the keywords with commas.
@@ -188,11 +183,11 @@
 
 \section{Introduction}
 
-People are frequently searching information using keywords on Google
+People are frequently searching for information using keywords on Google
 and other systems.
-But keyword search is still not an easy task,
-because it is fundamentally difficulto to find appropriate information
-that does not contain the keyword given by the user.
+But keyword search is still not an easy task because it is
+fundamentally difficult to find appropriate information that does not
+contain the user's keywords.
 
 % Webでもパソコンでも情報検索はキーワード検索が主流だが、キーワード検索は昔も今も難しい
 % 根本的に、[[本文に含まれていない文字列の検索が難しい]]からである
@@ -224,13 +219,13 @@ the user has to know that
 %   \Description{Mac Mac}
 % \end{figure}
 
-We can get this kind of information fairly easily using Google and other search engines on the net,
-so many people prefer getting information on the net rather than
-using help systems provided by manufacturers.
+We can get this kind of information fairly easily using Google and
+other search engines on the net, so many people prefer getting
+information on the net rather than using manufacturers' help systems.
 
-We can find information on Google because there are tremendous information
-that describe how to ``remove a file'' on Mac.
-If there are documens that contain ``remove'', ``file'', and ``Mac'',
+We can find information on Google because there is tremendous information
+that describes how to ``remove a file'' on Mac.
+If there are documents that contain ``remove,'' ``file,'' and ``Mac'',
 finding such documents are not difficult.
 That seems to be the main reason why people are satisfied with search engines
 for finding popular information.
@@ -262,7 +257,7 @@ since the documents from \tt{Heroku} does not contain the word \qtt{dashboard}.
 FAQs (frequently asked questions) by manufacturers and service providers are
 usually not considered useful
 because the words used in the documents are
-often different from the keywords that user can imagine.
+often different from the keywords that users can imagine.
 
 % いわゆるFAQは大抵不十分(出典)
 %   特殊なサービスの特殊な機能について書かれてることが多いからだろう
@@ -271,7 +266,7 @@ often different from the keywords that user can imagine.
 
 Even finding the users' old memos can be sometimes difficult,
 because people might use different keywords for the same thing case by case.
-He might try to find a file related to ``IUI'' and fail, because he used
+He might try to find a file related to ``IUI'' and fail because he used
 the term ``intelligent user interface'' for the file name.
 %
 Various techniques have been proposed to solve this vocabulary problem\cite{Furnas:1987:VPH:32206.32212},
@@ -281,16 +276,16 @@ but not very successful enough.
 %  微妙に利用単語が違うとみつからない
 %  良いファイル名をつけたつもりでも後から検索できないことがある
 
-Finding documents are even more difficult when
+Finding documents is even more difficult when
 the user's mother language is different from the language used in the document.
 When a user wants to find how to ``delete a file'' but the
 manual of the system is written in French,
 he has to \textit{translate} the term ``delete'' and ``file'' into French
 before the search.
 Non-English speakers are always having trouble
-translating the word in their brain into English words
-before searching information, because important information are
-usually provided in English.
+translating the word in their brains into English words
+before searching for information, because important information is
+provided in English in many cases.
 
 % 母語が違うときはさらに大変である
 % 頭の中の単語を英語に変換する必要がある
@@ -321,12 +316,12 @@ usually provided in English.
 % and information retrieval.
 
 The vocabulary problem and the translation problem can partially be solved
-if the search system have a thesaurus and a translation dictionary.
+if the search system has a thesaurus and a translation dictionary.
 %
 For example, 
-if the system knows that removing a file and deleting a file mean the same thing,
-the system can try to find something using the keyword ``delete'',
-even when the user specified the keyword ``remove''.
+if the system knows that removing a file and deleting a file means the same thing,
+the system can try to find something using the keyword ``delete''
+even when the user specified the keyword ``remove.''
 %
 Techniques like this are called ``\textit{Query expansion}''\footnote{
   \ssf{https:{\slash}{\slash}en.wikipedia.org{\slash}wiki{\slash}Query\_expansion}
@@ -346,18 +341,18 @@ and simple query expansion is effective if a good thesaurus is available.
 % 翻訳してから検索するのも一種のQUery Expansionである
 % 日本語を入力すると英語のWikipediaがみつかることもある => これは違う原理
 
-Query expansion is effective when simple substitution of keywords are satisfactory enough.
+Query expansion is effective when a simple substitution of keywords is satisfactory enough.
 In the previous example, using the keyword ``delete'' in addition to ``remove'' works
 for finding the manual entry.
 More sophisticated query expansion techniques are widely used in various modern
 information retrieval systems.
 
 However, query expansion techniques do not work for finding a document for vague topics.
-For example, if you want to find a document that describes ``how to write a good paper'',
-you will have little chance finding a document related to the topic.
-Maybe it would be better to use keywords like ``how to persuade reviewers''.
-However, expanding a phrase like ``write a good paper'' to ``persude reviewers'' is impossible,
-unless the expander understands the intension of the user.
+For example, if you want to find a document that describes ``how to write a good paper,''
+you will have little chance of finding a document related to the topic.
+Maybe it would be better to use keywords like ``how to persuade reviewers.''
+However, expanding a phrase like ``write a good paper'' to ``persuade reviewers'' is impossible,
+unless the expander understands the intention of the user.
 
 %  別の言い替え文書(Tipsとか逆引き辞典)を用意
 %   便利だがメジャーなものに限られる
@@ -433,11 +428,11 @@ We call the combination of these techniques as ``\textit{document expansion}''.
   for  each document so that a wide variety of user queries can match one of the
   strings expanded from the REs.
   
-  When we want to publish a easy-to-find manual that describes how to delete a file,
+  When we want to publish an easy-to-find manual that describes how to delete a file,
   we expand the original document by
   providing REs like \qtt{(delete|remove) (a file|data)}
   and generating all the texts that match the REs.
-  In this case, we can epand this RE into
+  In this case, we can expand this RE into
   \qtt{delete a file},
   \qtt{delete data},
   \qtt{remove a file}, and
@@ -454,10 +449,10 @@ We call the combination of these techniques as ``\textit{document expansion}''.
   Since people frequently make spelling errors,
   approximate pattern matching algorithms
   work effectively for almost all search activities.
-  After getting all the expresssions expanded by the {\ES} algorithm,
+  After getting all the expressions expanded by the {\ES} algorithm,
   simple approximate pattern matching algorithms work effectively.
   For example, a query string like \qtt{del dta} will work for
-  finding a document that describes how to ``delete data''.
+  finding a document that describes how to ``delete data.''
 
 \item \textbf{Document expansion by users}
 
@@ -475,7 +470,7 @@ We call the combination of these techniques as ``\textit{document expansion}''.
 \end{enumerate}
 
 In the next section, we describe how
-document expansion strategy based on {\ES} works in various environments.
+document-expansion strategy based on {\ES} works in various environments.
 
 \section{Examples}
 
@@ -500,13 +495,13 @@ document expansion strategy based on {\ES} works in various environments.
 
 \subsection{HelpLine}
 
-Unix command line tools usually have many options and features that are difficult to
+Unix command-line tools usually have many options and features that are difficult to
 understand and remember.
-For example, many programmers are recently using a version controll system
+For example, many programmers are recently using a version control system
 ``git''\footnote{
   \ssf{https:{\slash}{\slash}git-scm.com{\slash}}
 },
-but the concept of git is difficult and the command line options are extremely complicated.
+but the concept of git is difficult, and the command-line options are extremely complicated.
 The total number of git manuals pages is bigger than 70,000.
 
 To solve the difficulty of using commands,
@@ -644,9 +639,11 @@ it supports users who do not have enough vocabulary for the Web services they wa
 % ここでどこかのサポートシステムを示す
 
 Figure \ref{paypayhf} shows an example {\HF} page that supports finding FAQs
-for ``PayPay Free Market'' run by Yahoo! Japan\footnote{
+for ``PayPay Free Market''\footnote{
   \ssf{https:{\slash}{\slash}paypayfleamarket.yahoo.co.jp{\slash}help{\slash}}
-} and ``Siroca'', a consumer electronics company.
+} run by Yahoo! Japan and ``Siroca''\footnote{
+  \ssf{https:{\slash}{\slash}www.siroca.co.jp{\slash}support{\slash}}
+}, a consumer electronics company.
 
 % \includegraphics[width=7cm,bb=0 0 1290 1090]{figures/eaa80e41ddc3d3620fae133007274573.png}
 % \includegraphics[width=7cm,bb=-50 0 950 800]{figures/eaa80e41ddc3d3620fae133007274573.png}
@@ -663,8 +660,8 @@ for ``PayPay Free Market'' run by Yahoo! Japan\footnote{
   %\Description{PayPay}
 \end{figure}
 
-After the introduction of ExpandSearch-based FAQ services,
-the number of phone calls to the customer support center of these companies have
+After introducing ExpandSearch-based FAQ services,
+the number of phone calls to the customer support center of these companies has
 dropped to 40\%.
 %
 The ``hit rate'' at which users could find the information they need was 98\%.
@@ -679,14 +676,14 @@ The ``hit rate'' at which users could find the information they need was 98\%.
 
 \subsection{ExpandSearch}
 
-A flexible search mechanism ``{\ES}'' is used in {\HL}.
+A flexible search mechanism, ``{\ES}'', is used in {\HL}.
 %
-The database used in {\ES} are provided as a set of data entries
-consisting of a regular expression that represents description of the data entry
+The database used in {\ES} is provided as a set of data entries
+consisting of a regular expression that represents a description of the data entry
 and a corresponding command pattern string.
 A description string is used to produce natural language texts
-that are easily understandable by users,
-while command patterns represents the generated command string
+easily understandable by users,
+while command patterns represent the generated command string
 corresponding to the description.
 %
 For example, a help entry for showing the difference between
@@ -793,7 +790,7 @@ performed in two steps.
 First, a state transition diagram is generated from the regular expressions
 used in the descriptions.
 Second, all the description strings are generated by expanding the regular expression
-into a tree, and filter the generated strings by the pattern specified by the user.
+into a tree, and filtering the generated strings by the user's pattern.
 Efficient pattern matching is performed every time a new description text is generated,
 and only the best-matched descriptions are shown to the user as menu entries.
 We call this the ``\textit{generate-and-filter}'' technique,
@@ -837,7 +834,7 @@ we can generate the following description texts.
 \paragraph{Phase 2: Generating texts from a state transition diagram}
 
 Using the state transition diagram shown in Figure \ref{statemachine1},
-{\ES} generates all the strings represented in the regular expressions,
+{\ES} generates all the strings represented in the regular expressions
 and filter them by the pattern provided by the user.
 
 We can generate texts from a state transition diagram by traversing nodes one by one.
@@ -874,7 +871,7 @@ Instead, the system performs the patter matching as soon as a text is generated,
 for saving time and memory.
 
 ``Generate-and-test''\footnote{
-  {\sf http:{\slash}{\slash}en.wikipedia.org{\slash}wiki{\slash}Generate\_and\_test}
+  \ssf{http:{\slash}{\slash}en.wikipedia.org{\slash}wiki{\slash}Generate\_and\_test}
 }
 is a simple and effective strategy used for solving puzzles.
 For example,
@@ -1155,7 +1152,7 @@ integration of multiple IM-like systems should be challenged in the future.
 \subsection{Text and code completion}
 
 On text editors and Unix shells,
-``text completion'' feature has been available for a long time.
+``text completion'' has been available for a long time.
 %
 When a user types the TAB key after typing \sqtt{la} on the Unix shell,
 \sqtt{latex}, \sqtt{last}, and other Unix commands are shown as candidates.
@@ -1170,8 +1167,9 @@ this idea have been proposed and adopted in command shells and text editors.
 % accumulates the user's command history and use the data
 % for predicting the user's next input.
 
-Gitsome\footnote{\textsf{https:{\slash}{\slash}github.com{\slash}donnemartin{\slash}gitsome}}
-helps {\GIT} users by
+Gitsome\footnote{
+  \ssf{https:{\slash}{\slash}github.com{\slash}donnemartin{\slash}gitsome}
+} helps {\GIT} users by
 dynamically showing possible arguments and related manuals on the Unix shell,
 just like {\HL} does.
 The goal of Gitsome is almost the same as {\HL} and we agree with its concept,
@@ -1407,21 +1405,23 @@ and convert all the title of the tips into help data of {\ES}.
 
 \section{Conclusion}
 
-We proposed the ``translation paradigm'' for bridging the gap between
+We proposed the ``document expansion'' paradigm for
+flexible text search and
+the ``translation paradigm'' for bridging the gap between
 users' intention and actual operations.
 %
-We have introduced a general-purpose flexible framework {\ES}
+We have introduced a general-purpose flexible framework, {\ES},
 that can translate fragments of user's vague intentions into
-concrete command strings required to control computers and
-other complex artifacts.
+concrete strings required to search for information or
+control computers and other complex artifacts.
 We showed the principles and applications of {\ES} by using it
-for {\HL}, a help system for supporting {\GIT} users
+for {\HL}, a help system for supporting command-line users
 based on the shared database that any user can edit to share
 translation knowledge between users.
 %
-{\ES} framework is useful for any kind of systems that need
-some kind of user support, and we are planning to use it
-for various applications and Web services in the future.
+{\ES} framework is useful for any systems that need
+some user support, and we are planning to use it
+for a wider range of applications and Web services in the future.
 
 % Unlike existing smart IDEs for supporting programming tasks,
 % {\ES} framework can be used in wide range of situations
