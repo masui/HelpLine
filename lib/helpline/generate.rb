@@ -32,6 +32,8 @@ class HelpLine
         elsif line =~ /^\%\s*(.*)$/ # %....
           cmd = $1
           entries.each { |l|
+            l = l.gsub(/"/,'\\"')
+            # puts '"' + l + '"'
             desc = eval('"' + l + '"')
             f.puts "desc: #{desc}"
             g.add desc.force_encoding('utf-8'), cmd.force_encoding('utf-8')
