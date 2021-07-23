@@ -2,6 +2,12 @@
 //  https://developer.chrome.com/extensions/omnibox のサンプルをもとにしている
 //
 
+//
+// https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/API/omnibox
+// manifest.jsonに "omnibox": { "keyword" : "/" } というエントリを書いておくと、
+// '/' と' 'を押したとき onInputChanged でキー入力を取得できるようになる
+//
+
 'use strict';
 
 const Asearch = require("asearch") // browserifyで展開
